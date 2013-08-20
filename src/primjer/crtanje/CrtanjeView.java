@@ -1,10 +1,8 @@
 package primjer.crtanje;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,11 +11,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -85,6 +83,7 @@ public class CrtanjeView extends View {
 		for (mojaPutanja p : paths) {
 			p.reset();
 		}
+		mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 		postInvalidate();
 	}
 
