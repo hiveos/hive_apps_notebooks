@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 
-//hehe, some random comment that has to be taken down
 public class Glavna extends Activity implements OnClickListener {
 
 	public Button bOcisti;
