@@ -45,6 +45,11 @@ public class CrtanjeView extends View {
 			Log.i("hepek", "Pritisnuto je dugo");
 		}
 	};
+	
+	public void otvoriMenu()
+	{
+		qa.pokazi();
+	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +18,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class Glavna extends Activity implements OnClickListener {
+public class Glavna extends Activity{
 
-	public Button bOcisti;
-	public Button bDodaj;
 	CrtanjeView cv;
 	LinearLayout ll;
+	QuickAction qa;
 
 	/*
 	 * private void fullscreen () {
@@ -35,19 +36,13 @@ public class Glavna extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		// fullscreen();
-
 		setContentView(R.layout.glavna);
 		ll = (LinearLayout) findViewById(R.id.vGlavni);
 
-		ll.setOnClickListener(this);
 		cv = (CrtanjeView) findViewById(R.id.view1);
 
 		// cv.setOnTouchListener(this);
 
-		bOcisti = (Button) findViewById(R.id.bCisti);
-		bDodaj = (Button) findViewById(R.id.bUbaci);
-		bOcisti.setOnClickListener(this);
-		bDodaj.setOnClickListener(this);
 	}
 
 	@Override
@@ -62,15 +57,13 @@ public class Glavna extends Activity implements OnClickListener {
 
         switch (item.getItemId()) {
             case R.id.action_brush:
-                Toast.makeText(Glavna.this,
-                        "Brush",
-                        Toast.LENGTH_SHORT).show();
+            	cv.otvoriMenu();
                 return true;
             case R.id.action_clear:
-                Toast.makeText(Glavna.this,
-                        "Clear",
-                        Toast.LENGTH_SHORT).show();
+            	cv.ocistiFunkcija();
                 return true;
+            case R.id.action_insert:
+            	cv.dodajFunkcija();
             default:
                 return false;
 
@@ -114,19 +107,5 @@ public class Glavna extends Activity implements OnClickListener {
 		}
 
 		super.onStop();
-	}
-
-	@Override
-	public void onClick (View v) {
-		switch (v.getId()) {
-			case R.id.bUbaci:
-				cv.dodajFunkcija();
-				break;
-
-			case R.id.bCisti:
-				cv.ocistiFunkcija();
-				break;
-		}
-
 	}
 }

@@ -35,3 +35,17 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+#Folders#
+#########
+\bin
+/gen
+/libs
+
+#Project Files#
+###############
+.project
+.classpath
+ic_launcher-web
+proguard-project
+project.properties

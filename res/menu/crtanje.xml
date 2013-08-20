@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/action_brush" android:enabled="true" android:title="@string/actionbar_item_brush"></item>
-    <item android:id="@+id/action_clear" android:title="@string/actionbar_item_clean"></item>
+    <item android:id="@+id/action_brush" android:enabled="true" android:title="@string/actionbar_item_brush" android:showAsAction="ifRoom" android:orderInCategory="3" android:icon="@android:drawable/"></item>
+    <item android:id="@+id/action_clear" android:title="@string/actionbar_item_clear" android:showAsAction="ifRoom" android:icon="@drawable/erase_icon_small" android:orderInCategory="2"></item>
+    <item android:id="@+id/action_insert" android:showAsAction="ifRoom" android:title="@string/actionbar_item_insert" android:icon="@drawable/insert_icon_small" android:orderInCategory="1"></item>
     
 
 </menu>

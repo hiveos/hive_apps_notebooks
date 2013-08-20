@@ -160,7 +160,7 @@ public class QuickAction implements OnTouchListener {
 		int[] lokacija = new int[2];
 		triggerView.getLocationOnScreen(lokacija);
 		// Ovaj dio nisam siguran što radi, al grid ne radi bez njega. Možda se ovdje definira gdje će se grid pojavit :/ ????????
-		prozor.showAtLocation(triggerView, Gravity.FILL,
+		prozor.showAtLocation(triggerView, Gravity.FILL_HORIZONTAL,
 				lokacija[0] + 50, lokacija[1] + (triggerView.getHeight() / 2));
 	}
 
