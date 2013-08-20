@@ -38,9 +38,9 @@ Thumbs.db
 
 #Folders#
 #########
-\bin
-/gen
-/libs
+bin/
+gen/
+libs/
 
 #Project Files#
 ###############
