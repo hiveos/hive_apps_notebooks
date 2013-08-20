@@ -48,6 +48,7 @@ public class Glavna extends Activity{
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
+		setTitle("Notebook Name");
 		getMenuInflater().inflate(R.menu.crtanje, menu);
 		return true;
 	}
