@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">Crtanje</string>
+    <string name="actionbar_item_clean">Clean</string>
+    <string name="actionbar_item_brush">Brush</string>
 
 </resources>
