@@ -4,16 +4,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
+import android.widget.Toast;
 
 //hehe, some random comment that has to be taken down
 public class Glavna extends Activity implements OnClickListener {
@@ -23,17 +24,18 @@ public class Glavna extends Activity implements OnClickListener {
 	CrtanjeView cv;
 	LinearLayout ll;
 
-	private void fullscreen() {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	}
+	/*
+	 * private void fullscreen () {
+	 * requestWindowFeature(Window.FEATURE_NO_TITLE);
+	 * getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+	 * WindowManager.LayoutParams.FLAG_FULLSCREEN); }
+	 */
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		fullscreen();
+		// fullscreen();
 
 		setContentView(R.layout.glavna);
 		ll = (LinearLayout) findViewById(R.id.vGlavni);
@@ -41,7 +43,7 @@ public class Glavna extends Activity implements OnClickListener {
 		ll.setOnClickListener(this);
 		cv = (CrtanjeView) findViewById(R.id.view1);
 
-		//cv.setOnTouchListener(this);
+		// cv.setOnTouchListener(this);
 
 		bOcisti = (Button) findViewById(R.id.bCisti);
 		bDodaj = (Button) findViewById(R.id.bUbaci);
@@ -50,16 +52,42 @@ public class Glavna extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
+	public boolean onCreateOptionsMenu (Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.crtanje, menu);
+		return true;
 	}
 	
-	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_brush:
+                Toast.makeText(Glavna.this,
+                        "Brush",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_clear:
+                Toast.makeText(Glavna.this,
+                        "Clear",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+
+        }
+
+    }
 
 	@Override
-	protected void onStop() {
+	protected void onPause () {
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop () {
 		// TODO Auto-generated method stub
-		
+
 		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");
 
@@ -81,24 +109,24 @@ public class Glavna extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		for (mojaPutanja p : CrtanjeView.paths) {
-            p.reset();
+			p.reset();
 		}
-		
+
 		super.onStop();
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick (View v) {
 		switch (v.getId()) {
-		case R.id.bUbaci:
-			cv.dodajFunkcija();
-			break;
+			case R.id.bUbaci:
+				cv.dodajFunkcija();
+				break;
 
-		case R.id.bCisti:
-			cv.ocistiFunkcija();
-			break;
+			case R.id.bCisti:
+				cv.ocistiFunkcija();
+				break;
 		}
 
 	}
