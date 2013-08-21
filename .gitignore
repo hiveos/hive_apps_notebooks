@@ -40,13 +40,11 @@ Thumbs.db
 #########
 bin/
 gen/
-libs/
 .settings/
 
 #Project Files#
 ###############
-.project
-.classpath
-ic_launcher-web
-proguard-project
-project.properties
+.project*
+.classpath*
+proguard-project*
+project.properties*
