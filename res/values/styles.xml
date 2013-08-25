@@ -19,4 +19,5 @@
 	<style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
     <item name="android:logo">@android:drawable/ic_dialog_map</item>
 </style>
+	<color name="editText_color">#000000</color>
 </resources>

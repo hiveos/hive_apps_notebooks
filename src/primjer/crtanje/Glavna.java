@@ -15,21 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class Glavna extends Activity{
 
 	CrtanjeView cv;
-	LinearLayout ll;
+	EditText eT;
+	RelativeLayout ll;
 	QuickAction qa;
-
-	/*
-	 * private void fullscreen () {
-	 * requestWindowFeature(Window.FEATURE_NO_TITLE);
-	 * getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-	 * WindowManager.LayoutParams.FLAG_FULLSCREEN); }
-	 */
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -37,17 +33,17 @@ public class Glavna extends Activity{
 
 		// fullscreen();
 		setContentView(R.layout.glavna);
-		ll = (LinearLayout) findViewById(R.id.vGlavni);
-
+		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		cv = (CrtanjeView) findViewById(R.id.view1);
+		eT = (EditText) findViewById(R.id.editText1);
 
 		// cv.setOnTouchListener(this);
 
 	}
 
+	//ActionBar
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		setTitle("Notebook Name");
 		getMenuInflater().inflate(R.menu.crtanje, menu);
 		return true;
@@ -55,6 +51,8 @@ public class Glavna extends Activity{
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
+		
+	//Gledanje na šta je korisnik kliknuo u ActionBaru
 
         switch (item.getItemId()) {
             case R.id.action_brush:
@@ -65,6 +63,20 @@ public class Glavna extends Activity{
                 return true;
             case R.id.action_insert:
             	cv.dodajFunkcija();
+            	return true;
+            case R.id.action_mode:
+            	if(eT.isEnabled()){
+            		eT.setEnabled(false);
+            		cv.bringToFront();
+            	}
+            	else{
+            		eT.setEnabled(true);
+            		eT.bringToFront();
+            	}
+            	return true;
+            case R.id.action_text:
+            	//Tu moram dodati text settings, poput mijenjanja boje, velièine i sl.
+            	return true;
             default:
                 return false;
 
@@ -80,6 +92,7 @@ public class Glavna extends Activity{
 	@Override
 	protected void onStop () {
 		// TODO Auto-generated method stub
+		//Opet spremanje na sd
 
 		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");

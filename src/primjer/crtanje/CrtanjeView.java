@@ -1,3 +1,5 @@
+//Klasa CrtanjeView, samo ime kaûe - custom view u kom se odvija svo crtanje
+
 package primjer.crtanje;
 
 import java.io.File;
@@ -33,15 +35,12 @@ public class CrtanjeView extends View {
 
 	// Varijabla za custom klasu QuickAction
 	QuickAction qa;
-
+	
+	//Provjera kod long clicka da otvara popup menu
 	final Handler _handler = new Handler();
 	Runnable _longPressed = new Runnable() {
 		public void run() {
-
-			// Poziva se metoda za prikaz QuickAction-a. Toƒçnije, prika≈æe se
-			// grid s 1 redom i 3 stupca, a u svakom stupcu je po jedan button
 			qa.pokazi();
-
 			Log.i("hepek", "Pritisnuto je dugo");
 		}
 	};
@@ -50,6 +49,7 @@ public class CrtanjeView extends View {
 	{
 		qa.pokazi();
 	}
+	
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -60,6 +60,8 @@ public class CrtanjeView extends View {
 	}
 
 	public void dodajFunkcija() {
+		//Klikom na insert se sprema slika na sd karticu pod odreenim imenom (0,1,2,3...)
+		
 		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");
 
@@ -84,6 +86,9 @@ public class CrtanjeView extends View {
 	}
 
 	public void ocistiFunkcija() {
+		//Klikom na erase button, poziva se ocistiFunkcija koja brise trenutne pathove na
+		//canvasu
+		
 		Log.d("hepek", "pozvano");
 		for (mojaPutanja p : paths) {
 			p.reset();
@@ -93,20 +98,19 @@ public class CrtanjeView extends View {
 	}
 
 	private void inicijalizacija(Context k) {
-		// // Inicijalizacija varijabli poput boje, boje kruga, putanje i sl.
-		// stvari //////
+		//Inicijalizacija varijabli poput boje, boje kruga, putanje i sl. stvari
 
 		boja = new Paint();
 		krugBoja = new Paint();
 		krugPutanja = new Path();
-		// Inicijalizacija qa varijable. Prosljeƒëuje joj se trenutni View
+		// Inicijalizacija qa varijable. Prosljeuje joj se trenutni View
 		qa = new QuickAction(this);
 
 	}
 
 	private void postaviKist() {
 
-		// ///////// Postavljanje kista //////////
+		/////////// Postavljanje kista //////////
 
 		boja.setAntiAlias(true);
 		boja.setColor(Color.BLUE);
@@ -119,7 +123,7 @@ public class CrtanjeView extends View {
 		putanja = new mojaPutanja(new Paint(boja));
 		paths.add(putanja);
 
-		// ///////// Postavljanje kruga oko kista //////////
+		////////// Postavljanje kruga oko kista //////////
 		krugBoja.setAntiAlias(true);
 		krugBoja.setColor(Color.CYAN);
 		krugBoja.setStyle(Paint.Style.STROKE);
@@ -135,6 +139,8 @@ public class CrtanjeView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		
+		//Iscrtavanje putanja
 
 		for (mojaPutanja p : paths) {
 			canvas.drawPath(p, p.bojaPutanje);

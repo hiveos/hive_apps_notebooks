@@ -1,5 +1,4 @@
 package primjer.crtanje;
-
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
