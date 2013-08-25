@@ -5,7 +5,7 @@
     <item android:id="@+id/action_insert" android:showAsAction="ifRoom" android:title="@string/actionbar_item_insert" android:orderInCategory="1"></item>
    	<item android:id="@+id/action_mode" android:showAsAction="ifRoom" android:title="Switch Mode" android:orderInCategory="5"></item>
    	<item android:id="@+id/action_text" android:showAsAction="ifRoom" android:title="Text Settings" android:orderInCategory="4"></item>
-    
+   	
     
 
 </menu>

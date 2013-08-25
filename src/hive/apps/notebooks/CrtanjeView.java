@@ -1,6 +1,6 @@
-//Klasa CrtanjeView, samo ime kaže - custom view u kom se odvija svo crtanje
+//Klasa CrtanjeView, samo ime kaï¿½e - custom view u kom se odvija svo crtanje
 
-package primjer.crtanje;
+package hive.apps.notebooks;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,7 +60,7 @@ public class CrtanjeView extends View {
 	}
 
 	public void dodajFunkcija() {
-		//Klikom na insert se sprema slika na sd karticu pod odreðenim imenom (0,1,2,3...)
+		//Klikom na insert se sprema slika na sd karticu pod odreï¿½enim imenom (0,1,2,3...)
 		
 		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");
@@ -103,7 +103,7 @@ public class CrtanjeView extends View {
 		boja = new Paint();
 		krugBoja = new Paint();
 		krugPutanja = new Path();
-		// Inicijalizacija qa varijable. Prosljeðuje joj se trenutni View
+		// Inicijalizacija qa varijable. Prosljeï¿½uje joj se trenutni View
 		qa = new QuickAction(this);
 
 	}

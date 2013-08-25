@@ -1,6 +1,6 @@
-//Klasa koja služi za prikazivanje popup menua koji je ustvari gridview
+//Klasa koja sluï¿½i za prikazivanje popup menua koji je ustvari gridview
 
-package primjer.crtanje;
+package hive.apps.notebooks;
 
 import android.R.color;
 import android.content.Context;
@@ -39,17 +39,17 @@ public class QuickAction implements OnTouchListener {
 		// Treba kreirat GridView (samo preko jave, da se ne gomilaju xml fajlovi bezveze). U njega se kasnije dodaju buttoni
 		gv = new GridView(triggerView.getContext());
 
-		// Ovo nam služi za kreiranje dialoga koji iskaèe kad nam zatreba
+		// Ovo nam sluï¿½i za kreiranje dialoga koji iskaï¿½e kad nam zatreba
 		dialog = new DialogAdapter(triggerView.getContext());
 
 		// Prvo treba postavit grid, a zatim dodat elemente u mreÅ¾u. To radimo s ove dvije metode:
 		postaviGrid();
 		dodajUMrezu();
 
-		// Ovaj prozor nam služi da u njega umetnemo grid. To je taj tzv. QuickAction prozor. On "lebdi" iznad View-a
+		// Ovaj prozor nam sluï¿½i da u njega umetnemo grid. To je taj tzv. QuickAction prozor. On "lebdi" iznad View-a
 		prozor = new PopupWindow(triggerView.getContext());
 
-		//Naravno, mora bit touchable prozor inaèe je beskoristan
+		//Naravno, mora bit touchable prozor inaï¿½e je beskoristan
 		prozor.setTouchable(true);
 		prozor.setTouchInterceptor(this);
 
@@ -60,14 +60,14 @@ public class QuickAction implements OnTouchListener {
 		// Sada se dodaje neÅ¡to u taj popup. Argument mora biti View ili neki njegov child. Mogli smo stavit tako button, sliku, textview, layout itd... Nama je trebao gridview u kojem se nalaze buttoni		
 		prozor.setContentView(gv);
 
-		// Naravno, potrebno je definirati visinu i širinu prozora
+		// Naravno, potrebno je definirati visinu i ï¿½irinu prozora
 		prozor.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		prozor.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 
-		// Treba biti i omoguæeno da se moÅ¾e odreÄ‘eni element u prozoru fokusirat. Kad ne bi bilo tog, mogli bi klikati po prozoru, al ne i unutar grida
+		// Treba biti i omoguï¿½eno da se moÅ¾e odreÄ‘eni element u prozoru fokusirat. Kad ne bi bilo tog, mogli bi klikati po prozoru, al ne i unutar grida
 		prozor.setFocusable(true);
 
-		// Omoguæeno je i da se dira izvan prozora, jer kad se onda izvan prozora dira, prozor nestane
+		// Omoguï¿½eno je i da se dira izvan prozora, jer kad se onda izvan prozora dira, prozor nestane
 		prozor.setOutsideTouchable(true);
 	}
 	

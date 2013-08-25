@@ -1,6 +1,6 @@
-//Klasa za prikazivanje dialoga za boju i debljinu i još neke sitnice :D
+//Klasa za prikazivanje dialoga za boju i debljinu i joï¿½ neke sitnice :D
 
-package primjer.crtanje;
+package hive.apps.notebooks;
 
 import android.app.Dialog;
 import android.content.Context;

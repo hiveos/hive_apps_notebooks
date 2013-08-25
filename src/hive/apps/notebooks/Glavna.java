@@ -1,26 +1,19 @@
-package primjer.crtanje;
+package hive.apps.notebooks;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-public class Glavna extends Activity{
+public class Glavna extends Activity {
 
 	CrtanjeView cv;
 	EditText eT;
@@ -28,7 +21,7 @@ public class Glavna extends Activity{
 	QuickAction qa;
 
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		// fullscreen();
@@ -39,60 +32,63 @@ public class Glavna extends Activity{
 
 		// cv.setOnTouchListener(this);
 
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 	}
 
-	//ActionBar
+	// ActionBar
 	@Override
-	public boolean onCreateOptionsMenu (Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		setTitle("Notebook Name");
 		getMenuInflater().inflate(R.menu.crtanje, menu);
 		return true;
 	}
-	
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-		
-	//Gledanje na šta je korisnik kliknuo u ActionBaru
-
-        switch (item.getItemId()) {
-            case R.id.action_brush:
-            	cv.otvoriMenu();
-                return true;
-            case R.id.action_clear:
-            	cv.ocistiFunkcija();
-                return true;
-            case R.id.action_insert:
-            	cv.dodajFunkcija();
-            	return true;
-            case R.id.action_mode:
-            	if(eT.isEnabled()){
-            		eT.setEnabled(false);
-            		cv.bringToFront();
-            	}
-            	else{
-            		eT.setEnabled(true);
-            		eT.bringToFront();
-            	}
-            	return true;
-            case R.id.action_text:
-            	//Tu moram dodati text settings, poput mijenjanja boje, velièine i sl.
-            	return true;
-            default:
-                return false;
-
-        }
-
-    }
 
 	@Override
-	protected void onPause () {
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// Gledanje na ï¿½ta je korisnik kliknuo u ActionBaru
+
+		switch (item.getItemId()) {
+		case R.id.action_brush:
+			cv.otvoriMenu();
+			return true;
+		case R.id.action_clear:
+			cv.ocistiFunkcija();
+			return true;
+		case R.id.action_insert:
+			cv.dodajFunkcija();
+			return true;
+		case R.id.action_mode:
+			if (eT.isEnabled()) {
+				eT.setEnabled(false);
+				cv.bringToFront();
+			} else {
+				eT.setEnabled(true);
+				eT.bringToFront();
+			}
+			return true;
+		case R.id.action_text:
+			// Tu moram dodati text settings, poput mijenjanja boje, veliï¿½ine i
+			// sl.
+			return true;
+		default:
+			return false;
+
+		}
+
+	}
+
+	@Override
+	protected void onPause() {
 		super.onPause();
 	}
 
 	@Override
-	protected void onStop () {
+	protected void onStop() {
 		// TODO Auto-generated method stub
-		//Opet spremanje na sd
+		// Opet spremanje na sd
 
 		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");

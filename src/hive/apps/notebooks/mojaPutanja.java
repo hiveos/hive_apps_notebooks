@@ -1,4 +1,4 @@
-package primjer.crtanje;
+package hive.apps.notebooks;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
