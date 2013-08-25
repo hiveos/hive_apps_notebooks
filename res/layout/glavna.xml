@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/vGlavni"
@@ -29,20 +28,4 @@
         android:ems="10" />
 
 </RelativeLayout>
-=======
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/vGlavni"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/texture"
-    android:orientation="vertical" >
 
-    <primjer.crtanje.CrtanjeView
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5" />
-
-</LinearLayout>
->>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0

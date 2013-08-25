@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package primjer.crtanje;
 
 import java.io.File;
@@ -53,7 +52,7 @@ public class Glavna extends Activity{
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
 		
-	//Gledanje na šta je korisnik kliknuo u ActionBaru
+	//Gledanje na ï¿½ta je korisnik kliknuo u ActionBaru
 
         switch (item.getItemId()) {
             case R.id.action_brush:
@@ -76,7 +75,7 @@ public class Glavna extends Activity{
             	}
             	return true;
             case R.id.action_text:
-            	//Tu moram dodati text settings, poput mijenjanja boje, velièine i sl.
+            	//Tu moram dodati text settings, poput mijenjanja boje, veliï¿½ine i sl.
             	return true;
             default:
                 return false;
@@ -235,5 +234,4 @@ public class Glavna extends Activity{
 
 		super.onStop();
 	}
->>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0
 }

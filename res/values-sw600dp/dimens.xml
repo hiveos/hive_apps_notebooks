@@ -1,19 +1,8 @@
-<<<<<<< HEAD
 <resources>
 
     <!--
          Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
+         screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
 
 </resources>
-=======
-<resources>
-
-    <!--
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
-    -->
-
-</resources>
->>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0

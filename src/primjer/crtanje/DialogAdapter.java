@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-//Klasa za prikazivanje dialoga za boju i debljinu i još neke sitnice :D
+//Klasa za prikazivanje dialoga za boju i debljinu i joï¿½ neke sitnice :D
 
 package primjer.crtanje;
 
@@ -276,4 +275,3 @@ public class DialogAdapter {
 	}
 
 }
->>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0
