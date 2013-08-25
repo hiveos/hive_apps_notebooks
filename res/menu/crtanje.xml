@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_brush" android:enabled="true" android:title="Brush Settings" android:showAsAction="ifRoom" android:orderInCategory="3"></item>
+    <item android:id="@+id/action_clear" android:title="@string/actionbar_item_clear" android:showAsAction="ifRoom" android:orderInCategory="2"></item>
+    <item android:id="@+id/action_insert" android:showAsAction="ifRoom" android:title="@string/actionbar_item_insert" android:orderInCategory="1"></item>
+   	<item android:id="@+id/action_mode" android:showAsAction="ifRoom" android:title="Switch Mode" android:orderInCategory="5"></item>
+   	<item android:id="@+id/action_text" android:showAsAction="ifRoom" android:title="Text Settings" android:orderInCategory="4"></item>
+    
+    
+
+</menu>
+=======
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/action_brush" android:enabled="true" android:title="@string/actionbar_item_brush" android:showAsAction="ifRoom" android:orderInCategory="3"></item>
@@ -6,3 +19,4 @@
     
 
 </menu>
+>>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0

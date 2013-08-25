@@ -1,3 +1,35 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vGlavni"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/texture"
+    android:orientation="vertical" >
+
+    <primjer.crtanje.CrtanjeView
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:paddingLeft="25dp"
+        android:paddingTop="13dp"
+        android:gravity="top"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/editText_color"
+        android:ems="10" />
+
+</RelativeLayout>
+=======
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/vGlavni"
@@ -13,3 +45,4 @@
         android:layout_weight="5" />
 
 </LinearLayout>
+>>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0

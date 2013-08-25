@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <resources>
 
     <!--
@@ -6,3 +7,13 @@
     -->
 
 </resources>
+=======
+<resources>
+
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+    -->
+
+</resources>
+>>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0

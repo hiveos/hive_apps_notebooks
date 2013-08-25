@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -7,3 +8,14 @@
     <string name="actionbar_item_insert">Insert</string>
 
 </resources>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Crtanje</string>
+    <string name="actionbar_item_clear">Clear</string>
+    <string name="actionbar_item_brush">Brush</string>
+    <string name="actionbar_item_insert">Insert</string>
+
+</resources>
+>>>>>>> ba9ff29a6c730159019047e797853fdefcc14dd0
