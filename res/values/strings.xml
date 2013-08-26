@@ -7,6 +7,14 @@
     <string name="actionbar_item_brush">Brush</string>
     <string name="actionbar_item_insert">Insert</string>
     <string name="actionbar_item_addnotebook">Add Notebook</string>
+    <string name="actionbar_item_savenotebook">Save</string>
     <string name="title_add_notebook">Add new notebook</string>
+    <string name="hint_notebook_name">Notebook Name</string>
+
+    <string-array name="notebook_styles">
+        <item>Lines</item>
+        <item>Empty</item>
+        <item>Squares</item>
+    </string-array>
 
 </resources>

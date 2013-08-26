@@ -25,6 +25,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:textColor="@color/editText_color"
+        android:singleLine="true"
+        android:background="@drawable/transparent"
         android:ems="10" />
 
 </RelativeLayout>
