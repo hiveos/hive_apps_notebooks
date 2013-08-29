@@ -5,6 +5,7 @@ package hive.apps.notebooks;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -27,10 +29,21 @@ public class CrtanjeView extends View {
 	public static mojaPutanja putanja;
 	private Paint krugBoja;
 	private Path krugPutanja;
+	private Vector<Bitmap> sviZaCrtat;
+	private Vector<Pair<Integer, Integer>> pozicije;
 	public static int LONG_PRESS_TIME = 500;
 	public static ArrayList<mojaPutanja> paths = new ArrayList<mojaPutanja>();
 	public static ArrayList<mojaPutanja> undonePaths = new ArrayList<mojaPutanja>();
 	public static Bitmap MyBitmap;
+	public static int visinaLinije = 20;
+	public static int marginaLinijeGore = 5;
+	public static int visinaPraznogIznadLinije = 30;
+	public static int marginaLinijeLijevo = 10;
+	public static int marginaLinijeDesno = 10;
+	public static int sirinaRazmaka = 10;
+	private int trenutnaLinija = 3;
+	private int trenutnaSirinaLinije = 0;
+	private boolean vecStavljao;
 	private Canvas mCanvas;
 
 	// Varijabla za custom klasu QuickAction
@@ -61,28 +74,25 @@ public class CrtanjeView extends View {
 
 	public void dodajFunkcija() {
 		//Klikom na insert se sprema slika na sd karticu pod odre�enim imenom (0,1,2,3...)
-		
-		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/");
-
-		if (!notebooksRoot.exists()) {
-			notebooksRoot.mkdirs();
-		}
-
-		int pageCounter = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/").listFiles().length;
-		File file = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/" + pageCounter + ".png");
-		FileOutputStream ostream;
-		try {
-			file.createNewFile();
-			ostream = new FileOutputStream(file);
-			MyBitmap.compress(CompressFormat.PNG, 100, ostream);
-			ostream.flush();
-			ostream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		double scale=(double)MyBitmap.getHeight()/(double)(visinaLinije-marginaLinijeGore);
+		//Bitmap bmp=Bitmap.createBitmap(MyBitmap);
+		Bitmap bmp = Bitmap.createScaledBitmap(MyBitmap, (int)((double)MyBitmap.getWidth()/scale), visinaLinije-marginaLinijeGore, false);
+		int sirinaLinije=this.getWidth()-marginaLinijeLijevo-marginaLinijeDesno;
+		if ( bmp.getWidth()+trenutnaSirinaLinije+sirinaRazmaka > sirinaLinije && vecStavljao)
+		{
+			//predji u novi red
+			trenutnaLinija++;
+			trenutnaSirinaLinije=bmp.getWidth();
+			vecStavljao=false;
+		} else
+			{
+				trenutnaSirinaLinije+=bmp.getWidth()+sirinaRazmaka;
+				vecStavljao=true;
+			}
+		pozicije.add(Pair.create(trenutnaSirinaLinije+marginaLinijeLijevo, trenutnaLinija*visinaLinije+visinaPraznogIznadLinije));
+		sviZaCrtat.add(bmp);
+		System.out.println("dodao");
+		ocistiFunkcija();
 	}
 
 	public void ocistiFunkcija() {
@@ -103,6 +113,8 @@ public class CrtanjeView extends View {
 		boja = new Paint();
 		krugBoja = new Paint();
 		krugPutanja = new Path();
+		sviZaCrtat = new Vector<Bitmap>();
+		pozicije = new Vector<Pair<Integer,Integer>>();
 		// Inicijalizacija qa varijable. Proslje�uje joj se trenutni View
 		qa = new QuickAction(this);
 
@@ -147,7 +159,23 @@ public class CrtanjeView extends View {
 			mCanvas.drawPath(p, p.bojaPutanje);
 			canvas.drawPath(krugPutanja, krugBoja);
 		}
-
+		
+		Paint nist=new Paint(boja);
+		for (int i=0;i<sviZaCrtat.size();i++)
+		{
+			System.out.print(i);
+			System.out.print(" ");
+			System.out.print(pozicije.elementAt(i).first);
+			System.out.print(" ");
+			System.out.println(pozicije.elementAt(i).second);
+			System.out.print(" ");
+			System.out.print(sviZaCrtat.elementAt(i).getWidth());
+			System.out.print(" ");
+			System.out.println(sviZaCrtat.elementAt(i).getHeight());
+			mCanvas.drawBitmap(sviZaCrtat.elementAt(i), pozicije.elementAt(i).first, pozicije.elementAt(i).second,nist);
+			canvas.drawBitmap(sviZaCrtat.elementAt(i), pozicije.elementAt(i).first, pozicije.elementAt(i).second,nist);
+		}
+		
 	}
 
 	@Override

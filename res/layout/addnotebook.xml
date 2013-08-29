@@ -10,33 +10,17 @@
         android:id="@+id/notebookNameId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView1"
-        android:layout_marginLeft="27dp"
-        android:layout_toRightOf="@+id/imageView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:ems="10"
         android:hint="Notebook Name" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="65dp"
-        android:layout_marginTop="48dp"
-        android:background="@color/temp_notebook_cover_image_bg"
-        android:minHeight="150dp"
-        android:minWidth="150dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/notebookNameId"
-        android:layout_below="@+id/notebookNameId"
-        android:layout_marginTop="49dp" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/notebookNameId" />
 
 </RelativeLayout>
