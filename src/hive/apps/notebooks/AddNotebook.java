@@ -35,10 +35,11 @@ public class AddNotebook extends Activity {
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
-		Spinner nbbgstyle = (Spinner)findViewById(R.id.notebookbgtype);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.notebook_styles, android.R.layout.simple_spinner_item);
+
+		Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.notebook_styles,
+				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		nbbgstyle.setAdapter(adapter);
 	}
@@ -50,13 +51,14 @@ public class AddNotebook extends Activity {
 			if (notebookName.getText().length() <= 11) {
 				notebookNameDisplay.setText(notebookName.getText());
 			}
-			
-			  if(notebookName.getText().length() > 11){ String
-			  namecontainer; namecontainer = notebookName.getText().toString();
-			  notebookNameDisplay.setText(namecontainer.substring(0, 11) + "...");
-			  
-			  }
-			 
+
+			if (notebookName.getText().length() > 11) {
+				String namecontainer;
+				namecontainer = notebookName.getText().toString();
+				notebookNameDisplay.setText(namecontainer.substring(0, 11)
+						+ "...");
+
+			}
 
 		}
 
@@ -85,8 +87,8 @@ public class AddNotebook extends Activity {
 
 		switch (item.getItemId()) {
 		case R.id.action_savenotebook:
-			actualNotebookName = notebookName.getText().toString();
-			if (actualNotebookName == null) {
+
+			if (notebookName.getText().toString() == null) {
 				Toast toast = Toast.makeText(this,
 						R.string.error_empty_notebook_name, Toast.LENGTH_LONG);
 				toast.show();
@@ -103,7 +105,5 @@ public class AddNotebook extends Activity {
 		}
 
 	}
-
-
 
 }
