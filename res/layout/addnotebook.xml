@@ -23,4 +23,14 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/notebookNameId" />
 
+    <TextView
+        android:id="@+id/notebook_name_on_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/notebookbgtype"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_marginRight="26dp"
+        android:text="Notebook Name"
+        android:textSize="12sp" />
+
 </RelativeLayout>
