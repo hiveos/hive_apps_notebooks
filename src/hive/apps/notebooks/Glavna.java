@@ -10,15 +10,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-public class Glavna extends Activity {
+public class Glavna extends Activity implements OnClickListener {
 
 	CrtanjeView cv;
-	EditText eT;
 	RelativeLayout ll;
 	QuickAction qa;
+	Button enterButton, spaceButton, undoButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +31,17 @@ public class Glavna extends Activity {
 		setContentView(R.layout.glavna);
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		cv = (CrtanjeView) findViewById(R.id.view1);
-		eT = (EditText) findViewById(R.id.editText1);
-
+		enterButton=(Button)findViewById(R.id.bEnter);
+		spaceButton=(Button)findViewById(R.id.bSpace);
+		undoButton=(Button)findViewById(R.id.bUndo);
+		enterButton.setOnClickListener(this);
+		spaceButton.setOnClickListener(this);
+		undoButton.setOnClickListener(this);
 		// cv.setOnTouchListener(this);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		
 
 	}
 
@@ -61,13 +69,6 @@ public class Glavna extends Activity {
 			cv.dodajFunkcija();
 			return true;
 		case R.id.action_mode:
-			if (eT.isEnabled()) {
-				eT.setEnabled(false);
-				cv.bringToFront();
-			} else {
-				eT.setEnabled(true);
-				eT.bringToFront();
-			}
 			return true;
 		case R.id.action_text:
 			// Tu moram dodati text settings, poput mijenjanja boje, veli�ine i
@@ -117,5 +118,24 @@ public class Glavna extends Activity {
 		}
 
 		super.onStop();
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId())
+		{
+			case R.id.bEnter:
+				cv.Enter();
+				break;
+			case R.id.bSpace:
+				cv.Space();
+				break;
+			case R.id.bUndo:
+				cv.Undo();
+				break;
+		
+		}
+		
 	}
 }

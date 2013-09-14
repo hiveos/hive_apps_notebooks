@@ -27,6 +27,27 @@
         android:showAsAction="ifRoom"
         android:title="Switch Mode">
     </item>
+    
+    <item
+        android:id="@+id/bEnter"
+        android:orderInCategory="6"
+        android:showAsAction="ifRoom"
+        android:title="Enter">
+    </item>
+    
+    <item
+        android:id="@+id/bSpace"
+        android:orderInCategory="7"
+        android:showAsAction="ifRoom"
+        android:title="Space">
+    </item>
+       <item
+        android:id="@+id/bUndo"
+        android:orderInCategory="8"
+        android:showAsAction="ifRoom"
+        android:title="Undo">
+    </item>
+    
     <item
         android:id="@+id/action_text"
         android:orderInCategory="4"

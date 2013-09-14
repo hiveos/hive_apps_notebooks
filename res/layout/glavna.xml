@@ -12,21 +12,29 @@
         android:layout_height="match_parent"
         android:layout_weight="5" />
 
-    <EditText
-        android:id="@+id/editText1"
+    <Button
+        android:id="@+id/bEnter"
         android:layout_width="wrap_content"
-        android:inputType="textMultiLine|textNoSuggestions"
-        android:paddingLeft="25dp"
-        android:paddingTop="13dp"
-        android:gravity="top"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:text="Enter" />
+
+    <Button
+        android:id="@+id/bUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:textColor="@color/editText_color"
-        android:singleLine="true"
-        android:background="@drawable/transparent"
-        android:ems="10" />
+        android:text="Undo" />
+
+    <Button
+        android:id="@+id/bSpace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/bUndo"
+        android:layout_toRightOf="@+id/bEnter"
+        android:text="Space" />
 
 </RelativeLayout>
