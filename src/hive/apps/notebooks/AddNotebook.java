@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,53 +29,36 @@ public class AddNotebook extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addnotebook);
 		notebookName = (EditText) findViewById(R.id.notebookNameId);
-		notebookNameDisplay = (TextView) findViewById(R.id.notebook_name_on_cover);
 		shelfObject = new Shelf();
-
-		notebookName.addTextChangedListener(textWatcher);
-
+		Button CoverColorGo = (Button)findViewById(R.id.CoverColorPickerGo);
+		
+		CoverColorGo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//AmbilWarnaDialog(Context context, int color, OnAmbilWarnaListener listener)
+			}
+		});
+		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.notebook_styles,
-				android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		nbbgstyle.setAdapter(adapter);
+		ArrayAdapter<CharSequence> typeadapter = ArrayAdapter
+				.createFromResource(this, R.array.notebook_styles,
+						android.R.layout.simple_spinner_item);
+		typeadapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		nbbgstyle.setAdapter(typeadapter);
+
+		Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
+		ArrayAdapter<CharSequence> coloradapter = ArrayAdapter
+				.createFromResource(this, R.array.notebook_cover_color,
+						android.R.layout.simple_spinner_item);
+		coloradapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		nbbgstyle.setAdapter(coloradapter);
 	}
-
-	private TextWatcher textWatcher = new TextWatcher() {
-
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			if (notebookName.getText().length() <= 11) {
-				notebookNameDisplay.setText(notebookName.getText());
-			}
-
-			if (notebookName.getText().length() > 11) {
-				String namecontainer;
-				namecontainer = notebookName.getText().toString();
-				notebookNameDisplay.setText(namecontainer.substring(0, 11)
-						+ "...");
-
-			}
-
-		}
-
-		@Override
-		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-			// TODO Auto-generated method stub
-
-		}
-	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

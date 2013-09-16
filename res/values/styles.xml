@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -26,8 +26,20 @@
     <style name="actionbartextcolor" parent="ActionBar">
         <!-- <item name="android:color">#ffffff</item> -->
     </style>
-    
 
     <color name="editText_color">#000000</color>
-	<color name="temp_notebook_cover_image_bg">#50000000</color>
+    <color name="temp_notebook_cover_image_bg">#50000000</color>
+    <color name="Black">#000000</color>
+    <color name="Grey">#000000</color>
+    <color name="Light_Blue">#33B5E5</color>
+    <color name="Blue">#0099CC</color>
+    <color name="Light_Purple">#AA66CC</color>
+    <color name="Purple">#9933CC</color>
+    <color name="Light_Green">#99CC00</color>
+    <color name="Green">#669900</color>
+    <color name="Light_Orange">#FFBB33</color>
+    <color name="Orange">#FF8800</color>
+    <color name="Light_Red">#FF4444</color>
+    <color name="Red">#CC0000</color>
+
 </resources>

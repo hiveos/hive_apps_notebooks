@@ -6,48 +6,54 @@
     android:background="@drawable/texture_wood"
     android:orientation="vertical" >
 
-
+    <ImageView
+        android:id="@+id/notebookcover"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="50dp"
+        android:minHeight="150dp"
+        android:minWidth="150dp"
+        android:scaleType="fitCenter" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/notebookNameId"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/notebookNameId"
         android:layout_below="@+id/notebookNameId" />
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <Spinner
+        android:id="@+id/notebookcovercolor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="66dp"
-        android:layout_marginTop="70dp"
-        android:minHeight="150dp"
-        android:minWidth="150dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/empty_notebook_cover_blue" />
+        android:layout_alignLeft="@+id/notebookbgtype"
+        android:layout_alignRight="@+id/notebookNameId"
+        android:layout_below="@+id/notebookbgtype" />
 
     <EditText
         android:id="@+id/notebookNameId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView1"
-        android:layout_marginLeft="36dp"
-        android:layout_toRightOf="@+id/imageView1"
+        android:layout_alignRight="@+id/notebookcover"
+        android:layout_alignTop="@+id/notebookcover"
+        android:layout_marginRight="53dp"
+        android:layout_marginTop="148dp"
         android:ems="10"
-        android:hint="Notebook Name" />
+        android:hint="Notebook Name" >
 
-    <TextView
-        android:id="@+id/notebook_name_on_cover"
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/CoverColorPickerGo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/imageView1"
-        android:layout_below="@+id/notebookbgtype"
-        android:layout_marginRight="24dp"
-        android:text="Notebook Name"
-        android:textSize="12sp" />
+        android:layout_alignLeft="@+id/notebookcovercolor"
+        android:layout_below="@+id/notebookcovercolor"
+        android:text="Cover Color" />
 
 </RelativeLayout>

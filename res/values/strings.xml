@@ -10,12 +10,26 @@
     <string name="actionbar_item_savenotebook">Save</string>
     <string name="title_add_notebook">Add new notebook</string>
     <string name="hint_notebook_name">Notebook Name</string>
-    <string name='error_empty_notebook_name'>Notebook name cannot be left empty. Please choose a name for your notebook.</string>
+    <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
 
     <string-array name="notebook_styles">
-        <item>Lines</item>
-        <item>Empty</item>
-        <item>Squares</item>
+        <item>Line</item>
+        <item>Grid</item>
+        <item>Plain</item>
+    </string-array>
+    <string-array name="notebook_cover_color">
+        <item>Black</item>
+        <item>Grey</item>
+        <item>Light Blue</item>
+        <item>Blue</item>
+        <item>Light Purple</item>
+        <item>Purple</item>
+        <item>Light Green</item>
+        <item>Green</item>
+        <item>Light Orange</item>
+        <item>Orange</item>
+        <item>Light Red</item>
+        <item>Red</item>
     </string-array>
 
 </resources>
