@@ -13,11 +13,11 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:minHeight="150dp"
         android:minWidth="150dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/empty_notebook_cover_blue" />
+        android:src="@drawable/notebook" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/notebookcover"
         android:layout_alignTop="@+id/notebookcover"
-        android:layout_marginRight="51dp"
-        android:layout_marginTop="199dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginTop="250dp"
         android:ems="10"
         android:hint="Notebook Name" />
 

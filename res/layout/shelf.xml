@@ -10,7 +10,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="833dp" >
 
         <LinearLayout
             android:id="@+id/ShelfHolder"
@@ -28,12 +28,12 @@
 
                 <Button
                     android:id="@+id/sample_button_go"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="130dp"
+                    android:layout_height="160dp"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@drawable/empty_notebook_cover_blue_skewed"
+                    android:background="@drawable/notebook_no_sticker"
                     android:maxHeight="160dp"
                     android:maxWidth="130dp"
                     android:minHeight="160dp"

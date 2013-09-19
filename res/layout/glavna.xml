@@ -37,4 +37,14 @@
         android:layout_toRightOf="@+id/bEnter"
         android:text="Space" />
 
+    <ImageView
+        android:id="@+id/guide"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_above="@+id/bEnter"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="70dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/writing_guides" />
+
 </RelativeLayout>
