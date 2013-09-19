@@ -30,16 +30,7 @@ public class AddNotebook extends Activity {
 		setContentView(R.layout.addnotebook);
 		notebookName = (EditText) findViewById(R.id.notebookNameId);
 		shelfObject = new Shelf();
-		Button CoverColorGo = (Button)findViewById(R.id.CoverColorPickerGo);
-		
-		CoverColorGo.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//AmbilWarnaDialog(Context context, int color, OnAmbilWarnaListener listener)
-			}
-		});
-		
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -57,7 +48,7 @@ public class AddNotebook extends Activity {
 						android.R.layout.simple_spinner_item);
 		coloradapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		nbbgstyle.setAdapter(coloradapter);
+		notebookcovercolor.setAdapter(coloradapter);
 	}
 
 	@Override
