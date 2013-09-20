@@ -120,7 +120,8 @@ public class QuickAction implements OnTouchListener {
 					CrtanjeView.boja.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 					CrtanjeView.boja.setAlpha(0xFF);//transperent color
 					CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-			        CrtanjeView.paths.add(CrtanjeView.putanja);
+			        if(CrtanjeView.writing) CrtanjeView.paths.add(CrtanjeView.putanja);
+			        else CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
 					prozor.dismiss();
 			        break;
 				}

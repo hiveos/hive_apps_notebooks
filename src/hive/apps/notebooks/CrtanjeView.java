@@ -8,6 +8,7 @@ import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+@SuppressLint("ResourceAsColor")
 public class CrtanjeView extends View {
 
 	public static Paint boja;
@@ -37,11 +39,12 @@ public class CrtanjeView extends View {
 	private Vector<Pair<Integer, Integer>> pozicije;
 	public static int LONG_PRESS_TIME = 500;
 	public static ArrayList<mojaPutanja> paths = new ArrayList<mojaPutanja>();
+	public static ArrayList<mojaPutanja> drawingPaths = new ArrayList<mojaPutanja>();
 	public static ArrayList<mojaPutanja> undonePaths = new ArrayList<mojaPutanja>();
 	public static Bitmap MyBitmap;
-	Button bEnter; 
-	Button bSpace;
-	Button bUndo;
+	public Button bEnter; 
+	public Button bSpace;
+	public Button bUndo;
 	public static int visinaLinije = 50; // ukupna visina linije sa gornjom marginom
     public static int marginaLinijeGore = 5; // koliko iznad linije treba ostaviti prostora za prosli red
     public static int visinaPraznogIznadLinije = 30; // visina praznine iznad PRVE linije
@@ -52,6 +55,9 @@ public class CrtanjeView extends View {
     private int trenutnaSirinaLinije = 0; // dokle piksela smo dosli trenutno u trenutnoj liniji
     private boolean vecStavljao; // da li je ovo prva rijec koju stavljamo u red. Mislim da nema potrebe za ovim, al eto, za svaki slucaj
 	private Canvas mCanvas;
+	private Canvas drawingCanvas;
+	public static Boolean writing = true;
+	private Color plavaBojaOlovke, crvenaBojaOlovke;
 	int ekranSirina;
 	int ekranVisina;
 	float x1 = 0;
@@ -162,7 +168,7 @@ public class CrtanjeView extends View {
 
 	private void inicijalizacija(Context k) {
 		//Inicijalizacija varijabli poput boje, boje kruga, putanje i sl. stvari
-
+		drawingCanvas = new Canvas();
 		boja = new Paint();
 		krugBoja = new Paint();
 		krugPutanja = new Path();
@@ -179,7 +185,7 @@ public class CrtanjeView extends View {
 		/////////// Postavljanje kista //////////
 
 		boja.setAntiAlias(true);
-		boja.setColor(Color.BLUE);
+		boja.setColor(Color.parseColor("#5a8cd0"));
 		// Da boja bude kist:
 		boja.setStyle(Paint.Style.STROKE);
 		// Da kist bude okruglog oblika:
@@ -187,7 +193,8 @@ public class CrtanjeView extends View {
 		// Debljina kista
 		boja.setStrokeWidth(9f);
 		putanja = new mojaPutanja(new Paint(boja));
-		paths.add(putanja);
+		if(writing) paths.add(putanja);
+		else drawingPaths.add(putanja);
 
 		////////// Postavljanje kruga oko kista //////////
 		krugBoja.setAntiAlias(true);
@@ -205,33 +212,25 @@ public class CrtanjeView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		
-		//Iscrtavanje putanja
-
-		for (mojaPutanja p : paths) {
-			canvas.drawPath(p, p.bojaPutanje);
-			mCanvas.drawPath(p, p.bojaPutanje);
-			canvas.drawPath(krugPutanja, krugBoja);
-		}
-		
-		Paint nist=new Paint(boja);
-        for (int i=0;i<sviZaCrtat.size();i++)
-        {
-//                System.out.print(i);
-//                System.out.print(" ");
-//                System.out.print(pozicije.elementAt(i).first);
-//                System.out.print(" ");
-//                System.out.println(pozicije.elementAt(i).second);
-//                System.out.print(" ");
-//                System.out.print(sviZaCrtat.elementAt(i).getWidth());
-//                System.out.print(" ");
-//                System.out.println(sviZaCrtat.elementAt(i).getHeight());
-                //mCanvas.drawBitmap(sviZaCrtat.elementAt(i), pozicije.elementAt(i).first, pozicije.elementAt(i).second,nist); // crtati sve rijeci
-               // Rect kocka = new Rect(0,0,pozicije.elementAt(i).first,pozicije.elementAt(i).second);
-                canvas.drawBitmap(sviZaCrtat.elementAt(i),pozicije.elementAt(i).first,pozicije.elementAt(i).second,nist); // crtati sve rijeci sto imamo
-        }
-		
+	//Iscrtavanje putanja
+	
+			for (mojaPutanja p : paths) {
+				canvas.drawPath(p, p.bojaPutanje);
+				mCanvas.drawPath(p, p.bojaPutanje);
+				canvas.drawPath(krugPutanja, krugBoja);
+			}
+			
+			for (mojaPutanja dP : drawingPaths){
+				canvas.drawPath(dP, dP.bojaPutanje);
+			}
+			
+			Paint nist=new Paint(boja);
+	        for (int i=0;i<sviZaCrtat.size();i++)
+	        {
+	              canvas.drawBitmap(sviZaCrtat.elementAt(i),pozicije.elementAt(i).first,pozicije.elementAt(i).second,nist); // crtati sve rijeci sto imamo
+	        }
 	}
+		
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
@@ -266,7 +265,8 @@ public class CrtanjeView extends View {
 			if (y1 > tackaY - boja.getStrokeWidth()){if(tackaY - boja.getStrokeWidth() >= 0)y1 = tackaY - boja.getStrokeWidth();else y1 = 0;}
 			if (y2 < tackaY + boja.getStrokeWidth()){if(tackaY + boja.getStrokeWidth() <= ekranVisina)y2 = tackaY + boja.getStrokeWidth(); else y2 = ekranVisina;}
 			CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-			CrtanjeView.paths.add(CrtanjeView.putanja);
+			if(writing) paths.add(putanja);
+			else drawingPaths.add(putanja);
 			krugPutanja.reset();
 			_handler.removeCallbacks(_longPressed);
 			break;

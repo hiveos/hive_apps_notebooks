@@ -48,7 +48,8 @@ public class DialogAdapter {
 			public void onClick(View v) {
 				CrtanjeView.boja.setStrokeWidth((float) debljina);
 				CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-		        CrtanjeView.paths.add(CrtanjeView.putanja);
+		        if(CrtanjeView.writing) CrtanjeView.paths.add(CrtanjeView.putanja);
+		        else CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
 				dialog.dismiss();
 			}
 		});
@@ -101,19 +102,22 @@ public class DialogAdapter {
 				
 				switch(id){
 				case R.id.rbCrvena:
-					CrtanjeView.boja.setColor(Color.RED);
+					CrtanjeView.boja.setColor(Color.parseColor("#960202"));
 					CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-			        CrtanjeView.paths.add(CrtanjeView.putanja);
+			        if(CrtanjeView.writing) CrtanjeView.paths.add(CrtanjeView.putanja);
+			        else CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
 					break;
 				case R.id.rbPlava:
-					CrtanjeView.boja.setColor(Color.BLUE);
+					CrtanjeView.boja.setColor(Color.parseColor("#5a8cd0"));
 					CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-			        CrtanjeView.paths.add(CrtanjeView.putanja);
+					if(CrtanjeView.writing) CrtanjeView.paths.add(CrtanjeView.putanja);
+			        else CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
 					break;
 				case R.id.rbZelena:
 					CrtanjeView.boja.setColor(Color.BLACK);
 					CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
-			        CrtanjeView.paths.add(CrtanjeView.putanja);
+					if(CrtanjeView.writing) CrtanjeView.paths.add(CrtanjeView.putanja);
+			        else CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
 					break;
 				}
 				dialog.dismiss();

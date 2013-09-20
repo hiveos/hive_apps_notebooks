@@ -69,10 +69,8 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.dodajFunkcija();
 			return true;
 		case R.id.action_mode:
-			return true;
-		case R.id.action_text:
-			// Tu moram dodati text settings, poput mijenjanja boje, veli�ine i
-			// sl.
+			if(CrtanjeView.writing) CrtanjeView.writing=false;
+			else CrtanjeView.writing=true;
 			return true;
 		default:
 			return false;

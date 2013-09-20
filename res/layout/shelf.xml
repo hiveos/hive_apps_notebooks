@@ -34,7 +34,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="6dp"
                     android:layout_marginLeft="20dp"
-                    android:background="@drawable/notebook_darkred_300"
+                    android:background="@drawable/notebook_darkorange_300"
                     android:text="\n\n\n  Sample" />
 
             </LinearLayout>
