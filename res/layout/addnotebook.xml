@@ -6,7 +6,7 @@
     android:background="@drawable/texture_wood"
     android:orientation="vertical" >
 
-    <ImageView
+    <Button
         android:id="@+id/notebookcover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,10 +14,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
+        android:background="@drawable/notebook_darkred"
         android:minHeight="150dp"
-        android:minWidth="150dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/notebook" />
+        android:minWidth="150dp" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
@@ -41,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/notebookcover"
         android:layout_alignTop="@+id/notebookcover"
-        android:layout_marginRight="150dp"
+        android:layout_marginRight="152dp"
         android:layout_marginTop="250dp"
         android:ems="10"
         android:hint="Notebook Name" />

@@ -1,16 +1,20 @@
 package hive.apps.notebooks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +34,7 @@ public class AddNotebook extends Activity {
 		setContentView(R.layout.addnotebook);
 		notebookName = (EditText) findViewById(R.id.notebookNameId);
 		shelfObject = new Shelf();
+		final Button notebookcoverimg = (Button)findViewById(R.id.notebookcover);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -42,13 +47,47 @@ public class AddNotebook extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		nbbgstyle.setAdapter(typeadapter);
 
-		Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
+		final Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
 		ArrayAdapter<CharSequence> coloradapter = ArrayAdapter
 				.createFromResource(this, R.array.notebook_cover_color,
 						android.R.layout.simple_spinner_item);
 		coloradapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		notebookcovercolor.setAdapter(coloradapter);
+
+		
+		final Map<String, Integer> White = new HashMap<String, Integer>();
+		White.put("White", R.drawable.notebook_white);
+		final Map<String, Integer> Grey = new HashMap<String, Integer>();
+		Grey.put("Grey", R.drawable.notebook_grey);
+		
+		notebookcovercolor
+				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+
+						if (notebookcovercolor.getSelectedItem() == "White") {
+								notebookcoverimg.setBackgroundResource(White.get("White"));
+							Log.e("color", "White Selected");
+
+						}
+						if (notebookcovercolor.getSelectedItem() == "Grey") {
+							notebookcoverimg.setBackgroundResource(R.drawable.notebook_grey);
+							Log.e("color", "Grey Selected");
+					}
+
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
+
 	}
 
 	@Override

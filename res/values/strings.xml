@@ -13,23 +13,25 @@
     <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
 
     <string-array name="notebook_styles">
-        <item>Line</item>
+        <item>Page Style</item>
+        <item>Lines</item>
         <item>Grid</item>
         <item>Plain</item>
     </string-array>
     <string-array name="notebook_cover_color">
-        <item>Black</item>
+        <item>Cover Color</item>
+        <item>White</item>
         <item>Grey</item>
-        <item>Light Blue</item>
         <item>Blue</item>
-        <item>Light Purple</item>
+        <item>Dark Blue</item>
         <item>Purple</item>
-        <item>Light Green</item>
+        <item>Dark Purple</item>
         <item>Green</item>
-        <item>Light Orange</item>
+        <item>Dark Green</item>
         <item>Orange</item>
-        <item>Light Red</item>
+        <item>Dark Orange</item>
         <item>Red</item>
+        <item>Dark Red</item>
     </string-array>
 
 </resources>
