@@ -191,7 +191,7 @@ public class CrtanjeView extends View {
 		// Da kist bude okruglog oblika:
 		boja.setStrokeJoin(Paint.Join.ROUND);
 		// Debljina kista
-		boja.setStrokeWidth(9f);
+		boja.setStrokeWidth(6f);
 		putanja = new mojaPutanja(new Paint(boja));
 		if(writing) paths.add(putanja);
 		else drawingPaths.add(putanja);

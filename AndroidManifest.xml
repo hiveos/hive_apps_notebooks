@@ -16,9 +16,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="hive.apps.notebooks.Shelf"
+            android:name="hive.apps.notebooks.Splash"
             android:label="@string/app_name"
-            android:parentActivityName="hive.apps.notebooks.Shelf" >
+            android:parentActivityName="hive.apps.notebooks.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hive.apps.notebooks.Shelf" />
+        </activity>
+        <activity
+            android:name="hive.apps.notebooks.Shelf"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="hive.apps.notebooks.Glavna"
