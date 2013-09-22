@@ -14,28 +14,11 @@
 
     <Button
         android:id="@+id/bEnter"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="Enter" />
-
-    <Button
-        android:id="@+id/bUndo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Undo" />
-
-    <Button
-        android:id="@+id/bSpace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/bUndo"
-        android:layout_toRightOf="@+id/bEnter"
-        android:text="Space" />
 
     <ImageView
         android:id="@+id/guide"
@@ -46,5 +29,21 @@
         android:layout_marginBottom="70dp"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
+
+    <Button
+        android:id="@+id/bSpace"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/bEnter"
+        android:text="Space" />
+
+    <Button
+        android:id="@+id/bUndo"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Undo" />
 
 </RelativeLayout>

@@ -18,7 +18,8 @@
         <activity
             android:name="hive.apps.notebooks.Splash"
             android:label="@string/app_name"
-            android:parentActivityName="hive.apps.notebooks.Splash" >
+            android:parentActivityName="hive.apps.notebooks.Splash"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,15 +32,18 @@
         </activity>
         <activity
             android:name="hive.apps.notebooks.Shelf"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="hive.apps.notebooks.Glavna"
-            android:label="@string/temp_notebook_name" >
+            android:label="@string/temp_notebook_name" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="hive.apps.notebooks.AddNotebook"
-            android:label="@string/title_add_notebook" >
+            android:label="@string/title_add_notebook"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

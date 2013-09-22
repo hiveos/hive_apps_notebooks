@@ -1,107 +1,80 @@
 package hive.apps.notebooks;
 
+import java.util.Vector;
+
+import hive.apps.notebooks.R.drawable;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Shelf extends Activity {
+public class Shelf extends Activity implements OnClickListener{
 
-	public LinearLayout ll;
-	public LayoutParams lp;
-	public static Button someButton;
-	public int notebookCounter;
-	public Context kontekst;
-	AddNotebook dodajSveskuObjekt;
-
-	public void dodajSvesku() {
-
-		/*
-		 * View LastChild = null; LinearLayout ShelfHolder = (LinearLayout)
-		 * findViewById(R.id.ShelfHolder); LastChild =
-		 * ShelfHolder.getChildAt(ShelfHolder.getChildCount());
-		 * 
-		 * // Checks whether there are any rows already present. If none is
-		 * present // then creates one and puts the new notebook in it. if
-		 * (ShelfHolder.getChildCount() == 0) {
-		 * 
-		 * LinearLayout newShelf = new LinearLayout(this); Log.e("add", "Set");
-		 * ShelfHolder.addView(newShelf, new LayoutParams(
-		 * LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)); Log.e("add",
-		 * "Add"); newShelf.setBackgroundResource(R.drawable.shelf);
-		 * Log.e("add", "Set drawable");
-		 * 
-		 * ImageView newNotebook = new ImageView(this); Log.e("add",
-		 * "Set imageview"); ((ViewGroup) LastChild).addView(newNotebook);
-		 * Log.e("add", "Added View");
-		 * 
-		 * newNotebook
-		 * .setBackgroundResource(R.drawable.empty_notebook_cover_blue_skewed);
-		 * Log.e("add", "Set Drawable");
-		 * 
-		 * 
-		 * }
-		 * 
-		 * // Again checks for present rows/shelfs. In case there are some it //
-		 * proceeds with finding the last child item (last shelf) and checking
-		 * // for number of items in it. If the number is less than 4 adds the
-		 * new // notebook to the last child. If the last row if full it creates
-		 * a new // shelf to put the notebook in. else if
-		 * (ShelfHolder.getChildCount() > 0) {
-		 * 
-		 * if (((ViewGroup) LastChild).getChildCount() >= 4) {
-		 * 
-		 * LinearLayout newShelf = new LinearLayout(this);
-		 * ShelfHolder.addView(newShelf, new LayoutParams(
-		 * LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		 * newShelf.setBackgroundResource(R.drawable.shelf);
-		 * 
-		 * ImageView newNotebook = new ImageView(this); ((ViewGroup)
-		 * LastChild).addView(newNotebook); newNotebook
-		 * .setBackgroundResource(R.drawable.empty_notebook_cover_blue_skewed);
-		 * 
-		 * } else if (((ViewGroup) LastChild).getChildCount() < 4) {
-		 * 
-		 * ImageView newNotebook = new ImageView(this); ((ViewGroup)
-		 * LastChild).addView(newNotebook); newNotebook
-		 * .setBackgroundResource(R.drawable.empty_notebook_cover_blue_skewed);
-		 * 
-		 * } }
-		 * 
-		 * /* someButton.setText("Notebook" + notebookCounter);
-		 * notebookCounter++; ll = (LinearLayout) findViewById(R.id.shelfId); lp
-		 * = new LayoutParams(LayoutParams.MATCH_PARENT,
-		 * LayoutParams.WRAP_CONTENT); ll.addView(someButton, lp);
-		 * someButton.setText(dodajSveskuObjekt.actualNotebookName);
-		 * someButton.setOnClickListener(this);
-		 */
+	private LinearLayout ShelfHolder;
+	private LayoutParams params;
+	private LayoutParams sveskaParams;
+	private LinearLayout polica;
+	private Button sveska;
+	private Vector<LinearLayout>police;
+	private Vector<Button>sveske;
+	private int policaCounter;
+	private int sveskaCounter;
+	private Boolean popunjenePocetnePolice=false;
+	
+	public void dodajPolicu() {
+		ShelfHolder=(LinearLayout)findViewById(R.id.ShelfHolder);
+		polica = new LinearLayout(this);
+		polica.setOrientation(LinearLayout.HORIZONTAL);
+		polica.setBackgroundResource(R.drawable.shelf);
+		policaCounter++;
+		params= new LayoutParams(LayoutParams.MATCH_PARENT, 210);
+		polica.setLayoutParams(params);
+		ShelfHolder.addView(polica);
+	}
+	
+	public void dodajSvesku(){
+		if(sveskaCounter<4)
+		{
+			sveska = new Button(this);
+			sveska.setBackgroundResource(R.drawable.notebook_white_300);
+			sveska.setOnClickListener(this);
+			sveskaCounter++;
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			sveskaParams.leftMargin=50;
+			sveskaParams.bottomMargin=6;
+			polica.addView(sveska,sveskaParams);
+		}
+		else
+		{
+			dodajPolicu();
+			sveskaCounter=0;
+			dodajSvesku();
+		}
+		
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shelf);
-		dodajSveskuObjekt = new AddNotebook();
-		notebookCounter = 0;
-
+		policaCounter=0;
+		sveskaCounter=0;
+		dodajPolicu();
+		
+		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
-
-		Button GotoSampleNotebook = (Button) findViewById(R.id.sample_button_go);
-		GotoSampleNotebook.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				gotoNotebook(v);
-			}
-		});
+		
 	}
 
 	@Override
@@ -117,7 +90,7 @@ public class Shelf extends Activity {
 		case R.id.action_addnotebook:
 			dodajSvesku();
 			Intent AddNotebook = new Intent(this, AddNotebook.class);
-			startActivity(AddNotebook);
+            startActivity(AddNotebook);
 			return true;
 		default:
 			return false;
@@ -126,10 +99,12 @@ public class Shelf extends Activity {
 
 	}
 
-	public void gotoNotebook(View View) {
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
 		Intent gotoNotebookInt = new Intent(this, Glavna.class);
-		startActivity(gotoNotebookInt);
-	}
-	
+        startActivity(gotoNotebookInt);
+		
+	}	
 
 }

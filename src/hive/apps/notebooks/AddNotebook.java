@@ -59,7 +59,6 @@ public class AddNotebook extends Activity {
 		final Map<String, Integer> White = new HashMap<String, Integer>();
 		White.put("White", R.drawable.notebook_white);
 		final Map<String, Integer> Grey = new HashMap<String, Integer>();
-		Grey.put("Grey", R.drawable.notebook_grey);
 		
 		notebookcovercolor
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -73,10 +72,6 @@ public class AddNotebook extends Activity {
 							Log.e("color", "White Selected");
 
 						}
-						if (notebookcovercolor.getSelectedItem() == "Grey") {
-							notebookcoverimg.setBackgroundResource(R.drawable.notebook_grey);
-							Log.e("color", "Grey Selected");
-					}
 
 					}
 
@@ -109,8 +104,6 @@ public class AddNotebook extends Activity {
 			} else {
 
 				super.onBackPressed();
-				Shelf.someButton.setText(actualNotebookName);
-				Shelf.someButton.setId(shelfObject.notebookCounter);
 			}
 			return true;
 		default:
