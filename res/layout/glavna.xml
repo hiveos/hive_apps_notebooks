@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/texture"
+    android:gravity="bottom"
     android:orientation="vertical" >
 
     <hive.apps.notebooks.CrtanjeView
@@ -12,38 +13,48 @@
         android:layout_height="match_parent"
         android:layout_weight="5" />
 
-    <Button
-        android:id="@+id/bEnter"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Enter" />
-
     <ImageView
         android:id="@+id/guide"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:layout_above="@+id/bEnter"
+        android:layout_above="@+id/RelativeLayout1"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="70dp"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
 
-    <Button
-        android:id="@+id/bSpace"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/bEnter"
-        android:text="Space" />
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/texture_wood" >
 
-    <Button
-        android:id="@+id/bUndo"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Undo" />
+        <Button
+            android:id="@+id/bUndo"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_undo" />
+
+        <Button
+            android:id="@+id/bSpace"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/bUndo"
+            android:background="@drawable/ic_space" />
+
+        <Button
+            android:id="@+id/bEnter"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/bSpace"
+            android:background="@drawable/ic_enter" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
