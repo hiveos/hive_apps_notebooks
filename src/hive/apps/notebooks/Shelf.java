@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -24,7 +25,7 @@ public class Shelf extends Activity implements OnClickListener{
 	private LayoutParams params;
 	private LayoutParams sveskaParams;
 	private LinearLayout polica;
-	private Button sveska;
+	private ImageButton sveska;
 	private Vector<LinearLayout>police;
 	private Vector<Button>sveske;
 	private int policaCounter;
@@ -45,8 +46,10 @@ public class Shelf extends Activity implements OnClickListener{
 	public void dodajSvesku(){
 		if(sveskaCounter<4)
 		{
-			sveska = new Button(this);
-			sveska.setBackgroundResource(R.drawable.notebook_white_300);
+			sveska = new ImageButton(this);
+			//sveska.setPadding(50, 40, 40, 40);
+			sveska.setImageResource(R.drawable.notebook_shelf);
+			sveska.setBackgroundColor(getResources().getColor(R.color.Dark_Orange));
 			sveska.setOnClickListener(this);
 			sveskaCounter++;
 			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

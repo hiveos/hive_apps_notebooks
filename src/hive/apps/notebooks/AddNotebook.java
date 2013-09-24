@@ -1,8 +1,6 @@
 package hive.apps.notebooks;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +32,7 @@ public class AddNotebook extends Activity {
 		setContentView(R.layout.addnotebook);
 		notebookName = (EditText) findViewById(R.id.notebookNameId);
 		shelfObject = new Shelf();
-		final Button notebookcoverimg = (Button)findViewById(R.id.notebookcover);
+		final ImageButton notebookcoverimg = (ImageButton) findViewById(R.id.notebookcover);
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -55,21 +53,19 @@ public class AddNotebook extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		notebookcovercolor.setAdapter(coloradapter);
 
-		
-		final Map<String, Integer> White = new HashMap<String, Integer>();
-		White.put("White", R.drawable.notebook_white);
-		final Map<String, Integer> Grey = new HashMap<String, Integer>();
-		
 		notebookcovercolor
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+					@SuppressLint("ResourceAsColor")
 					@Override
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
+						Log.e("TAG",
+								(String) notebookcovercolor.getSelectedItem());
 
 						if (notebookcovercolor.getSelectedItem() == "White") {
-								notebookcoverimg.setBackgroundResource(White.get("White"));
-							Log.e("color", "White Selected");
+							notebookcoverimg.setBackgroundColor(R.color.White);
+							Log.e("tag", "White");
 
 						}
 

@@ -4,9 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/texture_wood"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="40dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="40dp"
+    android:paddingTop="40dp" >
 
-    <Button
+    <ImageButton
         android:id="@+id/notebookcover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -14,9 +18,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
-        android:background="@drawable/notebook_white"
+        android:background="#aabbcc"
         android:minHeight="150dp"
-        android:minWidth="150dp" />
+        android:minWidth="150dp"
+        android:src="@drawable/notebook" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
@@ -32,7 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/notebookbgtype"
         android:layout_alignRight="@+id/notebookNameId"
-        android:layout_below="@+id/notebookbgtype" />
+        android:layout_below="@+id/notebookbgtype"
+        android:paddingTop="10dp" />
 
     <EditText
         android:id="@+id/notebookNameId"
@@ -40,9 +46,14 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/notebookcover"
         android:layout_alignTop="@+id/notebookcover"
-        android:layout_marginRight="152dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginRight="108dp"
+        android:layout_marginTop="226dp"
+        android:background="@drawable/transparent"
         android:ems="10"
-        android:hint="Notebook Name" />
+        android:hint="Notebook Name"
+        android:paddingLeft="10dp" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
