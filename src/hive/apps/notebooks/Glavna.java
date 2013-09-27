@@ -89,7 +89,7 @@ public class Glavna extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		// Opet spremanje na sd
 
-		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
+		/*File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");
 
 		if (!notebooksRoot.exists()) {
@@ -109,7 +109,7 @@ public class Glavna extends Activity implements OnClickListener {
 			ostream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		for (mojaPutanja p : CrtanjeView.paths) {
 			p.reset();
