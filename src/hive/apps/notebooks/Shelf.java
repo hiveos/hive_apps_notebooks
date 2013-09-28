@@ -20,6 +20,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 public class Shelf extends Activity implements OnClickListener, OnLongClickListener{
@@ -40,6 +41,8 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 	private File[] brojSveskica;
 	private String foldernoIme;
 	private int brojSveskiZaLoadati;
+	private int identifikacija;
+	private Boolean isNeededToLoad=false;
 	
 	public void dodajPolicu() {
 		ShelfHolder=(LinearLayout)findViewById(R.id.ShelfHolder);
@@ -62,7 +65,16 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 			sveska.setOnClickListener(this);
 			sveska.setOnLongClickListener(this);
 			sveska.setGravity(Gravity.CENTER_HORIZONTAL);
-			sveska.setText("Notebook"+ukupniSveskaCounter);
+			
+			if(isNeededToLoad)
+			{
+				sveska.setText(foldernoIme);
+				isNeededToLoad=false;
+			}
+			else
+				sveska.setText(""+ukupniSveskaCounter);
+			
+			sveska.setId(ukupniSveskaCounter);
 			sveske.add(sveska);
 			sveskaCounter++;
 			ukupniSveskaCounter++;
@@ -79,37 +91,7 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 			policaNaKojojSeNalazimo++;
 			sveskaCounter=0;
 			dodajSvesku();
-		}
-		
-	}
-	
-	private void dodajSveskuIzFoldera()
-	{
-		if(sveskaCounter<4)
-		{
-			sveska = new Button(this);
-			sveska.setBackgroundResource(R.drawable.notebook_test);
-			sveska.setOnClickListener(this);
-			sveska.setOnLongClickListener(this);
-			sveska.setGravity(Gravity.CENTER_HORIZONTAL);
-			sveska.setText(foldernoIme);
-			sveske.add(sveska);
-			sveskaCounter++;
-			ukupniSveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			sveskaParams.leftMargin=50;
-			sveskaParams.bottomMargin=6;
-			police.get(policaNaKojojSeNalazimo).addView(sveske.get(ukupniSveskaCounter-1),sveskaParams);
-		}
-		else if(sveskaCounter>=4)
-		{
-			if(ukupniSveskaCounter>=20)
-				dodajPolicu();
-			
-			policaNaKojojSeNalazimo++;
-			sveskaCounter=0;
-			dodajSveskuIzFoldera();
-		}
+		}		
 	}
 	
 	private void loadajSveske()
@@ -122,9 +104,43 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 			if(infile.isDirectory())
 			{
 				foldernoIme=infile.getName();
-				dodajSveskuIzFoldera();
+				if(foldernoIme.length()>8)
+        			foldernoIme=foldernoIme.substring(0, 5) + "...";
+				
+				isNeededToLoad=true;
+				dodajSvesku();
 			}
 		}
+	}
+	
+	private void obrisiSvesku()
+	{
+		String imeSveskeZaBrisanje="";
+		for(int i=1; i<=ukupniSveskaCounter; i++)
+		{
+			if(sveske.get(i).getId()==identifikacija)
+			{
+				imeSveskeZaBrisanje=sveske.get(i).getText().toString();
+				
+				Toast toast = Toast.makeText(this,
+		                "Deleting " + imeSveskeZaBrisanje, Toast.LENGTH_LONG);
+		    			toast.show();
+				
+				break;
+			}
+		}
+		
+		brojSveskica = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/").listFiles();
+		
+		for(File infile: brojSveskica)
+		{
+			if(infile.isDirectory() && infile.getName().toString().equals(imeSveskeZaBrisanje))
+			{
+				infile.delete();
+			}
+		}
+		
 	}
 	
 	private void inicijaliziraj()
@@ -132,6 +148,7 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 		policaCounter=0;
 		sveskaCounter=0;
 		policaNaKojojSeNalazimo=0;
+		ukupniSveskaCounter=0;
 		
 		notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/Notebooks/");
@@ -153,7 +170,9 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 			dodajPolicu();
 		
 		if(brojSveskiZaLoadati!=0)
+		{
 			loadajSveske();
+		}
 		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
@@ -193,6 +212,8 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
 	@Override
 	public boolean onLongClick(View arg0) {
 		// TODO Auto-generated method stub
+		identifikacija=arg0.getId();
+		obrisiSvesku();
 		return false;
 	}	
 
