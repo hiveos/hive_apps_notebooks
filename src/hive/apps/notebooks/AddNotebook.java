@@ -2,11 +2,16 @@ package hive.apps.notebooks;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.os.Environment;
@@ -94,7 +99,7 @@ public class AddNotebook extends Activity {
             getMenuInflater().inflate(R.menu.addnotebook, menu);
             return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -123,6 +128,30 @@ public class AddNotebook extends Activity {
 	            				+ "/HIVE/Notebooks/"+tmpann);
 	            		if (!notebooksRoot.exists()) {
 	            			notebooksRoot.mkdirs();
+	            		}
+	            		
+	            		File xmlFile = new File(Environment.getExternalStorageDirectory()
+	            				+ "/HIVE/Notebooks/"+tmpann+"/notebook.xml");
+	            		
+	            		if (!xmlFile.exists()){
+	            			try {
+								xmlFile.createNewFile();
+								xmlFile.setWritable(true);
+								
+						        try {
+						            FileWriter out = new FileWriter(xmlFile);
+						            out.write("<notebook_name=\""+actualNotebookName+"\"/>");
+						            out.close();
+						        } 
+						        catch (IOException e) 
+						        {
+						        	e.printStackTrace();
+						        }
+								
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 	            		}
 	        		}                   		
                             

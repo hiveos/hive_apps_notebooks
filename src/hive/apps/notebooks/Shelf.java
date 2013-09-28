@@ -138,7 +138,11 @@ public class Shelf extends Activity implements OnClickListener, OnLongClickListe
                 {
                         if(infile.isDirectory() && infile.getName().toString().equals(imeSveskeZaBrisanje))
                         {
-                                infile.delete();
+                        	String[] children = infile.list();
+                            for (int i = 0; i < children.length; i++) {
+                                new File(infile, children[i]).delete();
+                            }
+                            infile.delete();
                         }
                 }
                
