@@ -1,83 +1,219 @@
 package hive.apps.notebooks;
 
-import java.util.Vector;
+import java.io.File;
+import java.util.ArrayList;
 
-import hive.apps.notebooks.R.drawable;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
-public class Shelf extends Activity implements OnClickListener{
+public class Shelf extends Activity implements OnClickListener,
+		OnLongClickListener {
 
 	private LinearLayout ShelfHolder;
 	private LayoutParams params;
 	private LayoutParams sveskaParams;
 	private LinearLayout polica;
-	private ImageButton sveska;
-	private Vector<LinearLayout>police;
-	private Vector<Button>sveske;
+	private Button sveska;
 	private int policaCounter;
+	private int policaNaKojojSeNalazimo;
 	private int sveskaCounter;
-	private Boolean popunjenePocetnePolice=false;
-	
+	public static int ukupniSveskaCounter;
+	private Boolean popunjenePocetnePolice = false;
+	private ArrayList<LinearLayout> police = new ArrayList<LinearLayout>();
+	public static ArrayList<Button> sveske = new ArrayList<Button>();
+	public static ArrayList<String> imenaSveski = new ArrayList<String>();
+	private File notebooksRoot;
+	private File[] brojSveskica;
+	private String foldernoIme;
+	private int brojSveskiZaLoadati;
+	private int identifikacija;
+	private Boolean isNeededToLoad = false;
+
 	public void dodajPolicu() {
-		ShelfHolder=(LinearLayout)findViewById(R.id.ShelfHolder);
 		polica = new LinearLayout(this);
 		polica.setOrientation(LinearLayout.HORIZONTAL);
 		polica.setBackgroundResource(R.drawable.shelf);
+		police.add(polica);
 		policaCounter++;
-		params= new LayoutParams(LayoutParams.MATCH_PARENT, 210);
+		params = new LayoutParams(LayoutParams.MATCH_PARENT, 210);
 		polica.setLayoutParams(params);
 		ShelfHolder.addView(polica);
 	}
-	
-	public void dodajSvesku(){
-		if(sveskaCounter<4)
-		{
-			sveska = new ImageButton(this);
-			//sveska.setPadding(50, 40, 40, 40);
-			sveska.setImageResource(R.drawable.notebook_shelf);
-			sveska.setBackgroundColor(getResources().getColor(R.color.Dark_Orange));
+
+	public void dodajSvesku() {
+
+		if (sveskaCounter < 4) {
+			sveska = new Button(this);
+			sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_green);
 			sveska.setOnClickListener(this);
+			sveska.setOnLongClickListener(this);
+			sveska.setGravity(Gravity.BOTTOM);
+			
+			if (AddNotebook.selectedcolor == 1) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_white);
+
+			}
+			if (AddNotebook.selectedcolor == 2) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_grey);
+
+			}
+			if (AddNotebook.selectedcolor == 3) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_blue);
+
+			}
+			if (AddNotebook.selectedcolor == 4) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_blue);
+
+			}
+			if (AddNotebook.selectedcolor == 5) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_purple);
+
+			}
+			if (AddNotebook.selectedcolor == 6) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_purple);
+
+			}
+			if (AddNotebook.selectedcolor == 7) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_green);
+
+			}
+			if (AddNotebook.selectedcolor == 8) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_green);
+
+			}
+			if (AddNotebook.selectedcolor == 9) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_orange);
+
+			}
+			if (AddNotebook.selectedcolor == 10) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_orange);
+
+			}
+			if (AddNotebook.selectedcolor == 11) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_red);
+
+			}
+			if (AddNotebook.selectedcolor == 12) {
+				sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_red);
+
+			}
+
+			if (isNeededToLoad) {
+				sveska.setText(foldernoIme);
+				isNeededToLoad = false;
+			} else
+				sveska.setText("" + ukupniSveskaCounter);
+
+			sveska.setId(ukupniSveskaCounter);
+			sveske.add(sveska);
 			sveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			sveskaParams.leftMargin=50;
-			sveskaParams.bottomMargin=6;
-			polica.addView(sveska,sveskaParams);
-		}
-		else
-		{
-			dodajPolicu();
-			sveskaCounter=0;
+			ukupniSveskaCounter++;
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
+			 sveskaParams.leftMargin = 50;
+			 sveskaParams.bottomMargin = 25;
+			 sveskaParams.topMargin = 15;
+			police.get(policaNaKojojSeNalazimo).addView(
+					sveske.get(ukupniSveskaCounter - 1), sveskaParams);
+		} else if (sveskaCounter >= 4) {
+			if (ukupniSveskaCounter >= 20)
+				dodajPolicu();
+
+			policaNaKojojSeNalazimo++;
+			sveskaCounter = 0;
 			dodajSvesku();
 		}
-		
+	}
+
+	private void loadajSveske() {
+		brojSveskica = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/").listFiles();
+
+		for (File infile : brojSveskica) {
+			if (infile.isDirectory()) {
+				foldernoIme = infile.getName();
+				if (foldernoIme.length() > 8)
+					foldernoIme = foldernoIme.substring(0, 5) + "...";
+
+				isNeededToLoad = true;
+				dodajSvesku();
+			}
+		}
+	}
+
+	private void obrisiSvesku() {
+		String imeSveskeZaBrisanje = "";
+		for (int i = 0; i < ukupniSveskaCounter; i++) {
+			if (sveske.get(i).getId() == identifikacija) {
+				imeSveskeZaBrisanje = sveske.get(i).getText().toString();
+
+				Toast toast = Toast.makeText(this, "Deleting "
+						+ imeSveskeZaBrisanje, Toast.LENGTH_LONG);
+				toast.show();
+
+				break;
+			}
+		}
+
+		brojSveskica = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/").listFiles();
+
+		for (File infile : brojSveskica) {
+			if (infile.isDirectory()
+					&& infile.getName().toString().equals(imeSveskeZaBrisanje)) {
+				String[] children = infile.list();
+				for (int i = 0; i < children.length; i++) {
+					new File(infile, children[i]).delete();
+				}
+				infile.delete();
+			}
+		}
+
+	}
+
+	private void inicijaliziraj() {
+		ShelfHolder = (LinearLayout) findViewById(R.id.ShelfHolder);
+		policaCounter = 0;
+		sveskaCounter = 0;
+		policaNaKojojSeNalazimo = 0;
+		ukupniSveskaCounter = 0;
+		sveske.clear();
+		police.clear();
+		ShelfHolder.removeAllViews();
+
+		notebooksRoot = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/");
+		if (!notebooksRoot.exists()) {
+			notebooksRoot.mkdirs();
+		}
+
+		brojSveskiZaLoadati = new File(
+				Environment.getExternalStorageDirectory() + "/HIVE/Notebooks/")
+				.listFiles().length;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shelf);
-		policaCounter=0;
-		sveskaCounter=0;
-		dodajPolicu();
-		
-		
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		
+
 	}
 
 	@Override
@@ -93,7 +229,7 @@ public class Shelf extends Activity implements OnClickListener{
 		case R.id.action_addnotebook:
 			dodajSvesku();
 			Intent AddNotebook = new Intent(this, AddNotebook.class);
-            startActivity(AddNotebook);
+			startActivity(AddNotebook);
 			return true;
 		default:
 			return false;
@@ -106,8 +242,37 @@ public class Shelf extends Activity implements OnClickListener{
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		Intent gotoNotebookInt = new Intent(this, Glavna.class);
-        startActivity(gotoNotebookInt);
-		
-	}	
+		startActivity(gotoNotebookInt);
+
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		inicijaliziraj();
+
+		for (int i = 0; i < 5; i++)
+			dodajPolicu();
+
+		if (brojSveskiZaLoadati != 0)
+			loadajSveske();
+	}
+
+	@Override
+	public boolean onLongClick(View arg0) {
+		// TODO Auto-generated method stub
+		identifikacija = arg0.getId();
+		try {
+			obrisiSvesku();
+			Intent intent = getIntent();
+			finish();
+			startActivity(intent);
+		} catch (Exception e) {
+			Toast.makeText(this, "Error: Notebook cannot be deleted",
+					Toast.LENGTH_SHORT);
+		}
+		return false;
+	}
 
 }

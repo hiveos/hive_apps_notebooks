@@ -20,6 +20,7 @@
         android:layout_above="@+id/RelativeLayout1"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="70dp"
+        android:background="@drawable/texture_wood"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
 

@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo">
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -19,18 +19,17 @@
 
     <style name="ActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@drawable/texture_wood</item>
-        <item name="android:textColorPrimary">@style/actionbartextcolor</item>
-        <!-- <item name="android:logo">@android:drawable/ic_dialog_map</item> -->
     </style>
 
     <style name="actionbartextcolor" parent="ActionBar">
         <!-- <item name="android:color">#ffffff</item> -->
     </style>
 
+
     <color name="editText_color">#000000</color>
     <color name="temp_notebook_cover_image_bg">#50000000</color>
     <color name="White">#ffffff</color>
-    <color name="Grey">#000000</color>
+    <color name="Grey">#848484</color>
     <color name="Blue">#33B5E5</color>
     <color name="Dark_Blue">#0099CC</color>
     <color name="Purple">#AA66CC</color>
