@@ -20,7 +20,8 @@
         android:layout_margin="10dp"
         android:background="#aabbcc"
         android:minHeight="150dp"
-        android:minWidth="150dp" />
+        android:minWidth="150dp"
+        android:src="@drawable/notebook" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
