@@ -17,6 +17,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/notebook"
         android:minHeight="150dp"
         android:minWidth="150dp" />
 
