@@ -6,37 +6,28 @@
         android:icon="@drawable/ic_brush_settings"
         android:orderInCategory="3"
         android:showAsAction="ifRoom"
-<<<<<<< HEAD
         android:title="Brush Settings">
-=======
-        android:title="Brush Settings"
-        android:icon="@drawable/ic_brush_settings">
-        
->>>>>>> bb7212959dc0adf8462a5f119726f972d77ca90e
     </item>
     <item
         android:id="@+id/action_clear"
         android:icon="@drawable/ic_content_discard"
         android:orderInCategory="2"
         android:showAsAction="ifRoom"
-        android:title="@string/actionbar_item_clear"
-        android:icon="@drawable/ic_content_discard">
+        android:title="@string/actionbar_item_clear">
     </item>
     <item
         android:id="@+id/action_insert"
         android:icon="@drawable/ic_insert"
         android:orderInCategory="1"
         android:showAsAction="ifRoom"
-        android:title="@string/actionbar_item_insert"
-        android:icon="@drawable/ic_insert">
+        android:title="@string/actionbar_item_insert">
     </item>
     <item
         android:id="@+id/action_mode"
         android:icon="@drawable/ic_switch"
         android:orderInCategory="5"
         android:showAsAction="ifRoom"
-        android:title="Switch Mode"
-        android:icon="@drawable/ic_switch">
+        android:title="Switch Mode">
     </item>
   
 </menu>
