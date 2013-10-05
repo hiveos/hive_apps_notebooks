@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +37,7 @@ public class AddNotebook extends Activity {
 		setContentView(R.layout.addnotebook);
 		notebookName = (EditText) findViewById(R.id.notebookNameId);
 		shelfObject = new Shelf();
-		final ImageButton notebookcoverimg = (ImageButton) findViewById(R.id.notebookcover);
+		final ImageView notebookcoverimg = (ImageView) findViewById(R.id.notebookcover);
 		final Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
 
 		ActionBar actionBar = getActionBar();
@@ -61,7 +61,6 @@ public class AddNotebook extends Activity {
 		notebookcovercolor
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-					@SuppressLint("ResourceAsColor")
 					@Override
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
@@ -69,60 +68,39 @@ public class AddNotebook extends Activity {
 								(String) notebookcovercolor.getSelectedItem());
 
 						if (notebookcovercolor.getSelectedItemId() == 1) {
-							notebookcoverimg.setBackgroundColor(R.color.White);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 2) {
-							notebookcoverimg.setBackgroundColor(R.color.Grey);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 3) {
-							notebookcoverimg.setBackgroundColor(R.color.Blue);
-							notebookcoverimg
-									.setImageResource(R.drawable.transparent);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 4) {
-							notebookcoverimg
-									.setBackgroundColor(R.color.Dark_Blue);
-							notebookcoverimg
-									.setImageResource(R.drawable.notebook);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 5) {
-							notebookcoverimg.setBackgroundColor(R.color.Purple);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 6) {
-							notebookcoverimg
-									.setBackgroundColor(R.color.Dark_Purple);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 7) {
-							notebookcoverimg.setBackgroundColor(R.color.Green);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 8) {
-							notebookcoverimg
-									.setBackgroundColor(R.color.Dark_Green);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 9) {
-							notebookcoverimg.setBackgroundColor(R.color.Orange);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 10) {
-							notebookcoverimg
-									.setBackgroundColor(R.color.Dark_Orange);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 11) {
-							notebookcoverimg.setBackgroundColor(R.color.Red);
 
 						}
 						if (notebookcovercolor.getSelectedItemId() == 12) {
-							notebookcoverimg
-									.setBackgroundColor(R.color.Dark_Red);
 
 						}
 					}

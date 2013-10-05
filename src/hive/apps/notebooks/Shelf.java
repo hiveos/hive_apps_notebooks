@@ -124,8 +124,8 @@ public class Shelf extends Activity implements OnClickListener,
 			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT);
 			 sveskaParams.leftMargin = 50;
-			 sveskaParams.bottomMargin = 25;
-			 sveskaParams.topMargin = 15;
+			 sveskaParams.bottomMargin = 5;
+			 sveskaParams.topMargin = 19;
 			police.get(policaNaKojojSeNalazimo).addView(
 					sveske.get(ukupniSveskaCounter - 1), sveskaParams);
 		} else if (sveskaCounter >= 4) {

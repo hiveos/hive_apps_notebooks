@@ -10,18 +10,15 @@
     android:paddingRight="40dp"
     android:paddingTop="40dp" >
 
-    <ImageButton
+    <ImageView
         android:id="@+id/notebookcover"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentEnd="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dp"
-        android:background="#aabbcc"
         android:minHeight="150dp"
-        android:minWidth="150dp"
-        android:src="@drawable/notebook" />
+        android:minWidth="150dp" />
 
     <Spinner
         android:id="@+id/notebookbgtype"
@@ -46,14 +43,10 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/notebookcover"
         android:layout_alignTop="@+id/notebookcover"
-        android:layout_marginRight="108dp"
-        android:layout_marginTop="226dp"
-        android:background="@drawable/transparent"
+        android:layout_marginRight="115dp"
+        android:layout_marginTop="238dp"
         android:ems="10"
         android:hint="Notebook Name"
-        android:paddingLeft="10dp" >
-
-        <requestFocus />
-    </EditText>
+        android:paddingLeft="10dp" />
 
 </RelativeLayout>
