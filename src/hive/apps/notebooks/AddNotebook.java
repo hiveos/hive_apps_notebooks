@@ -30,6 +30,7 @@ public class AddNotebook extends Activity {
         TextView notebookNameDisplay;
         public static String actualNotebookName;
         public static long selectedcolor;
+        
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +40,50 @@ public class AddNotebook extends Activity {
                 shelfObject = new Shelf();
                 final ImageView notebookcoverimg = (ImageView) findViewById(R.id.notebookcover);
                 final Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
-
+                final Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
                 ActionBar actionBar = getActionBar();
                 actionBar.setDisplayHomeAsUpEnabled(true);
 
-                Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
+                
                 ArrayAdapter<CharSequence> typeadapter = ArrayAdapter
                                 .createFromResource(this, R.array.notebook_styles,
                                                 android.R.layout.simple_spinner_item);
                 typeadapter
                                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 nbbgstyle.setAdapter(typeadapter);
+                
+                nbbgstyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						// TODO Auto-generated method stub
+						
+						if(nbbgstyle.getSelectedItemId()==0){
+							
+						}
+						if(nbbgstyle.getSelectedItemId()==1){
+							
+						}
+						if(nbbgstyle.getSelectedItemId()==2){
+							
+						}
+						if(nbbgstyle.getSelectedItemId()==3){
+							
+						}
+						
+						
+						
+						
+						
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 
                 ArrayAdapter<CharSequence> coloradapter = ArrayAdapter
                                 .createFromResource(this, R.array.notebook_cover_color,
@@ -142,7 +176,7 @@ public class AddNotebook extends Activity {
                         else {
                                 super.onBackPressed();
                                 final Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
-
+                                final Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
                                 Shelf.sveske.get(Shelf.ukupniSveskaCounter - 1).setText(
                                                 actualNotebookName);
                                 selectedcolor = notebookcovercolor.getSelectedItemId();
@@ -165,10 +199,13 @@ public class AddNotebook extends Activity {
 
                                                 try {
                                                         FileWriter out = new FileWriter(xmlFile);
-                                                        out.write("notebook:name=" + actualNotebookName
-                                                        // + " notebook:covercolor="
-                                                        // + notebookcovercolor.getSelectedItem()
-                                                                        + "/>");
+                                                        out.write("<notebook>\n <name>" 
+                                                        + actualNotebookName + "</name>\n"
+                                                        + "<covercolor>"
+                                                        + notebookcovercolor.getSelectedItem() + "</covercolor>\n"
+                                                        + "<style>"
+                                                        + nbbgstyle.getSelectedItem() + "</style>\n"
+                                                                        + "</notebook>");
                                                         out.close();
                                                 } catch (IOException e) {
                                                         e.printStackTrace();

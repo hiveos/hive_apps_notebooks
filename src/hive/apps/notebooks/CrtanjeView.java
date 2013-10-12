@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,7 +31,8 @@ import android.widget.Button;
 
 @SuppressLint("ResourceAsColor")
 public class CrtanjeView extends View {
-
+	
+	private Bitmap kursor;
 	public static Paint boja;
 	public static mojaPutanja putanja;
 	private Paint krugBoja;
@@ -42,6 +44,8 @@ public class CrtanjeView extends View {
 	public static ArrayList<mojaPutanja> drawingPaths = new ArrayList<mojaPutanja>();
 	public static ArrayList<mojaPutanja> undonePaths = new ArrayList<mojaPutanja>();
 	public static Bitmap MyBitmap;
+	public static int odvojiZaKursor = 0;
+	public static int enterZaKursor = 0;
 	public Button bEnter; 
 	public Button bSpace;
 	public Button bUndo;
@@ -52,7 +56,7 @@ public class CrtanjeView extends View {
     public static int marginaLinijeDesno = 10; // kolko je odvojena svaka linija desno od ekrana
     public static int sirinaRazmaka = 5; // koliko piksela odvojiti svaku rijec od prosle rijeci
     private int trenutnaLinija = 0; // na kojoj smo trenutno liniji. Ovo je 3 zbog testiranja, treba biti u pocetku 0
-    private int trenutnaSirinaLinije = 0; // dokle piksela smo dosli trenutno u trenutnoj liniji
+    private int trenutnaSirinaLinije = 50; // dokle piksela smo dosli trenutno u trenutnoj liniji
     private boolean vecStavljao; // da li je ovo prva rijec koju stavljamo u red. Mislim da nema potrebe za ovim, al eto, za svaki slucaj
 	private Canvas mCanvas;
 	private Canvas drawingCanvas;
@@ -115,6 +119,9 @@ public class CrtanjeView extends View {
 	}
 
 	public void dodajFunkcija() {
+		odvojiZaKursor = 0;
+		enterZaKursor = 0;
+		
 		if(x1 == ekranSirina && x2 == 0 && y1 == ekranVisina && y2 == 0) return;
 		Rect r = pronadziRec(MyBitmap);
 		Bitmap crop = kopiraj(r);
@@ -138,7 +145,7 @@ public class CrtanjeView extends View {
                  }
          pozicije.add(Pair.create(tmp, trenutnaLinija*visinaLinije+visinaPraznogIznadLinije)); // dodati poziciju za trenutnu rijec
          sviZaCrtat.add(bmp); // dodati sliku trenutne rijeci
-   //      rectovi.add(pronadziRec(bmp));
+         //      rectovi.add(pronadziRec(bmp));
          System.out.println("dodao");
          Space();
          ocistiFunkcija();
@@ -146,7 +153,7 @@ public class CrtanjeView extends View {
 
 	private Rect pronadziRec(Bitmap image) {
 
-		    Rect rect = new Rect((int)x1,(int)y1,(int)x2,(int)y2);
+		Rect rect = new Rect((int)x1,(int)y1,(int)x2,(int)y2);
 		return rect;
 	}
 
@@ -154,6 +161,7 @@ public class CrtanjeView extends View {
 	public void ocistiFunkcija() {
 		//Klikom na erase button, poziva se ocistiFunkcija koja brise trenutne pathove na
 		//canvasu
+
 		x1 = ekranSirina;
 		x2 = 0;
 		y1 = ekranVisina;
@@ -177,6 +185,8 @@ public class CrtanjeView extends View {
 		pozicije = new Vector<Pair<Integer,Integer>>();
 		// Inicijalizacija qa varijable. Proslje�uje joj se trenutni View
 		qa = new QuickAction(this);
+		kursor = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.kursor);
 
 	}
 
@@ -229,6 +239,16 @@ public class CrtanjeView extends View {
 	        {
 	              canvas.drawBitmap(sviZaCrtat.elementAt(i),pozicije.elementAt(i).first,pozicije.elementAt(i).second,nist); // crtati sve rijeci sto imamo
 	        }
+	        int visinaKursora = 0;
+	        if(!pozicije.isEmpty()){
+	        	visinaKursora = pozicije.lastElement().first+odvojiZaKursor+sviZaCrtat.lastElement().getWidth();
+	        }
+	        if(enterZaKursor != 0) {
+	        	visinaKursora = 50;
+	        }
+	       if(!pozicije.isEmpty()){
+	    	   canvas.drawBitmap(kursor, visinaKursora, pozicije.lastElement().second + (enterZaKursor * visinaLinije), nist);
+	       }else canvas.drawBitmap(kursor, 50, (visinaLinije/2)+5, nist);
 	}
 		
 
@@ -285,15 +305,26 @@ public class CrtanjeView extends View {
 		{
 			trenutnaLinija++;
             trenutnaSirinaLinije = marginaLinijeLijevo;
-		}else trenutnaSirinaLinije += odvoji;
+            odvojiZaKursor = 50;
+            enterZaKursor +=1;
+		}else {
+			trenutnaSirinaLinije += odvoji;
+			odvojiZaKursor +=25;
+		}
+		ocistiFunkcija();
 	}
 	public void Enter()
 	{
 		trenutnaLinija++;
-		trenutnaSirinaLinije = 0;
+		trenutnaSirinaLinije = 50;
+		odvojiZaKursor =0;
+		enterZaKursor+=1;
+		ocistiFunkcija();
 	}
 	public void Undo()
 	{
+		odvojiZaKursor = 50;
+		enterZaKursor = 0;
 		if(sviZaCrtat.isEmpty()) return;
 		sviZaCrtat.remove(sviZaCrtat.lastElement());
 		pozicije.remove(pozicije.lastElement());
@@ -305,7 +336,7 @@ public class CrtanjeView extends View {
 		}
 		else
 		{
-			trenutnaSirinaLinije = 0;
+			trenutnaSirinaLinije = 50;
 			trenutnaLinija = 0;
 		}
 		
