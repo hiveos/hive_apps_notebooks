@@ -134,8 +134,8 @@ public class CrtanjeView extends View {
          {
                  //predji u novi red ako bi prekoracili
                  trenutnaLinija++;
-                 trenutnaSirinaLinije=bmp.getWidth();
-                 tmp=0;
+                 trenutnaSirinaLinije=bmp.getWidth()+50;
+                 tmp=50;
                  vecStavljao=false;
          } else
                  {

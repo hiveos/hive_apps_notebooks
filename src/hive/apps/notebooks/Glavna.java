@@ -1,18 +1,26 @@
 package hive.apps.notebooks;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Vector;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -33,6 +41,7 @@ public class Glavna extends Activity implements OnClickListener {
 	Button enterButton, spaceButton, undoButton;
 	public static String stil;
 	public static String imeSveske;
+	Vector<byte[]>niz=new Vector();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,7 @@ public class Glavna extends Activity implements OnClickListener {
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		if(stil.equals("Grid")){
 			ll.setBackgroundResource(R.drawable.texture_grid);
-			guideLines.setVisibility(View.GONE);
+			guideLines.setVisibility(View.VISIBLE);
 		}
 		if(stil.equals("Lines")){
 			ll.setBackgroundResource(R.drawable.texture);
@@ -52,7 +61,7 @@ public class Glavna extends Activity implements OnClickListener {
 		}
 		if(stil.equals("Plain")){
 			ll.setBackgroundColor(Color.parseColor("#FFFFFF"));
-			guideLines.setVisibility(View.VISIBLE);
+			guideLines.setVisibility(View.GONE);
 		}
 		cv = (CrtanjeView) findViewById(R.id.view1);
 		enterButton=(Button)findViewById(R.id.bEnter);
@@ -61,14 +70,47 @@ public class Glavna extends Activity implements OnClickListener {
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
-		// cv.setOnTouchListener(this);
+		CrtanjeView.sviZaCrtat= new Vector();
+		try {
+			ucitajRijeci();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 
 	}
+	
+	public void ucitajRijeci() throws IOException
+	{
+		
+	}
+	
+	public byte[] readBytes(InputStream inputStream) throws IOException {
+		  // this dynamically extends to take the bytes you read
+		  ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 
+		  // this is storage overwritten on each iteration with bytes
+		  int bufferSize = 1024;
+		  byte[] buffer = new byte[bufferSize];
+
+		  // we need to know how may bytes were read to write them to the byteBuffer
+		  int len = 0;
+		  while ((len = inputStream.read(buffer)) != -1) {
+		    byteBuffer.write(buffer, 0, len);
+		  }
+
+		  // and then we can return your byte array.
+		  return byteBuffer.toByteArray();
+		}
+	
+	public Bitmap getBitmap(byte[] bitmap) {
+	    return BitmapFactory.decodeByteArray(bitmap , 0, bitmap.length);
+	}
+	
 	// ActionBar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,9 +154,17 @@ public class Glavna extends Activity implements OnClickListener {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		// Opet spremanje na sd
-		
-		Vector<byte[]>niz=new Vector();
-		
+		spremiRijeci();
+
+		for (mojaPutanja p : CrtanjeView.paths) {
+			p.reset();
+		}
+
+		super.onStop();
+	}
+	
+	public void spremiRijeci()
+	{		
 		for(int i=0; i<CrtanjeView.sviZaCrtat.size(); i++)
 		{
 			Bitmap bmp = CrtanjeView.sviZaCrtat.get(i);
@@ -138,7 +188,7 @@ public class Glavna extends Activity implements OnClickListener {
 		
 		try {
 			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory()
-			        + "/HIVE/Notebooks/"+imeSveske+"/data.words"));
+			        + "/HIVE/Notebooks/"+imeSveske+"/data.txt"));
 			
 			for(int i=0; i<niz.size(); i++)
 			{
@@ -155,34 +205,6 @@ public class Glavna extends Activity implements OnClickListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*File notebooksRoot = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/");
-
-		if (!notebooksRoot.exists()) {
-			notebooksRoot.mkdirs();
-		}
-
-		int pageCounter = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/").listFiles().length;
-		File file = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/drawings/Notebook1/" + pageCounter + ".png");
-		FileOutputStream ostream;
-		try {
-			file.createNewFile();
-			ostream = new FileOutputStream(file);
-			CrtanjeView.MyBitmap.compress(CompressFormat.PNG, 100, ostream);
-			ostream.flush();
-			ostream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-
-		for (mojaPutanja p : CrtanjeView.paths) {
-			p.reset();
-		}
-
-		super.onStop();
 	}
 
 	@Override
