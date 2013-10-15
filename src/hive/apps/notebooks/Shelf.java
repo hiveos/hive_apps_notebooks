@@ -41,6 +41,7 @@ public class Shelf extends Activity implements OnClickListener,
         private int brojSveskiZaLoadati;
         private int identifikacija;
         private Boolean isNeededToLoad = false;
+        public CitanjeXMLa citanjeXMLaObjekt;
 
         public void dodajPolicu() {
                 polica = new LinearLayout(this);
@@ -112,8 +113,38 @@ public class Shelf extends Activity implements OnClickListener,
                         }
 
                         if (isNeededToLoad) {
-                                sveska.setText(foldernoIme);
+                        		File fajlic = new File(Environment.getExternalStorageDirectory()
+                                + "/HIVE/Notebooks/"+foldernoIme+"/notebook.xml");
+                        		citanjeXMLaObjekt=new CitanjeXMLa(fajlic);
+                                sveska.setText(citanjeXMLaObjekt.getIme());
+                                if(citanjeXMLaObjekt.getBoja().equals("White"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_white);
+                                if(citanjeXMLaObjekt.getBoja().equals("Grey"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_grey);
+                                if(citanjeXMLaObjekt.getBoja().equals("Blue"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_blue);
+                                if(citanjeXMLaObjekt.getBoja().equals("Dark Blue"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_blue);
+                                if(citanjeXMLaObjekt.getBoja().equals("Purple"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_purple);
+                                if(citanjeXMLaObjekt.getBoja().equals("Dark Purple"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_purple);
+                                if(citanjeXMLaObjekt.getBoja().equals("Green"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_green);
+                                if(citanjeXMLaObjekt.getBoja().equals("Dark Green"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_green);
+                                if(citanjeXMLaObjekt.getBoja().equals("Orange"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_orange);
+                                if(citanjeXMLaObjekt.getBoja().equals("Dark Orange"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_orange);
+                                if(citanjeXMLaObjekt.getBoja().equals("Red"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_red);
+                                if(citanjeXMLaObjekt.getBoja().equals("Dark Red"))
+                                	sveska.setBackgroundResource(R.drawable.notebook_shelf_dark_red);              
+                                
+                                
                                 isNeededToLoad = false;
+                                
                         } else
                                 sveska.setText("" + ukupniSveskaCounter);
 
@@ -145,9 +176,6 @@ public class Shelf extends Activity implements OnClickListener,
                 for (File infile : brojSveskica) {
                         if (infile.isDirectory()) {
                                 foldernoIme = infile.getName();
-                                if (foldernoIme.length() > 8)
-                                        foldernoIme = foldernoIme.substring(0, 5) + "...";
-
                                 isNeededToLoad = true;
                                 dodajSvesku();
                         }
