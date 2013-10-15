@@ -42,6 +42,7 @@ public class Shelf extends Activity implements OnClickListener,
         private int identifikacija;
         private Boolean isNeededToLoad = false;
         public CitanjeXMLa citanjeXMLaObjekt;
+        public String stilOdSveske;
 
         public void dodajPolicu() {
                 polica = new LinearLayout(this);
@@ -269,6 +270,13 @@ public class Shelf extends Activity implements OnClickListener,
         @Override
         public void onClick(View arg0) {
                 // TODO Auto-generated method stub
+        		Button sveskica = (Button)arg0;
+        		File fajlic = new File(Environment.getExternalStorageDirectory()
+                        + "/HIVE/Notebooks/"+sveskica.getText().toString()+"/notebook.xml");
+                citanjeXMLaObjekt=new CitanjeXMLa(fajlic);
+                stilOdSveske= citanjeXMLaObjekt.getStil();
+                Glavna.stil=stilOdSveske;
+                Glavna.imeSveske=citanjeXMLaObjekt.getIme();
                 Intent gotoNotebookInt = new Intent(this, Glavna.class);
                 startActivity(gotoNotebookInt);
 

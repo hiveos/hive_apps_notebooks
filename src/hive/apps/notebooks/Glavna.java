@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class Glavna extends Activity implements OnClickListener {
@@ -21,15 +23,31 @@ public class Glavna extends Activity implements OnClickListener {
 	CrtanjeView cv;
 	RelativeLayout ll;
 	QuickAction qa;
+	ImageView guideLines;
 	Button enterButton, spaceButton, undoButton;
+	public static String stil;
+	public static String imeSveske;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// fullscreen();
 		setContentView(R.layout.glavna);
+		guideLines=(ImageView)findViewById(R.id.guide);
+		
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
+		if(stil.equals("Grid")){
+			ll.setBackgroundResource(R.drawable.texture_grid);
+			guideLines.setVisibility(View.GONE);
+		}
+		if(stil.equals("Lines")){
+			ll.setBackgroundResource(R.drawable.texture);
+			guideLines.setVisibility(View.VISIBLE);
+		}
+		if(stil.equals("Plain")){
+			ll.setBackgroundColor(Color.parseColor("#FFFFFF"));
+			guideLines.setVisibility(View.VISIBLE);
+		}
 		cv = (CrtanjeView) findViewById(R.id.view1);
 		enterButton=(Button)findViewById(R.id.bEnter);
 		spaceButton=(Button)findViewById(R.id.bSpace);
@@ -48,7 +66,7 @@ public class Glavna extends Activity implements OnClickListener {
 	// ActionBar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		setTitle("Notebook Name");
+		setTitle(imeSveske);
 		getMenuInflater().inflate(R.menu.crtanje, menu);
 		return true;
 	}
