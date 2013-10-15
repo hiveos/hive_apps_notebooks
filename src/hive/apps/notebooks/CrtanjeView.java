@@ -37,7 +37,7 @@ public class CrtanjeView extends View {
 	public static mojaPutanja putanja;
 	private Paint krugBoja;
 	private Path krugPutanja;
-	private Vector<Bitmap> sviZaCrtat;
+	public static Vector<Bitmap> sviZaCrtat;
 	private Vector<Pair<Integer, Integer>> pozicije;
 	public static int LONG_PRESS_TIME = 500;
 	public static ArrayList<mojaPutanja> paths = new ArrayList<mojaPutanja>();

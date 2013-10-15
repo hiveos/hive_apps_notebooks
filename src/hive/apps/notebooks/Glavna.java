@@ -1,10 +1,16 @@
 package hive.apps.notebooks;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Vector;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -106,7 +112,50 @@ public class Glavna extends Activity implements OnClickListener {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		// Opet spremanje na sd
-
+		
+		Vector<byte[]>niz=new Vector();
+		
+		for(int i=0; i<CrtanjeView.sviZaCrtat.size(); i++)
+		{
+			Bitmap bmp = CrtanjeView.sviZaCrtat.get(i);
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+			byte[] byteArray = stream.toByteArray();
+			niz.add(byteArray);
+		}
+		
+		File data = new File(Environment.getExternalStorageDirectory()
+                + "/HIVE/Notebooks/"+imeSveske+"/data.txt");
+		
+		if(!data.exists()){
+			try {
+				data.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory()
+			        + "/HIVE/Notebooks/"+imeSveske+"/data.words"));
+			
+			for(int i=0; i<niz.size(); i++)
+			{
+				bos.write(niz.get(i));
+			}
+			
+			bos.flush();
+			bos.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		/*File notebooksRoot = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/drawings/Notebook1/");
 
