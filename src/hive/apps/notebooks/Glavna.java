@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
@@ -70,18 +71,15 @@ public class Glavna extends Activity implements OnClickListener {
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
-		CrtanjeView.sviZaCrtat= new Vector();
 		try {
 			ucitajRijeci();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
-
 	}
 	
 	public void ucitajRijeci() throws IOException
@@ -174,12 +172,13 @@ public class Glavna extends Activity implements OnClickListener {
 			niz.add(byteArray);
 		}
 		
-		File data = new File(Environment.getExternalStorageDirectory()
-                + "/HIVE/Notebooks/"+imeSveske+"/data.txt");
+
+		File lokacije = new File(Environment.getExternalStorageDirectory()
+                + "/HIVE/Notebooks/"+imeSveske+"/locations.txt");
 		
-		if(!data.exists()){
+		if(!lokacije.exists()){
 			try {
-				data.createNewFile();
+				lokacije.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -187,16 +186,30 @@ public class Glavna extends Activity implements OnClickListener {
 		}
 		
 		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory()
-			        + "/HIVE/Notebooks/"+imeSveske+"/data.txt"));
-			
+
+			FileWriter fw = new FileWriter(lokacije);
 			for(int i=0; i<niz.size(); i++)
 			{
+				fw.append(i+" "+CrtanjeView.pozicije.get(i).first+" "+CrtanjeView.pozicije.get(i).second+"\n");
+				File data = new File(Environment.getExternalStorageDirectory()
+		                + "/HIVE/Notebooks/"+imeSveske+"/img"+i+".png");
+				if(!data.exists()){
+					try {
+						data.createNewFile();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory()
+				        + "/HIVE/Notebooks/"+imeSveske+"/img"+i+".png"));
 				bos.write(niz.get(i));
+				bos.flush();
+				bos.close();
 			}
+			fw.flush();
+			fw.close();
 			
-			bos.flush();
-			bos.close();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
