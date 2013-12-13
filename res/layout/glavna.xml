@@ -29,7 +29,7 @@
         android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/texture_wood" >
+        android:background="@color/dark_green" >
 
         <Button
             android:id="@+id/bUndo"
