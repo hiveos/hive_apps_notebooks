@@ -41,6 +41,7 @@ Thumbs.db
 #########
 bin/
 gen/
+out/
 .settings/
 
 #Project Files#
