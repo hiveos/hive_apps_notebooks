@@ -9,12 +9,12 @@
     <string name="actionbar_item_addnotebook">Add Notebook</string>
     <string name="actionbar_item_savenotebook">Save</string>
     <string name="title_add_notebook">Add new notebook</string>
-    <string name="hint_notebook_name_english">English</string>
+    <string name="hint_notebook_name_english">Japanese</string>
     <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
-	<string name="info_notebook_name">NAME: </string>
+    <string name="info_notebook_name">NAME: </string>
     <string name="info_notebook_color">COLOR: </string>
     <string name="info_notebook_style">STYLE: </string>
-    
+
     <string-array name="notebook_styles">
         <item>Lines</item>
         <item>Grid</item>
@@ -34,25 +34,5 @@
         <item>Red</item>
         <item>Dark Red</item>
     </string-array>
-
-    <!-- Prefs Dash -->
-    <string name="pref_config">Color Picker</string>
-    <string name="title_activity_settings">Setting</string>
-
-    <!-- Menu -->
-    <string name="colorpicker_menu_about">About</string>
-
-    <!-- Menu MainActivity -->
-    <string name="ns_menu_main_header_dash">Dashclock</string>
-    <string name="ns_menu_main_row_dash_original">Original ColorPreference</string>
-    <string name="ns_menu_main_row_dash_dialog">Custom ColorPickerDialog</string>
-    <string name="ns_menu_main_header_calendar">Stock Calendar</string>
-    <string name="ns_menu_main_row_calendar_original">Original ColorPicker</string>
-    <string name="ns_menu_main_row_calendar_preference">Custom ColorPreference</string>
-
-    <!-- About -->
-    <string name="title_about">About</string>
-    <string name="about_ok">OK</string>
-    <string name="about_body"></string>
 
 </resources>
