@@ -50,7 +50,7 @@ public class Shelf extends Activity implements OnClickListener,
               //  polica.setBackgroundResource(R.drawable.shelf);
                 police.add(polica);
                 policaCounter++;
-                params = new LayoutParams(LayoutParams.MATCH_PARENT, 250);
+                params = new LayoutParams(LayoutParams.MATCH_PARENT, 270);
                 polica.setLayoutParams(params);
                 params.topMargin = 55;
                 params.leftMargin = 50;
