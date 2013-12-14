@@ -8,6 +8,7 @@
     <string name="actionbar_item_insert">Insert</string>
     <string name="actionbar_item_addnotebook">Add Notebook</string>
     <string name="actionbar_item_savenotebook">Save</string>
+    <string name="actionbar_item_settings">Settings</string>
     <string name="title_add_notebook">Add new notebook</string>
     <string name="hint_notebook_name_english">Japanese</string>
     <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
@@ -34,5 +35,22 @@
         <item>Red</item>
         <item>Dark Red</item>
     </string-array>
+
+    <string name="pref_title_ui">USER INTERFACE</string>
+    <string name="pref_shelf_style_title">Shelf Style</string>
+
+    <string-array name="pref_shelf_style_entries">
+        <item>No Shelves</item>
+        <item>Simple Shelves</item>
+        <item>Wooden Shelves</item>
+    </string-array>
+    <string-array name="pref_shelf_style_values">
+        <item>no</item>
+        <item>simple</item>
+        <item>wooden</item>
+    </string-array>
+
+    <string name="pref_shelf_style_default">no</string>
+    <string name="pref_shelf_style_desc">Determines the way the shelves will look</string>
 
 </resources>

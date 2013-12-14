@@ -1,0 +1,19 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <PreferenceCategory
+        android:key="settings_update"
+        android:title="@string/pref_title_ui" >
+
+        <ListPreference
+            android:dialogTitle="@string/pref_shelf_style_title"
+            android:entries="@array/pref_shelf_style_entries"
+            android:entryValues="@array/pref_shelf_style_values"
+            android:key="shelfstyle"
+            android:summary="@string/pref_shelf_style_desc"
+            android:title="@string/pref_shelf_style_title"
+            android:defaultValue="@string/pref_shelf_style_default" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
