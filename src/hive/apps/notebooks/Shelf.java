@@ -54,10 +54,8 @@ public class Shelf extends Activity implements OnClickListener,
 	public void dodajPolicu() {
 		polica = new LinearLayout(this);
 		polica.setOrientation(LinearLayout.HORIZONTAL);
-		if(getShelfStyle().equals("simple")){/*polica.setBackgroundResource(R.drawable.flat...);*/}
-		if(getShelfStyle().equals("wooden")){/*polica.setBackgroundResource(R.drawable.flat...);*/}
-
-		//polica.setBackgroundResource(R.drawable.shelf);
+		if(getShelfStyle().equals("simple")){polica.setBackgroundResource(R.drawable.shelf_simple);}
+		if(getShelfStyle().equals("wooden")){polica.setBackgroundResource(R.drawable.shelf_wooden);}
 		police.add(polica);
 		policaCounter++;
 		params = new LayoutParams(LayoutParams.MATCH_PARENT, 270);
