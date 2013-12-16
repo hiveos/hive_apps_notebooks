@@ -10,13 +10,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
@@ -65,13 +69,13 @@ public class Shelf extends Activity implements OnClickListener,
 		if (getShelfStyle().equals("no")) {
 			params.topMargin = 55;
 			params.leftMargin = 50;
-			params.rightMargin = 50;			
+			params.rightMargin = 50;
 		}
 		if (getShelfStyle().equals("simple")) {
 			params.topMargin = 55;
 			params.leftMargin = 50;
 			params.rightMargin = 50;
-			polica.setBackgroundResource(R.drawable.shelf_simple);			
+			polica.setBackgroundResource(R.drawable.shelf_simple);
 		}
 		if (getShelfStyle().equals("wooden")) {
 			params.topMargin = 0;
@@ -81,7 +85,7 @@ public class Shelf extends Activity implements OnClickListener,
 			polica.setBackgroundResource(R.drawable.shelf_wooden);
 			emptyspace.setBackgroundResource(R.drawable.shelf_wooden_empty);
 		}
-		
+
 		ShelfHolder.addView(polica);
 	}
 
@@ -263,6 +267,48 @@ public class Shelf extends Activity implements OnClickListener,
 
 	}
 
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.editnotebook, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+
+		case R.id.action_deletenotebook:
+			try {
+				obrisiSvesku();
+				Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+			} catch (Exception e) {
+				Toast.makeText(this, R.string.error_deleting_notebook,
+						Toast.LENGTH_SHORT).show();
+			}
+			return true;
+
+		case R.id.action_editnotebooks:
+			showToast("Edit functionality is yet to be implemented. Stay tuned :P");
+			return true;
+
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	public void showToast(String message) {
+
+		Toast toast = Toast.makeText(getApplicationContext(), message,
+				Toast.LENGTH_SHORT);
+
+		toast.show();
+
+	}
+
 	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
@@ -294,17 +340,12 @@ public class Shelf extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onLongClick(View arg0) {
-		// TODO Auto-generated method stub
+
 		identifikacija = arg0.getId();
-		try {
-			obrisiSvesku();
-			Intent intent = getIntent();
-			finish();
-			startActivity(intent);
-		} catch (Exception e) {
-			Toast.makeText(this, "Error: Notebook cannot be deleted",
-					Toast.LENGTH_SHORT);
-		}
+
+		registerForContextMenu(arg0);
+		openContextMenu(arg0);
+
 		return false;
 	}
 
