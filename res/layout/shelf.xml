@@ -28,6 +28,22 @@
                 android:orientation="vertical" >
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/space"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:minHeight="100dp" >
+
+                <ImageView
+                    android:id="@+id/Logo"
+	                android:layout_width="fill_parent"
+	                android:layout_height="150dp"
+	                android:scaleType="center"
+                    android:src="@drawable/hive_logo_trans_20" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -29,6 +29,7 @@ public class Shelf extends Activity implements OnClickListener,
 	private LayoutParams sveskaParams;
 	private LinearLayout polica;
 	private Button sveska;
+	private LinearLayout emptyspace;
 	private int policaCounter;
 	private int policaNaKojojSeNalazimo;
 	private int sveskaCounter;
@@ -51,22 +52,36 @@ public class Shelf extends Activity implements OnClickListener,
 	private String defValue = "";
 
 	public void dodajPolicu() {
+		emptyspace = (LinearLayout) findViewById(R.id.space);
 		polica = new LinearLayout(this);
 		polica.setOrientation(LinearLayout.HORIZONTAL);
-		if (getShelfStyle().equals("simple")) {
-			polica.setBackgroundResource(R.drawable.shelf_simple);
-		}
-		if (getShelfStyle().equals("wooden")) {
-			polica.setBackgroundResource(R.drawable.shelf_wooden);
-		}
 		police.add(polica);
 		policaCounter++;
-		params = new LayoutParams(LayoutParams.MATCH_PARENT, 270);
+		params = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT);
 		polica.setLayoutParams(params);
-		params.topMargin = 55;
-		params.leftMargin = 50;
-		params.rightMargin = 50;
 		polica.setGravity(Gravity.CENTER_HORIZONTAL);
+
+		if (getShelfStyle().equals("no")) {
+			params.topMargin = 55;
+			params.leftMargin = 50;
+			params.rightMargin = 50;			
+		}
+		if (getShelfStyle().equals("simple")) {
+			params.topMargin = 55;
+			params.leftMargin = 50;
+			params.rightMargin = 50;
+			polica.setBackgroundResource(R.drawable.shelf_simple);			
+		}
+		if (getShelfStyle().equals("wooden")) {
+			params.topMargin = 0;
+			params.leftMargin = 0;
+			params.rightMargin = 0;
+			polica.setPadding(50, 20, 50, 0);
+			polica.setBackgroundResource(R.drawable.shelf_wooden);
+			emptyspace.setBackgroundResource(R.drawable.shelf_wooden_empty);
+		}
+		
 		ShelfHolder.addView(polica);
 	}
 
@@ -124,11 +139,15 @@ public class Shelf extends Activity implements OnClickListener,
 			sveske.add(sveska);
 			sveskaCounter++;
 			ukupniSveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, 250);
+			if (getShelfStyle().equals("simple")) {
+			}
+			if (getShelfStyle().equals("wooden")) {
+
+			}
 			sveskaParams.leftMargin = 25;
-			sveskaParams.bottomMargin = 5;
-			sveskaParams.topMargin = 19;
+			sveskaParams.bottomMargin = 0;
+			sveskaParams.topMargin = 0;
 			police.get(policaNaKojojSeNalazimo).addView(
 					sveske.get(ukupniSveskaCounter - 1), sveskaParams);
 		} else if (sveskaCounter >= 4) {
