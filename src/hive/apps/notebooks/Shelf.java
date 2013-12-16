@@ -335,29 +335,29 @@ public class Shelf extends Activity implements OnClickListener,
 			if (color.equals("Dark Red") || AddNotebook.selectedcolor == 12)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_red);
 		} else {
-			if (color.equals("White"))
+			if (color.equals("White") || AddNotebook.selectedcolor == 1)
 				sveska.setBackgroundResource(R.drawable.shelf_white_no_shadow);
-			if (color.equals("Grey"))
+			if (color.equals("Grey") || AddNotebook.selectedcolor == 2)
 				sveska.setBackgroundResource(R.drawable.shelf_gray_no_shadow);
-			if (color.equals("Blue"))
+			if (color.equals("Blue") || AddNotebook.selectedcolor == 3)
 				sveska.setBackgroundResource(R.drawable.shelf_blue_no_shadow);
-			if (color.equals("Dark Blue"))
+			if (color.equals("Dark Blue") || AddNotebook.selectedcolor == 4)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_blue_no_shadow);
-			if (color.equals("Purple"))
+			if (color.equals("Purple") || AddNotebook.selectedcolor == 5)
 				sveska.setBackgroundResource(R.drawable.shelf_purple_no_shadow);
-			if (color.equals("Dark Purple"))
+			if (color.equals("Dark Purple") || AddNotebook.selectedcolor == 6)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_purple_no_shadow);
-			if (color.equals("Green"))
+			if (color.equals("Green") || AddNotebook.selectedcolor == 7)
 				sveska.setBackgroundResource(R.drawable.shelf_green_no_shadow);
-			if (color.equals("Dark Green"))
+			if (color.equals("Dark Green") || AddNotebook.selectedcolor == 8)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_green_no_shadow);
-			if (color.equals("Orange"))
+			if (color.equals("Orange") || AddNotebook.selectedcolor == 9)
 				sveska.setBackgroundResource(R.drawable.shelf_orange_no_shadow);
-			if (color.equals("Dark Orange"))
+			if (color.equals("Dark Orange") || AddNotebook.selectedcolor == 10)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_orange_no_shadow);
-			if (color.equals("Red"))
+			if (color.equals("Red") || AddNotebook.selectedcolor == 11)
 				sveska.setBackgroundResource(R.drawable.shelf_red_no_shadow);
-			if (color.equals("Dark Red"))
+			if (color.equals("Dark Red") || AddNotebook.selectedcolor == 12)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_red_no_shadow);
 		}
 	}
