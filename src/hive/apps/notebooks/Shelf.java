@@ -99,7 +99,7 @@ public class Shelf extends Activity implements OnClickListener,
 			sveska.setPadding(30, 0, 0, 10);
 			sveska.setGravity(Gravity.BOTTOM);
 
-			setNotebookCover("nocolor");
+			setNotebookCover("nocolor", AddNotebook.selectedcolor);
 
 			if (isNeededToLoad) {
 				File fajlic = new File(
@@ -109,29 +109,29 @@ public class Shelf extends Activity implements OnClickListener,
 				citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
 				sveska.setText(citanjeXMLaObjekt.getIme());
 				if (citanjeXMLaObjekt.getBoja().equals("White"))
-					setNotebookCover("White");
+					setNotebookCover("White", 1);
 				if (citanjeXMLaObjekt.getBoja().equals("Grey"))
-					setNotebookCover("Grey");
+					setNotebookCover("Grey", 2);
 				if (citanjeXMLaObjekt.getBoja().equals("Blue"))
-					setNotebookCover("Blue");
+					setNotebookCover("Blue", 3);
 				if (citanjeXMLaObjekt.getBoja().equals("Dark Blue"))
-					setNotebookCover("Dark Blue");
+					setNotebookCover("Dark Blue", 4);
 				if (citanjeXMLaObjekt.getBoja().equals("Purple"))
-					setNotebookCover("Purple");
+					setNotebookCover("Purple", 5);
 				if (citanjeXMLaObjekt.getBoja().equals("Dark Purple"))
-					setNotebookCover("Dark Purple");
+					setNotebookCover("Dark Purple", 6);
 				if (citanjeXMLaObjekt.getBoja().equals("Green"))
-					setNotebookCover("Green");
+					setNotebookCover("Green", 7);
 				if (citanjeXMLaObjekt.getBoja().equals("Dark Green"))
-					setNotebookCover("Dark Green");
+					setNotebookCover("Dark Green", 8);
 				if (citanjeXMLaObjekt.getBoja().equals("Orange"))
-					setNotebookCover("Orange");
+					setNotebookCover("Orange", 9);
 				if (citanjeXMLaObjekt.getBoja().equals("Dark Orange"))
-					setNotebookCover("Dark Orange");
+					setNotebookCover("Dark Orange", 10);
 				if (citanjeXMLaObjekt.getBoja().equals("Red"))
-					setNotebookCover("Red");
+					setNotebookCover("Red", 11);
 				if (citanjeXMLaObjekt.getBoja().equals("Dark Red"))
-					setNotebookCover("Dark Red");
+					setNotebookCover("Dark Red", 12);
 
 				isNeededToLoad = false;
 
@@ -366,57 +366,57 @@ public class Shelf extends Activity implements OnClickListener,
 		return settings.getString(SHELF_STYLE, "");
 	}
 
-	public void setNotebookCover(String color) {
+	public void setNotebookCover(String color, long colorint) {
 
 		if (getShelfStyle().equals("no")) {
-			if (color.equals("White") || AddNotebook.selectedcolor == 1)
+			if (color.equals("White") || colorint == 1)
 				sveska.setBackgroundResource(R.drawable.shelf_white);
-			if (color.equals("Grey") || AddNotebook.selectedcolor == 2)
+			if (color.equals("Grey") || colorint == 2)
 				sveska.setBackgroundResource(R.drawable.shelf_gray);
-			if (color.equals("Blue") || AddNotebook.selectedcolor == 13)
+			if (color.equals("Blue") || colorint == 13)
 				sveska.setBackgroundResource(R.drawable.shelf_blue);
-			if (color.equals("Dark Blue") || AddNotebook.selectedcolor == 4)
+			if (color.equals("Dark Blue") || colorint == 4)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_blue);
-			if (color.equals("Purple") || AddNotebook.selectedcolor == 5)
+			if (color.equals("Purple") || colorint == 5)
 				sveska.setBackgroundResource(R.drawable.shelf_purple);
-			if (color.equals("Dark Purple") || AddNotebook.selectedcolor == 6)
+			if (color.equals("Dark Purple") || colorint == 6)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_purple);
-			if (color.equals("Green") || AddNotebook.selectedcolor == 7)
+			if (color.equals("Green") || colorint == 7)
 				sveska.setBackgroundResource(R.drawable.shelf_green);
-			if (color.equals("Dark Green") || AddNotebook.selectedcolor == 8)
+			if (color.equals("Dark Green") || colorint == 8)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_green);
-			if (color.equals("Orange") || AddNotebook.selectedcolor == 9)
+			if (color.equals("Orange") || colorint == 9)
 				sveska.setBackgroundResource(R.drawable.shelf_orange);
-			if (color.equals("Dark Orange") || AddNotebook.selectedcolor == 10)
+			if (color.equals("Dark Orange") || colorint == 10)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_orange);
-			if (color.equals("Red") || AddNotebook.selectedcolor == 11)
+			if (color.equals("Red") || colorint == 11)
 				sveska.setBackgroundResource(R.drawable.shelf_red);
-			if (color.equals("Dark Red") || AddNotebook.selectedcolor == 12)
+			if (color.equals("Dark Red") || colorint == 12)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_red);
 		} else {
-			if (color.equals("White") || AddNotebook.selectedcolor == 1)
+			if (color.equals("White") || colorint == 1)
 				sveska.setBackgroundResource(R.drawable.shelf_white_no_shadow);
-			if (color.equals("Grey") || AddNotebook.selectedcolor == 2)
+			if (color.equals("Grey") || colorint == 2)
 				sveska.setBackgroundResource(R.drawable.shelf_gray_no_shadow);
-			if (color.equals("Blue") || AddNotebook.selectedcolor == 3)
+			if (color.equals("Blue") || colorint == 3)
 				sveska.setBackgroundResource(R.drawable.shelf_blue_no_shadow);
-			if (color.equals("Dark Blue") || AddNotebook.selectedcolor == 4)
+			if (color.equals("Dark Blue") || colorint == 4)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_blue_no_shadow);
-			if (color.equals("Purple") || AddNotebook.selectedcolor == 5)
+			if (color.equals("Purple") || colorint == 5)
 				sveska.setBackgroundResource(R.drawable.shelf_purple_no_shadow);
-			if (color.equals("Dark Purple") || AddNotebook.selectedcolor == 6)
+			if (color.equals("Dark Purple") || colorint == 6)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_purple_no_shadow);
-			if (color.equals("Green") || AddNotebook.selectedcolor == 7)
+			if (color.equals("Green") || colorint == 7)
 				sveska.setBackgroundResource(R.drawable.shelf_green_no_shadow);
-			if (color.equals("Dark Green") || AddNotebook.selectedcolor == 8)
+			if (color.equals("Dark Green") || colorint == 8)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_green_no_shadow);
-			if (color.equals("Orange") || AddNotebook.selectedcolor == 9)
+			if (color.equals("Orange") || colorint == 9)
 				sveska.setBackgroundResource(R.drawable.shelf_orange_no_shadow);
-			if (color.equals("Dark Orange") || AddNotebook.selectedcolor == 10)
+			if (color.equals("Dark Orange") || colorint == 10)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_orange_no_shadow);
-			if (color.equals("Red") || AddNotebook.selectedcolor == 11)
+			if (color.equals("Red") || colorint == 11)
 				sveska.setBackgroundResource(R.drawable.shelf_red_no_shadow);
-			if (color.equals("Dark Red") || AddNotebook.selectedcolor == 12)
+			if (color.equals("Dark Red") || colorint == 12)
 				sveska.setBackgroundResource(R.drawable.shelf_dark_red_no_shadow);
 		}
 	}
