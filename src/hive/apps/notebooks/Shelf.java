@@ -96,7 +96,7 @@ public class Shelf extends Activity implements OnClickListener,
 			sveska.setOnClickListener(this);
 			sveska.setOnLongClickListener(this);
 			sveska.setTextColor(getResources().getColor(R.color.dark_gray));
-			sveska.setPadding(40, 0, 0, 20);
+			sveska.setPadding(30, 0, 0, 10);
 			sveska.setGravity(Gravity.BOTTOM);
 
 			setNotebookCover("nocolor");
