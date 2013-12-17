@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
@@ -143,7 +142,7 @@ public class Shelf extends Activity implements OnClickListener,
 			sveske.add(sveska);
 			sveskaCounter++;
 			ukupniSveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, 250);
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if (getShelfStyle().equals("simple")) {
 			}
 			if (getShelfStyle().equals("wooden")) {
