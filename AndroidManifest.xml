@@ -32,7 +32,7 @@
         </activity>
         <activity
             android:name="hive.apps.notebooks.Glavna"
-            android:label="@string/temp_notebook_name"
+            android:label="@string/title_notebooks"
             android:parentActivityName="hive.apps.notebooks.Shelf" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name="hive.apps.notebooks.AddNotebook"
-            android:label="@string/title_add_notebook"
+            android:label="@string/cancel"
             android:parentActivityName="hive.apps.notebooks.Shelf"
             android:screenOrientation="portrait" >
             <meta-data
@@ -49,7 +49,7 @@
         </activity>
         <activity
             android:name="hive.apps.notebooks.SettingsActivity"
-            android:label="@string/temp_notebook_name"
+            android:label="@string/title_activity_settings"
             android:parentActivityName="hive.apps.notebooks.Shelf" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

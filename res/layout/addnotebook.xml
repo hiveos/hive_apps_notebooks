@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/info_notebook_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+               android:textAppearance="@style/AddNotebookTextViewStyle" />
 
             <EditText
                 android:id="@+id/notebookNameId"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/info_notebook_style"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="@style/AddNotebookTextViewStyle" />
 
             <Spinner
                 android:id="@+id/notebookbgtype"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/info_notebook_color"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="@style/AddNotebookTextViewStyle" />
 
             <Spinner
                 android:id="@+id/notebookcovercolor"

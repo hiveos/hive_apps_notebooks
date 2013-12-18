@@ -3,9 +3,11 @@
 
     <item
         android:id="@+id/action_editnotebooks"
-        android:title="@string/contexualmenu_item_edit"/>
+        android:title="@string/contextualmenu_item_edit"
+        android:icon="@drawable/ic_content_edit" />
     <item
         android:id="@+id/action_deletenotebook"
-        android:title="@string/contexualmenu_item_delete"/>
+        android:title="@string/contextualmenu_item_delete"
+        android:icon="@drawable/ic_content_discard" />
     
 </menu>

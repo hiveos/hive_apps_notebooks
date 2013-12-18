@@ -26,10 +26,10 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/dark_green" >
+        android:background="@drawable/ab_bottom_solid_notebooks" >
 
         <Button
             android:id="@+id/bUndo"
@@ -37,7 +37,7 @@
             android:layout_height="46dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/ic_undo" />
+            android:background="@drawable/ic_content_undo" />
 
         <Button
             android:id="@+id/bSpace"
@@ -56,5 +56,4 @@
             android:background="@drawable/ic_enter" />
 
     </RelativeLayout>
-
 </RelativeLayout>

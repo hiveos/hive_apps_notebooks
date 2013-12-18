@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
@@ -53,6 +55,10 @@ public class Shelf extends Activity implements OnClickListener,
 	public static final String SHELF_STYLE = "shelfstyle";
 
 	private String defValue = "";
+
+	protected Object mActionMode;
+
+	View selectednotebook;
 
 	public void dodajPolicu() {
 		emptyspace = (LinearLayout) findViewById(R.id.space);
@@ -142,7 +148,8 @@ public class Shelf extends Activity implements OnClickListener,
 			sveske.add(sveska);
 			sveskaCounter++;
 			ukupniSveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			if (getShelfStyle().equals("simple")) {
 			}
 			if (getShelfStyle().equals("wooden")) {
@@ -234,7 +241,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setTitle("NOTEBOOKS");
+		actionBar.setTitle(R.string.title_notebooks);
 
 		// checkSharedPrefs();
 
@@ -279,19 +286,10 @@ public class Shelf extends Activity implements OnClickListener,
 		switch (item.getItemId()) {
 
 		case R.id.action_deletenotebook:
-			try {
-				obrisiSvesku();
-				Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-			} catch (Exception e) {
-				Toast.makeText(this, R.string.error_deleting_notebook,
-						Toast.LENGTH_SHORT).show();
-			}
+
 			return true;
 
 		case R.id.action_editnotebooks:
-			showToast("Edit functionality is yet to be implemented. Stay tuned :P");
 			return true;
 
 		default:
@@ -341,12 +339,61 @@ public class Shelf extends Activity implements OnClickListener,
 	public boolean onLongClick(View arg0) {
 
 		identifikacija = arg0.getId();
+		selectednotebook = arg0;
+		mActionMode = this.startActionMode(mActionModeCallback);
+		//arg0.setSelected(true);
 
-		registerForContextMenu(arg0);
-		openContextMenu(arg0);
-
-		return false;
+		return true;
 	}
+
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.editnotebook, menu);
+			selectednotebook.setSelected(true);
+			return true;
+		}
+
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
+			return false;
+		}
+
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			switch (item.getItemId()) {
+			case R.id.action_editnotebooks: {
+				showToast("Edit functionality is yet to be implemented. Stay tuned :P");
+
+				mode.finish();
+			}
+				return true;
+
+			case R.id.action_deletenotebook: {
+				try {
+					obrisiSvesku();
+					Intent intent = getIntent();
+					finish();
+					startActivity(intent);
+					mode.finish();
+				} catch (Exception e) {
+					Toast.makeText(Shelf.this,
+							R.string.error_deleting_notebook,
+							Toast.LENGTH_SHORT).show();
+					mode.finish();
+
+				}
+			}
+			default:
+				return false;
+			}
+		}
+
+		public void onDestroyActionMode(ActionMode mode) {
+			selectednotebook.setSelected(false);
+			mActionMode = null;
+		}
+	};
 
 	public void checkSharedPrefs() {
 		if (getShelfStyle().equals("no")) {
@@ -370,54 +417,54 @@ public class Shelf extends Activity implements OnClickListener,
 
 		if (getShelfStyle().equals("no")) {
 			if (color.equals("White") || colorint == 1)
-				sveska.setBackgroundResource(R.drawable.shelf_white);
+				sveska.setBackgroundResource(R.drawable.notebook_white);
 			if (color.equals("Grey") || colorint == 2)
-				sveska.setBackgroundResource(R.drawable.shelf_gray);
+				sveska.setBackgroundResource(R.drawable.notebook_gray);
 			if (color.equals("Blue") || colorint == 13)
-				sveska.setBackgroundResource(R.drawable.shelf_blue);
+				sveska.setBackgroundResource(R.drawable.notebook_blue);
 			if (color.equals("Dark Blue") || colorint == 4)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_blue);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_blue);
 			if (color.equals("Purple") || colorint == 5)
-				sveska.setBackgroundResource(R.drawable.shelf_purple);
+				sveska.setBackgroundResource(R.drawable.notebook_purple);
 			if (color.equals("Dark Purple") || colorint == 6)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_purple);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_purple);
 			if (color.equals("Green") || colorint == 7)
-				sveska.setBackgroundResource(R.drawable.shelf_green);
+				sveska.setBackgroundResource(R.drawable.notebook_green);
 			if (color.equals("Dark Green") || colorint == 8)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_green);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_green);
 			if (color.equals("Orange") || colorint == 9)
-				sveska.setBackgroundResource(R.drawable.shelf_orange);
+				sveska.setBackgroundResource(R.drawable.notebook_orange);
 			if (color.equals("Dark Orange") || colorint == 10)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_orange);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_orange);
 			if (color.equals("Red") || colorint == 11)
-				sveska.setBackgroundResource(R.drawable.shelf_red);
+				sveska.setBackgroundResource(R.drawable.notebook_red);
 			if (color.equals("Dark Red") || colorint == 12)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_red);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_red);
 		} else {
 			if (color.equals("White") || colorint == 1)
-				sveska.setBackgroundResource(R.drawable.shelf_white_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_white_no_shadow);
 			if (color.equals("Grey") || colorint == 2)
-				sveska.setBackgroundResource(R.drawable.shelf_gray_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_gray_no_shadow);
 			if (color.equals("Blue") || colorint == 3)
-				sveska.setBackgroundResource(R.drawable.shelf_blue_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_blue_no_shadow);
 			if (color.equals("Dark Blue") || colorint == 4)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_blue_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_blue_no_shadow);
 			if (color.equals("Purple") || colorint == 5)
-				sveska.setBackgroundResource(R.drawable.shelf_purple_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_purple_no_shadow);
 			if (color.equals("Dark Purple") || colorint == 6)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_purple_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_purple_no_shadow);
 			if (color.equals("Green") || colorint == 7)
-				sveska.setBackgroundResource(R.drawable.shelf_green_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_green_no_shadow);
 			if (color.equals("Dark Green") || colorint == 8)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_green_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_green_no_shadow);
 			if (color.equals("Orange") || colorint == 9)
-				sveska.setBackgroundResource(R.drawable.shelf_orange_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_orange_no_shadow);
 			if (color.equals("Dark Orange") || colorint == 10)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_orange_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_orange_no_shadow);
 			if (color.equals("Red") || colorint == 11)
-				sveska.setBackgroundResource(R.drawable.shelf_red_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_red_no_shadow);
 			if (color.equals("Dark Red") || colorint == 12)
-				sveska.setBackgroundResource(R.drawable.shelf_dark_red_no_shadow);
+				sveska.setBackgroundResource(R.drawable.notebook_dark_red_no_shadow);
 		}
 	}
 

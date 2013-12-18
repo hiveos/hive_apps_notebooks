@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -29,7 +30,8 @@ public class AddNotebook extends Activity {
 	TextView notebookNameDisplay;
 	public static String actualNotebookName;
 	public static long selectedcolor;
-	
+
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +44,10 @@ public class AddNotebook extends Activity {
 		final Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
+		actionBar.setLogo(R.drawable.ic_navigation_cancel);
+		//actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setHomeAsUpIndicator(R.drawable.action_arrow);
+		
 		ArrayAdapter<CharSequence> typeadapter = ArrayAdapter
 				.createFromResource(this, R.array.notebook_styles,
 						android.R.layout.simple_spinner_item);
@@ -143,8 +148,6 @@ public class AddNotebook extends Activity {
 				});
 
 	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
