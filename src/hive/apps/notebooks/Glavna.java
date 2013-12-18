@@ -17,17 +17,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class Glavna extends Activity implements OnClickListener {
 
@@ -61,9 +57,9 @@ public class Glavna extends Activity implements OnClickListener {
 			guideLines.setVisibility(View.GONE);
 		}
 		cv = (CrtanjeView) findViewById(R.id.view1);
-		 enterButton=(Button)findViewById(R.id.bEnter);
-		 spaceButton=(Button)findViewById(R.id.bSpace);
-		 undoButton=(Button)findViewById(R.id.bUndo);
+		enterButton = (Button) findViewById(R.id.bEnter);
+		spaceButton = (Button) findViewById(R.id.bSpace);
+		undoButton = (Button) findViewById(R.id.bUndo);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
@@ -77,7 +73,6 @@ public class Glavna extends Activity implements OnClickListener {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		
 	}
 
 	public void ucitajRijeci() throws IOException {
@@ -221,19 +216,18 @@ public class Glavna extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		 switch(v.getId())
-		 {
-		 case R.id.bEnter:
-		 cv.Enter();
-		 break;
-		 case R.id.bSpace:
-		 cv.Space();
-		 break;
-		 case R.id.bUndo:
-		 cv.Undo();
-		 break;
-		
-		 }
+		switch (v.getId()) {
+		case R.id.bEnter:
+			cv.Enter();
+			break;
+		case R.id.bSpace:
+			cv.Space();
+			break;
+		case R.id.bUndo:
+			cv.Undo();
+			break;
+
+		}
 
 	}
 }

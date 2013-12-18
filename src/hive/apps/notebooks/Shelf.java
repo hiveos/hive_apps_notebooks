@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
@@ -243,6 +242,7 @@ public class Shelf extends Activity implements OnClickListener,
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.title_notebooks);
 
+		
 		// checkSharedPrefs();
 
 	}

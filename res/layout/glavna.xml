@@ -7,53 +7,70 @@
     android:gravity="bottom"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="74dp"
+        android:background="@color/dark_green"
+        android:orientation="vertical" >
+    </LinearLayout>
+
     <hive.apps.notebooks.CrtanjeView
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="5" />
+        android:layout_weight="5"
+        android:layout_marginTop="74dp" />
 
     <ImageView
         android:id="@+id/guide"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:layout_above="@+id/RelativeLayout1"
+        android:layout_above="@+id/LinearLayout1"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="70dp"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
 
-    <RelativeLayout
-        android:id="@+id/RelativeLayout1"
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/ab_bottom_solid_notebooks" >
+        android:background="@drawable/ab_bottom_solid_notebooks"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/bUndo"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/ic_content_undo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="true" >
 
-        <Button
-            android:id="@+id/bSpace"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/bUndo"
-            android:background="@drawable/ic_space" />
+            <Button
+                android:id="@+id/bUndo"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_content_undo" />
 
-        <Button
-            android:id="@+id/bEnter"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/bSpace"
-            android:background="@drawable/ic_enter" />
+            <Button
+                android:id="@+id/bSpace"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_space" />
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/bEnter"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_enter" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>

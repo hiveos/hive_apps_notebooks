@@ -5,7 +5,7 @@
     android:versionName="dev" >
 
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,16 +14,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
         android:theme="@style/Theme.Notebooks" >
         <activity
-            android:name="hive.apps.notebooks.Splash"
-            android:label="@string/app_name"
-            android:parentActivityName="hive.apps.notebooks.Splash" >
-        </activity>
-        <activity
             android:name="hive.apps.notebooks.Shelf"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +28,8 @@
         <activity
             android:name="hive.apps.notebooks.Glavna"
             android:label="@string/title_notebooks"
-            android:parentActivityName="hive.apps.notebooks.Shelf" >
+            android:parentActivityName="hive.apps.notebooks.Shelf"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
@@ -50,7 +46,9 @@
         <activity
             android:name="hive.apps.notebooks.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="hive.apps.notebooks.Shelf" >
+            android:screenOrientation="portrait"
+            android:parentActivityName="hive.apps.notebooks.Shelf"
+            android:theme="@style/Theme.Notebooks.Settings"  >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hive.apps.notebooks.Shelf" />

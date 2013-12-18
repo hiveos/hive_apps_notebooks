@@ -2,18 +2,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
+    <Preference android:layout="@layout/action_bar_filler" />
+
     <PreferenceCategory
+        android:layout_width="fill_parent"
         android:key="settings_update"
         android:title="@string/pref_title_ui" >
-
         <ListPreference
+            android:defaultValue="@string/pref_shelf_style_default"
             android:dialogTitle="@string/pref_shelf_style_title"
             android:entries="@array/pref_shelf_style_entries"
             android:entryValues="@array/pref_shelf_style_values"
             android:key="shelfstyle"
             android:summary="@string/pref_shelf_style_desc"
-            android:title="@string/pref_shelf_style_title"
-            android:defaultValue="@string/pref_shelf_style_default" />
+            android:title="@string/pref_shelf_style_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>
