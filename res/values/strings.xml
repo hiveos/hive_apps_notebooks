@@ -2,24 +2,31 @@
 <resources>
 
     <string name="app_name">Notebooks</string>
-    <string name="temp_notebook_name">Notebooks</string>
+    <string name="title_notebooks">NOTEBOOKS</string>
+    <string name="title_activity_settings">SETTINGS</string>
     <string name="actionbar_item_clear">Clear</string>
     <string name="actionbar_item_brush">Brush</string>
     <string name="actionbar_item_insert">Insert</string>
     <string name="actionbar_item_addnotebook">Add Notebook</string>
     <string name="actionbar_item_savenotebook">Save</string>
+    <string name="actionbar_item_settings">Settings</string>
+    <string name="contextualmenu_item_edit">Edit</string>
+    <string name="contextualmenu_item_delete">Delete</string>
     <string name="title_add_notebook">Add new notebook</string>
-    <string name="hint_notebook_name">Notebook Name</string>
+    <string name="hint_notebook_name_english">Japanese</string>
     <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
+    <string name="error_deleting_notebook">Error deleting notebook.</string>
+    <string name="info_notebook_name">NAME: </string>
+    <string name="info_notebook_color">COLOR: </string>
+    <string name="info_notebook_style">STYLE: </string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="notebook_styles">
-        <item>Page Style</item>
         <item>Lines</item>
         <item>Grid</item>
         <item>Plain</item>
     </string-array>
     <string-array name="notebook_cover_color">
-        <item>Cover Color</item>
         <item>White</item>
         <item>Grey</item>
         <item>Blue</item>
@@ -33,5 +40,22 @@
         <item>Red</item>
         <item>Dark Red</item>
     </string-array>
+
+    <string name="pref_title_ui">USER INTERFACE</string>
+    <string name="pref_shelf_style_title">Shelf Style</string>
+
+    <string-array name="pref_shelf_style_entries">
+        <item>No Shelves</item>
+        <item>Simple Shelves</item>
+        <item>Wooden Shelves</item>
+    </string-array>
+    <string-array name="pref_shelf_style_values">
+        <item>no</item>
+        <item>simple</item>
+        <item>wooden</item>
+    </string-array>
+
+    <string name="pref_shelf_style_default">no</string>
+    <string name="pref_shelf_style_desc">Determines the way the shelves will look</string>
 
 </resources>

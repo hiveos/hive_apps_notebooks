@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+        <Button
+            android:id="@+id/bUndo"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_content_undo" />
+
+        <Button
+            android:id="@+id/bSpace"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/bUndo"
+            android:background="@drawable/ic_space" />
+
+        <Button
+            android:id="@+id/bEnter"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/bSpace"
+            android:background="@drawable/ic_enter" />
+
+</LinearLayout>

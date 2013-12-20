@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="default_color_choice_values" translatable="false">
+        <item>#33b5e5</item>
+        <item>#aa66cc</item>
+        <item>#99cc00</item>
+        <item>#ffbb33</item>
+        <item>#ff4444</item>
+        <item>#0099cc</item>
+        <item>#9933cc</item>
+        <item>#669900</item>
+        <item>#ff8800</item>
+        <item>#cc0000</item>
+        <item>#ffffff</item>
+        <item>#eeeeee</item>
+        <item>#cccccc</item>
+        <item>#888888</item>
+    </string-array>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+	<color name="gray">#7A7A7A</color>
+    <color name="blue">#33B5E5</color>
+    <color name="dark_blue">#0099CC</color>
+    <color name="purple">#AA66CC</color>
+    <color name="dark_purple">#9933CC</color>
+    <color name="green">#99CC00</color>
+    <color name="dark_green">#669900</color>
+	<color name="orange">#FFBB33</color>
+	<color name="dark_orange">#FF8800</color>
+	<color name="red">#FF4444</color>
+	<color name="dark_red">#CC0000</color>
+	
+	<color name="dark_gray">#454545</color>
+</resources>
