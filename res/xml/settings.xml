@@ -6,7 +6,7 @@
 
     <PreferenceCategory
         android:layout_width="fill_parent"
-        android:key="settings_update"
+        android:key="settings_ui"
         android:title="@string/pref_title_ui" >
         <ListPreference
             android:defaultValue="@string/pref_shelf_style_default"
@@ -16,6 +16,28 @@
             android:key="shelfstyle"
             android:summary="@string/pref_shelf_style_desc"
             android:title="@string/pref_shelf_style_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout_width="fill_parent"
+        android:key="settings_app_data"
+        android:title="@string/pref_title_app_data" >
+        <Preference 
+            android:key="delete_notebooks"
+            android:summary="@string/pref_delete_notebooks_desc"
+            android:title="@string/pref_delete_notebooks_title" />
+        <Preference 
+            android:key="backup_notebooks"
+            android:summary="@string/pref_backup_notebooks_desc"
+            android:title="@string/pref_backup_notebooks_title" />
+        <Preference 
+            android:key="restore_notebooks"
+            android:summary="@string/pref_restore_notebooks_desc"
+            android:title="@string/pref_restore_notebooks_title" />
+        <Preference 
+            android:key="delete_backups"
+            android:summary="@string/pref_delete_backups_desc"
+            android:title="@string/pref_delete_backups_title" />
+        
     </PreferenceCategory>
 
 </PreferenceScreen>
