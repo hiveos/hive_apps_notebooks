@@ -55,20 +55,21 @@ public class CrtanjeView extends View {
     public static int marginaLinijeLijevo = 10; // kolko je odvojena svaka linija lijevo od ekrana
     public static int marginaLinijeDesno = 10; // kolko je odvojena svaka linija desno od ekrana
     public static int sirinaRazmaka = 5; // koliko piksela odvojiti svaku rijec od prosle rijeci
-    private int trenutnaLinija = 0; // na kojoj smo trenutno liniji. Ovo je 3 zbog testiranja, treba biti u pocetku 0
-    private int trenutnaSirinaLinije = 50; // dokle piksela smo dosli trenutno u trenutnoj liniji
-    private boolean vecStavljao; // da li je ovo prva rijec koju stavljamo u red. Mislim da nema potrebe za ovim, al eto, za svaki slucaj
+    public static int trenutnaLinija = 0; // na kojoj smo trenutno liniji. Ovo je 3 zbog testiranja, treba biti u pocetku 0
+    public static int trenutnaSirinaLinije = 50; // dokle piksela smo dosli trenutno u trenutnoj liniji
+    private static boolean vecStavljao; // da li je ovo prva rijec koju stavljamo u red. Mislim da nema potrebe za ovim, al eto, za svaki slucaj
 	private Canvas mCanvas;
 	private Canvas drawingCanvas;
 	public static Boolean writing = true;
 	private Color plavaBojaOlovke, crvenaBojaOlovke;
-	int ekranSirina;
-	int ekranVisina;
-	float x1 = 0;
-	float x2 = 0;
-	float y1 = 0;
-	float y2 = 0;
-	int odvoji = 25; //koliko ces odvojit kad kliknes Space
+	static int ekranSirina;
+	static int ekranVisina;
+	static float x1 = 0;
+	static float x2 = 0;
+	static float y1 = 0;
+	static float y2 = 0;
+	static int odvoji = 25; //koliko ces odvojit kad kliknes Space
+	private Glavna g= new Glavna();
 
 	// Varijabla za custom klasu QuickAction
 	QuickAction qa;
@@ -81,6 +82,7 @@ public class CrtanjeView extends View {
 			Log.i("hepek", "Pritisnuto je dugo");
 		}
 	};
+	public static int sirinaLinije;
 	
 	public void otvoriMenu()
 	{
@@ -125,30 +127,34 @@ public class CrtanjeView extends View {
 		if(x1 == ekranSirina && x2 == 0 && y1 == ekranVisina && y2 == 0) return;
 		Rect r = pronadziRec(MyBitmap);
 		Bitmap crop = kopiraj(r);
-		int tmp = trenutnaSirinaLinije;
 		 double scale=(double)crop.getHeight()/(double)(visinaLinije-marginaLinijeGore); // Koliko scale-ovati sirinu za datu visinu. Visina rijeci treba biti visinaLinije - marginaLinijeGore
          //Bitmap bmp=Bitmap.createBitmap(MyBitmap);
          Bitmap bmp = Bitmap.createScaledBitmap(crop, (int)((double)crop.getWidth()/scale), visinaLinije-marginaLinijeGore, true); // Scaleovati na potrebne dimenzije, a sirina se dijeljenjem sa scale dobije tacna sirina za datu visinu (tj, width/height ratio se ne mijenja)
-         int sirinaLinije=this.getWidth()-marginaLinijeLijevo-marginaLinijeDesno; // olaksica da nam kaze kolika je ukupna linija gdje se pise
-         if ( bmp.getWidth()+trenutnaSirinaLinije+sirinaRazmaka > sirinaLinije && vecStavljao) // ako bi stavili ovu rijec u trenutnu liniju, da li bi prekoracili trenutni red
-         {
-                 //predji u novi red ako bi prekoracili
-                 trenutnaLinija++;
-                 trenutnaSirinaLinije=bmp.getWidth()+50;
-                 tmp=50;
-                 vecStavljao=false;
-         } else
-                 {
-                         //ako ne bi, onda postavi rijec nakon zadnje rijeci
-                         trenutnaSirinaLinije+=bmp.getWidth()+sirinaRazmaka;
-                         vecStavljao=true;
-                 }
-         pozicije.add(Pair.create(tmp, trenutnaLinija*visinaLinije+visinaPraznogIznadLinije)); // dodati poziciju za trenutnu rijec
-         sviZaCrtat.add(bmp); // dodati sliku trenutne rijeci
-         //      rectovi.add(pronadziRec(bmp));
-         System.out.println("dodao");
-         Space();
+         dodajScalovano(bmp);
          ocistiFunkcija();
+	}
+	
+	public static void dodajScalovano(Bitmap bmp)
+	{
+		int tmp = trenutnaSirinaLinije;
+        if ( bmp.getWidth()+trenutnaSirinaLinije+sirinaRazmaka > sirinaLinije && vecStavljao) // ako bi stavili ovu rijec u trenutnu liniju, da li bi prekoracili trenutni red
+        {
+                //predji u novi red ako bi prekoracili
+                trenutnaLinija++;
+                trenutnaSirinaLinije=bmp.getWidth()+50;
+                tmp=50;
+                vecStavljao=false;
+        } else
+                {
+                        //ako ne bi, onda postavi rijec nakon zadnje rijeci
+                        trenutnaSirinaLinije+=bmp.getWidth()+sirinaRazmaka;
+                        vecStavljao=true;
+                }
+        pozicije.add(Pair.create(tmp, trenutnaLinija*visinaLinije+visinaPraznogIznadLinije)); // dodati poziciju za trenutnu rijec
+        sviZaCrtat.add(bmp); // dodati sliku trenutne rijeci
+        //      rectovi.add(pronadziRec(bmp));
+        Space();
+        System.out.println("dodao");
 	}
 
 	private Rect pronadziRec(Bitmap image) {
@@ -254,6 +260,9 @@ public class CrtanjeView extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
+		
+
+        sirinaLinije=this.getWidth()-marginaLinijeLijevo-marginaLinijeDesno; // olaksica da nam kaze kolika je ukupna linija gdje se pise
 
 		float tackaX = e.getX();
 		float tackaY = e.getY();
@@ -299,7 +308,7 @@ public class CrtanjeView extends View {
 		return true;
 	}
 
-	public void Space()
+	public static void Space()
 	{
 		if(odvoji +trenutnaSirinaLinije+sirinaRazmaka > ekranSirina -marginaLinijeLijevo-marginaLinijeDesno)
 		{
@@ -311,7 +320,6 @@ public class CrtanjeView extends View {
 			trenutnaSirinaLinije += odvoji;
 			odvojiZaKursor +=25;
 		}
-		ocistiFunkcija();
 	}
 	public void Enter()
 	{
