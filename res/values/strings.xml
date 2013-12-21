@@ -62,6 +62,9 @@
 
     <string name="pref_shelf_style_default">no</string>
     <string name="pref_title_app_data">APPLICATION DATA</string>
+    <string name="pref_delete_notebook_content_title">Clean All Notebooks</string>
+    <string name="pref_delete_notebook_content_desc">This will clear everything written in notebooks</string>
+    <string name="dialog_delete_notebook_content_desc">Once the notebooks are cleaned you can\'t restore your work. Are you sure?</string>
     <string name="pref_delete_notebooks_title">Delete All Notebooks</string>
     <string name="pref_delete_notebooks_desc">This option deletes all your notebooks at once</string>
     <string name="dialog_delete_notebooks_desc">This will delete all notebooks you have created until this point in time which means that you will loose all your work in these notebooks. If you know what you are doing and are sure select yes.</string>

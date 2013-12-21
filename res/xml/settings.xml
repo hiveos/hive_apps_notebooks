@@ -26,6 +26,10 @@
             android:summary="@string/pref_delete_notebooks_desc"
             android:title="@string/pref_delete_notebooks_title" />
         <Preference 
+            android:key="delete_notebook_content"
+            android:summary="@string/pref_delete_notebook_content_desc"
+            android:title="@string/pref_delete_notebook_content_title" />
+        <Preference 
             android:key="backup_notebooks"
             android:summary="@string/pref_backup_notebooks_desc"
             android:title="@string/pref_backup_notebooks_title" />

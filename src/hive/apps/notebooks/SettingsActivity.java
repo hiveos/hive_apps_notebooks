@@ -1,8 +1,8 @@
 package hive.apps.notebooks;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,6 +44,8 @@ public class SettingsActivity extends PreferenceActivity {
 			askToRestoreNotebooks();
 		} else if (key.equals("delete_backups")) {
 			askToDeleteBackups();
+		} else if (key.equals("delete_notebook_content")) {
+			askToDeleteNotebookContent();
 		}
 
 		return true;
@@ -171,6 +173,41 @@ public class SettingsActivity extends PreferenceActivity {
 		builder.setMessage(R.string.dialog_delete_backups_desc)
 				.setPositiveButton(R.string.yes, dialogClickListener)
 				.setNegativeButton(R.string.no, dialogClickListener).show();
+	}
+
+	private void askToDeleteNotebookContent() {
+
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					deleteNotebookContent(notebooksdir);
+					break;
+
+				case DialogInterface.BUTTON_NEGATIVE:
+
+					break;
+				}
+			}
+
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.dialog_delete_notebook_content_desc)
+				.setPositiveButton(R.string.yes, dialogClickListener)
+				.setNegativeButton(R.string.no, dialogClickListener).show();
+	}
+
+	public void deleteNotebookContent(File dir) {
+		if (dir.isDirectory()) {
+			for (File c : dir.listFiles()) {
+				deleteNotebookContent(c);
+			}
+		} else if (dir.getAbsolutePath().endsWith("png")) {
+			if (!dir.delete()) {
+			}
+		}
 	}
 
 	public static boolean deleteDir(File dir) {
