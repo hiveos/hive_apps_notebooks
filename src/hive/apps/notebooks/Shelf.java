@@ -59,6 +59,11 @@ public class Shelf extends Activity implements OnClickListener,
 
 	View selectednotebook;
 
+	String imeSveskeZaBrisanje = "";
+
+	File notebooktodelete = new File(Environment.getExternalStorageDirectory()
+			+ "/HIVE/Notebooks/" + imeSveskeZaBrisanje);
+
 	public void dodajPolicu() {
 		emptyspace = (LinearLayout) findViewById(R.id.space);
 		polica = new LinearLayout(this);
@@ -183,7 +188,6 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	private void obrisiSvesku() {
-		String imeSveskeZaBrisanje = "";
 		for (int i = 0; i < ukupniSveskaCounter; i++) {
 			if (sveske.get(i).getId() == identifikacija) {
 				imeSveskeZaBrisanje = sveske.get(i).getText().toString();
@@ -196,20 +200,22 @@ public class Shelf extends Activity implements OnClickListener,
 			}
 		}
 
-		brojSveskica = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/").listFiles();
+		deleteDir(notebooktodelete);
 
-		for (File infile : brojSveskica) {
-			if (infile.isDirectory()
-					&& infile.getName().toString().equals(imeSveskeZaBrisanje)) {
-				String[] children = infile.list();
-				for (int i = 0; i < children.length; i++) {
-					new File(infile, children[i]).delete();
+	}
+
+	public static boolean deleteDir(File dir) {
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
+					return false;
 				}
-				infile.delete();
 			}
 		}
 
+		return dir.delete();
 	}
 
 	private void inicijaliziraj() {
@@ -242,7 +248,6 @@ public class Shelf extends Activity implements OnClickListener,
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.title_notebooks);
 
-		
 		// checkSharedPrefs();
 
 	}
@@ -341,7 +346,7 @@ public class Shelf extends Activity implements OnClickListener,
 		identifikacija = arg0.getId();
 		selectednotebook = arg0;
 		mActionMode = this.startActionMode(mActionModeCallback);
-		//arg0.setSelected(true);
+		// arg0.setSelected(true);
 
 		return true;
 	}
