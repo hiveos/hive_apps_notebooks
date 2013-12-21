@@ -81,6 +81,17 @@ public class Glavna extends Activity implements OnClickListener {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	
+	
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		ucitajLokacije();
+	}
+
+
+
 	String uzmiEkstenziju(String element)
 	{
 		String filenameArray[] = element.split("\\.");

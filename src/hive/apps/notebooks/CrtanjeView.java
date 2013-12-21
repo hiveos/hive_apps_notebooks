@@ -134,7 +134,7 @@ public class CrtanjeView extends View {
          ocistiFunkcija();
 	}
 	
-	public static void dodajScalovano(Bitmap bmp)
+	public void dodajScalovano(Bitmap bmp)
 	{
 		int tmp = trenutnaSirinaLinije;
         if ( bmp.getWidth()+trenutnaSirinaLinije+sirinaRazmaka > sirinaLinije && vecStavljao) // ako bi stavili ovu rijec u trenutnu liniju, da li bi prekoracili trenutni red
@@ -308,7 +308,7 @@ public class CrtanjeView extends View {
 		return true;
 	}
 
-	public static void Space()
+	public  void Space()
 	{
 		if(odvoji +trenutnaSirinaLinije+sirinaRazmaka > ekranSirina -marginaLinijeLijevo-marginaLinijeDesno)
 		{
@@ -320,6 +320,7 @@ public class CrtanjeView extends View {
 			trenutnaSirinaLinije += odvoji;
 			odvojiZaKursor +=25;
 		}
+		postInvalidate();
 	}
 	public void Enter()
 	{
