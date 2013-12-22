@@ -253,7 +253,7 @@ public class Glavna extends Activity implements OnClickListener {
 		try {
 
 			FileWriter fw = new FileWriter(lokacije);
-			for (int i = 0; i < niz.size(); i++) {
+			for (int i = 0; i < CrtanjeView.pozicije.size(); i++) {
 				fw.append(i + " " + CrtanjeView.pozicije.get(i).first + " "
 						+ CrtanjeView.pozicije.get(i).second + "\n");
 				File data = new File(Environment.getExternalStorageDirectory()
@@ -307,13 +307,21 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.Undo();
 			break;
 		case R.id.bLeft:
-			if (stranica == 1)
-				break;
-			if (stranica > 1)
-				stranica--;
+			if (stranica == 1) break;
+			spremiRijeci();
+			cv.sviZaCrtat.clear();
+			cv.pozicije.clear();
+			if (stranica > 1) stranica--;
+			cv.Refresh();
+			ucitajLokacije();
 			break;
 		case R.id.bRight:
+			spremiRijeci();
+			cv.sviZaCrtat.clear();
+			cv.pozicije.clear();
 			stranica++;
+			cv.Refresh();
+			ucitajLokacije();
 			break;
 
 		}
