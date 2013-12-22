@@ -70,6 +70,13 @@
                 android:layout_height="46dp"
                 android:text="Left" />
             
+            <TextView 
+                android:id="@+id/stranicaNaKojojSeNalazimo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                />
+            
             <Button
                 android:id="@+id/bRight"
                 android:layout_width="46dp"

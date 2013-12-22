@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class Glavna extends Activity implements OnClickListener {
 
@@ -49,6 +50,7 @@ public class Glavna extends Activity implements OnClickListener {
 	public static String imeSveske;
 	Vector<byte[]> niz = new Vector();
 	public int stranica = 1;
+	TextView stranicaGdjeSmo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class Glavna extends Activity implements OnClickListener {
 			ll.setBackgroundColor(Color.parseColor("#FFFFFF"));
 			guideLines.setVisibility(View.GONE);
 		}
+		stranicaGdjeSmo=(TextView)findViewById(R.id.stranicaNaKojojSeNalazimo);
 		cv = (CrtanjeView) findViewById(R.id.view1);
 		enterButton = (Button) findViewById(R.id.bEnter);
 		spaceButton = (Button) findViewById(R.id.bSpace);
@@ -312,6 +315,7 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.sviZaCrtat.clear();
 			cv.pozicije.clear();
 			if (stranica > 1) stranica--;
+			stranicaGdjeSmo.setText(""+stranica);
 			cv.Refresh();
 			ucitajLokacije();
 			break;
@@ -320,6 +324,7 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.sviZaCrtat.clear();
 			cv.pozicije.clear();
 			stranica++;
+			stranicaGdjeSmo.setText(""+stranica);
 			cv.Refresh();
 			ucitajLokacije();
 			break;
