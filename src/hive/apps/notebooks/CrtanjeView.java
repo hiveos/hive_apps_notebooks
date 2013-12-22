@@ -307,6 +307,11 @@ public class CrtanjeView extends View {
 		postInvalidate();
 		return true;
 	}
+	
+	public void Refresh()
+	{
+		postInvalidate();
+	}
 
 	public  void Space()
 	{

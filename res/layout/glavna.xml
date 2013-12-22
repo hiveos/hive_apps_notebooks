@@ -63,6 +63,19 @@
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 android:background="@drawable/ic_enter" />
+            
+            <Button
+                android:id="@+id/bLeft"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:text="Left" />
+            
+            <Button
+                android:id="@+id/bRight"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:text="Right" />
+            
         </LinearLayout>
 
         <LinearLayout

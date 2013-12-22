@@ -44,9 +44,11 @@ public class Glavna extends Activity implements OnClickListener {
 	QuickAction qa;
 	ImageView guideLines;
 	Button enterButton, spaceButton, undoButton;
+	Button leftPageButton, rightPageButton;
 	public static String stil;
 	public static String imeSveske;
 	Vector<byte[]>niz=new Vector();
+	public int stranica=1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class Glavna extends Activity implements OnClickListener {
 		// fullscreen();
 		setContentView(R.layout.glavna);
 		guideLines=(ImageView)findViewById(R.id.guide);
-		
+		leftPageButton=(Button)findViewById(R.id.bLeft);
+		rightPageButton=(Button)findViewById(R.id.bRight);
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		if(stil.equals("Grid")){
 			ll.setBackgroundResource(R.drawable.texture_grid);
@@ -75,6 +78,8 @@ public class Glavna extends Activity implements OnClickListener {
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
+		leftPageButton.setOnClickListener(this);
+		rightPageButton.setOnClickListener(this);
 		ucitajLokacije();
 		
 		ActionBar actionBar = getActionBar();
@@ -102,7 +107,7 @@ public class Glavna extends Activity implements OnClickListener {
 	public void ucitajLokacije()
 	{
 		File fileSaRijecima = new File(Environment.getExternalStorageDirectory()
-		        + "/HIVE/Notebooks/"+imeSveske+"/locations.txt");
+		        + "/HIVE/Notebooks/"+imeSveske+"/page"+stranica+"/locations.txt");
 		CrtanjeView.pozicije.clear();
 		CrtanjeView.sviZaCrtat.clear();
 		try {
@@ -134,7 +139,7 @@ public class Glavna extends Activity implements OnClickListener {
 				}
 				CrtanjeView.pozicije.set(id, new Pair<Integer, Integer>(x,y));
             	Bitmap rijecZaUnijeti = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory()
-        		        + "/HIVE/Notebooks/"+imeSveske+"/img"+id+".png").getAbsolutePath());
+        		        + "/HIVE/Notebooks/"+imeSveske+"/page"+stranica+"/img"+id+".png").getAbsolutePath());
             	CrtanjeView.sviZaCrtat.set(id, rijecZaUnijeti);
             	//CrtanjeView.dodajScalovano(rijecZaUnijeti);
 			}
@@ -219,7 +224,7 @@ public class Glavna extends Activity implements OnClickListener {
 	}
 	
 	public void spremiRijeci()
-	{		
+	{
 		for(int i=0; i<CrtanjeView.sviZaCrtat.size(); i++)
 		{
 			Bitmap bmp = CrtanjeView.sviZaCrtat.get(i);
@@ -228,10 +233,9 @@ public class Glavna extends Activity implements OnClickListener {
 			byte[] byteArray = stream.toByteArray();
 			niz.add(byteArray);
 		}
-		
 
 		File lokacije = new File(Environment.getExternalStorageDirectory()
-                + "/HIVE/Notebooks/"+imeSveske+"/locations.txt");
+                + "/HIVE/Notebooks/"+imeSveske+"/page"+stranica+"/locations.txt");
 		
 		if(!lokacije.exists()){
 			try {
@@ -249,7 +253,7 @@ public class Glavna extends Activity implements OnClickListener {
 			{
 				fw.append(i+" "+CrtanjeView.pozicije.get(i).first+" "+CrtanjeView.pozicije.get(i).second+"\n");
 				File data = new File(Environment.getExternalStorageDirectory()
-		                + "/HIVE/Notebooks/"+imeSveske+"/img"+i+".png");
+		                + "/HIVE/Notebooks/"+imeSveske+"/page"+stranica+"/img"+i+".png");
 				if(!data.exists()){
 					try {
 						data.createNewFile();
@@ -259,7 +263,7 @@ public class Glavna extends Activity implements OnClickListener {
 					}
 				}
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(Environment.getExternalStorageDirectory()
-				        + "/HIVE/Notebooks/"+imeSveske+"/img"+i+".png"));
+				        + "/HIVE/Notebooks/"+imeSveske+"/page"+stranica+"/img"+i+".png"));
 				bos.write(niz.get(i));
 				bos.flush();
 				bos.close();
@@ -292,6 +296,13 @@ public class Glavna extends Activity implements OnClickListener {
 				break;
 			case R.id.bUndo:
 				cv.Undo();
+				break;
+			case R.id.bLeft:
+				if(stranica==1) break;
+				if(stranica>1) stranica--;
+				break;
+			case R.id.bRight:
+				stranica++;
 				break;
 		
 		}
