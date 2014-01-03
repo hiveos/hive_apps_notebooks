@@ -356,5 +356,32 @@ public class CrtanjeView extends View {
 		
 		ocistiFunkcija();
 	}
+	
+	public static void tari()
+	{
+		odvojiZaKursor = 50;
+		enterZaKursor = 0;
+		//sviZaCrtat.remove(sviZaCrtat.lastElement());
+		//pozicije.remove(pozicije.lastElement());
+		if(!pozicije.isEmpty())
+		{
+			trenutnaSirinaLinije= pozicije.lastElement().first+sviZaCrtat.lastElement().getWidth()+sirinaRazmaka;
+			trenutnaLinija = (pozicije.lastElement().second - visinaPraznogIznadLinije) / visinaLinije ;
+			//trenutnaLinija*visinaLinije+visinaPraznogIznadLinije
+		}
+		else
+		{
+			trenutnaSirinaLinije = 50;
+			trenutnaLinija = 0;
+		}
+		x1 = ekranSirina;
+		x2 = 0;
+		y1 = ekranVisina;
+		y2 = 0;
+		Log.d("hepek", "pozvano");
+		for (mojaPutanja p : paths) {
+			p.reset();
+		}
+	}
 
 }

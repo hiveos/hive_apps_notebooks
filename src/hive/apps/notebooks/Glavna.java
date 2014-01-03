@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -276,6 +277,7 @@ public class Glavna extends Activity implements OnClickListener {
 										+ "/HIVE/Notebooks/" + imeSveske
 										+ "/page" + stranica + "/img" + i
 										+ ".png"));
+				Log.d("i :", i+"");
 				bos.write(niz.get(i));
 				bos.flush();
 				bos.close();
@@ -313,7 +315,8 @@ public class Glavna extends Activity implements OnClickListener {
 			if (stranica == 1) break;
 			spremiRijeci();
 			cv.sviZaCrtat.clear();
-			cv.pozicije.clear();
+			CrtanjeView.pozicije.clear();
+			niz.clear();
 			if (stranica > 1) stranica--;
 			stranicaGdjeSmo.setText(""+stranica);
 			cv.Refresh();
@@ -322,11 +325,15 @@ public class Glavna extends Activity implements OnClickListener {
 		case R.id.bRight:
 			spremiRijeci();
 			cv.sviZaCrtat.clear();
-			cv.pozicije.clear();
+			CrtanjeView.pozicije.clear();
+			niz.clear();
 			stranica++;
 			stranicaGdjeSmo.setText(""+stranica);
 			cv.Refresh();
 			ucitajLokacije();
+			if(CrtanjeView.pozicije.isEmpty()){
+				CrtanjeView.tari();	
+			}
 			break;
 
 		}
