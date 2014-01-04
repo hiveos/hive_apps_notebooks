@@ -332,8 +332,7 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.Refresh();
 			ucitajLokacije();
 			if(CrtanjeView.pozicije.isEmpty()){
-				CrtanjeView.tari();
-				
+				CrtanjeView.tari();	
 			}
 			break;
 
