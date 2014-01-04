@@ -3,6 +3,7 @@ package hive.apps.notebooks;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,8 +22,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Shelf extends Activity implements OnClickListener,
@@ -31,8 +35,11 @@ public class Shelf extends Activity implements OnClickListener,
 	private LinearLayout ShelfHolder;
 	private LayoutParams params;
 	private LayoutParams sveskaParams;
+	private LayoutParams sveskaTitleParams;
 	private LinearLayout polica;
-	private Button sveska;
+	private RelativeLayout sveska;
+	private ImageView sveskaCover;
+	private TextView sveskaTitle;
 	private LinearLayout emptyspace;
 	private int policaCounter;
 	private int policaNaKojojSeNalazimo;
@@ -40,7 +47,7 @@ public class Shelf extends Activity implements OnClickListener,
 	public static int ukupniSveskaCounter;
 	private Boolean popunjenePocetnePolice = false;
 	private ArrayList<LinearLayout> police = new ArrayList<LinearLayout>();
-	public static ArrayList<Button> sveske = new ArrayList<Button>();
+	public static ArrayList<RelativeLayout> sveske = new ArrayList<RelativeLayout>();
 	public static ArrayList<String> imenaSveski = new ArrayList<String>();
 	private File notebooksRoot;
 	private File[] brojSveskica;
@@ -50,6 +57,8 @@ public class Shelf extends Activity implements OnClickListener,
 	private Boolean isNeededToLoad = false;
 	public CitanjeXMLa citanjeXMLaObjekt;
 	public String stilOdSveske;
+
+	ArrayList<String> fileNamesWithExtentions = new ArrayList<String>();
 
 	public static final String SHELF_STYLE = "shelfstyle";
 
@@ -84,6 +93,7 @@ public class Shelf extends Activity implements OnClickListener,
 			params.topMargin = 55;
 			params.leftMargin = 50;
 			params.rightMargin = 50;
+			polica.setPadding(0, 0, 0, 70);
 			polica.setBackgroundResource(R.drawable.shelf_simple);
 		}
 		if (getShelfStyle().equals("wooden")) {
@@ -98,16 +108,40 @@ public class Shelf extends Activity implements OnClickListener,
 		ShelfHolder.addView(polica);
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void dodajSvesku() {
 
 		if (sveskaCounter < 4) {
-			sveska = new Button(this);
-			sveska.setBackgroundResource(R.drawable.shelf_dark_green);
+			sveskaCover = new ImageView(this);
+			sveskaTitle = new TextView(this);
+
+			sveska = new RelativeLayout(this);
+			sveska.setBackgroundResource(R.drawable.notebook_bg);
+			sveska.setGravity(Gravity.BOTTOM);
+
+			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
+			sveskaTitleParams = new LayoutParams(192, LayoutParams.WRAP_CONTENT);
+
+			sveskaParams.leftMargin = 25;
+			sveskaParams.bottomMargin = 0;
+			sveskaParams.topMargin = 0;
+
 			sveska.setOnClickListener(this);
 			sveska.setOnLongClickListener(this);
-			sveska.setTextColor(getResources().getColor(R.color.dark_gray));
-			sveska.setPadding(30, 0, 0, 10);
-			sveska.setGravity(Gravity.BOTTOM);
+
+			sveska.setId(ukupniSveskaCounter);
+			sveske.add(sveska);
+			sveskaCounter++;
+			ukupniSveskaCounter++;
+
+			sveskaTitle.setBackgroundResource(R.drawable.notebook_title_bg);
+			sveskaTitle.setPadding(10, 5, 10, 20);
+			sveskaTitle.setTextAppearance(this, R.style.NotebookTitleStyle);
+			sveskaTitle.setLayoutParams(sveskaTitleParams);
+
+			sveska.addView(sveskaCover);
+			sveska.addView(sveskaTitle);
 
 			setNotebookCover("nocolor", AddNotebook.selectedcolor);
 
@@ -117,7 +151,7 @@ public class Shelf extends Activity implements OnClickListener,
 								+ "/HIVE/Notebooks/" + foldernoIme
 								+ "/notebook.xml");
 				citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
-				sveska.setText(citanjeXMLaObjekt.getIme());
+				sveskaTitle.setText(citanjeXMLaObjekt.getIme());
 				if (citanjeXMLaObjekt.getBoja().equals("White"))
 					setNotebookCover("White", 1);
 				if (citanjeXMLaObjekt.getBoja().equals("Grey"))
@@ -146,24 +180,11 @@ public class Shelf extends Activity implements OnClickListener,
 				isNeededToLoad = false;
 
 			} else
-				sveska.setText("" + ukupniSveskaCounter);
+				sveskaTitle.setText("" + ukupniSveskaCounter);
 
-			sveska.setId(ukupniSveskaCounter);
-			sveske.add(sveska);
-			sveskaCounter++;
-			ukupniSveskaCounter++;
-			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
-			if (getShelfStyle().equals("simple")) {
-			}
-			if (getShelfStyle().equals("wooden")) {
-
-			}
-			sveskaParams.leftMargin = 25;
-			sveskaParams.bottomMargin = 0;
-			sveskaParams.topMargin = 0;
 			police.get(policaNaKojojSeNalazimo).addView(
 					sveske.get(ukupniSveskaCounter - 1), sveskaParams);
+
 		} else if (sveskaCounter >= 4) {
 			if (ukupniSveskaCounter >= 20)
 				dodajPolicu();
@@ -182,23 +203,24 @@ public class Shelf extends Activity implements OnClickListener,
 			if (infile.isDirectory()) {
 				foldernoIme = infile.getName();
 				isNeededToLoad = true;
+				fileNamesWithExtentions.add(infile.getName().toString());
 				dodajSvesku();
 			}
 		}
 	}
 
-	private void obrisiSvesku() {
-		for (int i = 0; i < ukupniSveskaCounter; i++) {
-			if (sveske.get(i).getId() == identifikacija) {
-				imeSveskeZaBrisanje = sveske.get(i).getText().toString();
-
-				Toast toast = Toast.makeText(this, "Deleting "
-						+ imeSveskeZaBrisanje, Toast.LENGTH_LONG);
-				toast.show();
-
-				break;
-			}
-		}
+	private void obrisiSvesku(int id) {
+		 for (int i = 0; i < ukupniSveskaCounter; i++) {
+		 if (sveske.get(i).getId() == identifikacija) {
+		 imeSveskeZaBrisanje = fileNamesWithExtentions.get(id);
+		
+		 Toast toast = Toast.makeText(this, "Deleting "
+		 + imeSveskeZaBrisanje, Toast.LENGTH_LONG);
+		 toast.show();
+		
+		 break;
+		 }
+		 }
 
 		deleteDir(notebooktodelete);
 
@@ -314,10 +336,10 @@ public class Shelf extends Activity implements OnClickListener,
 	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
-		Button sveskica = (Button) arg0;
+
 		File fajlic = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/" + sveskica.getText().toString()
-				+ "/notebook.xml");
+				+ "/HIVE/Notebooks/"
+				+ fileNamesWithExtentions.get(arg0.getId()) + "/notebook.xml");
 		citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
 		stilOdSveske = citanjeXMLaObjekt.getStil();
 		Glavna.stil = stilOdSveske;
@@ -376,7 +398,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 			case R.id.action_deletenotebook: {
 				try {
-					obrisiSvesku();
+					obrisiSvesku(selectednotebook.getId());
 					Intent intent = getIntent();
 					finish();
 					startActivity(intent);
@@ -419,58 +441,30 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	public void setNotebookCover(String color, long colorint) {
-
-		if (getShelfStyle().equals("no")) {
-			if (color.equals("White") || colorint == 1)
-				sveska.setBackgroundResource(R.drawable.notebook_white);
-			if (color.equals("Grey") || colorint == 2)
-				sveska.setBackgroundResource(R.drawable.notebook_gray);
-			if (color.equals("Blue") || colorint == 13)
-				sveska.setBackgroundResource(R.drawable.notebook_blue);
-			if (color.equals("Dark Blue") || colorint == 4)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_blue);
-			if (color.equals("Purple") || colorint == 5)
-				sveska.setBackgroundResource(R.drawable.notebook_purple);
-			if (color.equals("Dark Purple") || colorint == 6)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_purple);
-			if (color.equals("Green") || colorint == 7)
-				sveska.setBackgroundResource(R.drawable.notebook_green);
-			if (color.equals("Dark Green") || colorint == 8)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_green);
-			if (color.equals("Orange") || colorint == 9)
-				sveska.setBackgroundResource(R.drawable.notebook_orange);
-			if (color.equals("Dark Orange") || colorint == 10)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_orange);
-			if (color.equals("Red") || colorint == 11)
-				sveska.setBackgroundResource(R.drawable.notebook_red);
-			if (color.equals("Dark Red") || colorint == 12)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_red);
-		} else {
-			if (color.equals("White") || colorint == 1)
-				sveska.setBackgroundResource(R.drawable.notebook_white_no_shadow);
-			if (color.equals("Grey") || colorint == 2)
-				sveska.setBackgroundResource(R.drawable.notebook_gray_no_shadow);
-			if (color.equals("Blue") || colorint == 3)
-				sveska.setBackgroundResource(R.drawable.notebook_blue_no_shadow);
-			if (color.equals("Dark Blue") || colorint == 4)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_blue_no_shadow);
-			if (color.equals("Purple") || colorint == 5)
-				sveska.setBackgroundResource(R.drawable.notebook_purple_no_shadow);
-			if (color.equals("Dark Purple") || colorint == 6)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_purple_no_shadow);
-			if (color.equals("Green") || colorint == 7)
-				sveska.setBackgroundResource(R.drawable.notebook_green_no_shadow);
-			if (color.equals("Dark Green") || colorint == 8)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_green_no_shadow);
-			if (color.equals("Orange") || colorint == 9)
-				sveska.setBackgroundResource(R.drawable.notebook_orange_no_shadow);
-			if (color.equals("Dark Orange") || colorint == 10)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_orange_no_shadow);
-			if (color.equals("Red") || colorint == 11)
-				sveska.setBackgroundResource(R.drawable.notebook_red_no_shadow);
-			if (color.equals("Dark Red") || colorint == 12)
-				sveska.setBackgroundResource(R.drawable.notebook_dark_red_no_shadow);
-		}
+		if (color.equals("White") || colorint == 1)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_white);
+		if (color.equals("Grey") || colorint == 2)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_gray);
+		if (color.equals("Blue") || colorint == 13)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_blue);
+		if (color.equals("Dark Blue") || colorint == 4)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_blue);
+		if (color.equals("Purple") || colorint == 5)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_purple);
+		if (color.equals("Dark Purple") || colorint == 6)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_purple);
+		if (color.equals("Green") || colorint == 7)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_green);
+		if (color.equals("Dark Green") || colorint == 8)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_green);
+		if (color.equals("Orange") || colorint == 9)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_orange);
+		if (color.equals("Dark Orange") || colorint == 10)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_orange);
+		if (color.equals("Red") || colorint == 11)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_red);
+		if (color.equals("Dark Red") || colorint == 12)
+			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_red);
 	}
 
 	public int intShelfStyle() {

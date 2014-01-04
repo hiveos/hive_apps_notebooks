@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/shelf_blue_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/shelf_blue" android:state_focused="true"/>
-    <item android:drawable="@drawable/shelf_blue_selected" android:state_selected="true"/>
-    <item android:drawable="@drawable/shelf_blue"/>
+    <item android:drawable="@drawable/notebook_blue_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/notebook_blue" android:state_focused="true"/>
+    <item android:drawable="@drawable/notebook_blue_selected" android:state_selected="true"/>
+    <item android:drawable="@drawable/notebook_blue"/>
 
 </selector>

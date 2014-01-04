@@ -164,8 +164,8 @@ public class AddNotebook extends Activity {
 			String tmpann;
 			actualNotebookName = notebookName.getText().toString();
 			tmpann = actualNotebookName;
-			if (actualNotebookName.length() > 10)
-				actualNotebookName = actualNotebookName.substring(0, 5) + "...";
+//			if (actualNotebookName.length() > 10)
+//				actualNotebookName = actualNotebookName.substring(0, 5) + "...";
 
 			if (actualNotebookName.length() == 0) {
 				Toast toast = Toast.makeText(this,
@@ -177,8 +177,8 @@ public class AddNotebook extends Activity {
 				super.onBackPressed();
 				final Spinner notebookcovercolor = (Spinner) findViewById(R.id.notebookcovercolor);
 				final Spinner nbbgstyle = (Spinner) findViewById(R.id.notebookbgtype);
-				Shelf.sveske.get(Shelf.ukupniSveskaCounter - 1).setText(
-						actualNotebookName);
+//				Shelf.sveske.get(Shelf.ukupniSveskaCounter - 1).setText(
+//						actualNotebookName);
 				selectedcolor = notebookcovercolor.getSelectedItemId();
 
 				File notebooksRoot = new File(

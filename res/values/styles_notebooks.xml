@@ -119,5 +119,11 @@
         <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:textSize">22sp</item>
     </style>
+    
+    <style name="NotebookTitleStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:background">#90000000</item>
+    </style>
+    
 
 </resources>
