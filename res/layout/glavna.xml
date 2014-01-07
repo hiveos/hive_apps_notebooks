@@ -67,7 +67,7 @@
                 android:id="@+id/bLeft"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
-                android:text="Left" />
+                android:background="@drawable/ic_navigation_previous" />
             
             <TextView 
                 android:id="@+id/stranicaNaKojojSeNalazimo"
@@ -80,7 +80,7 @@
                 android:id="@+id/bRight"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
-                android:text="Right" />
+                android:background="@drawable/ic_navigation_next" />
             
         </LinearLayout>
 

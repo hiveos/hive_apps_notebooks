@@ -54,6 +54,7 @@ public class Glavna extends Activity implements OnClickListener {
 	TextView stranicaGdjeSmo;
 	static Bitmap tekstura;
 	Bitmap tmpTekstura;
+	Boolean toggleGuides=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +205,15 @@ public class Glavna extends Activity implements OnClickListener {
 			else
 				CrtanjeView.writing = true;
 			return true;
+		case R.id.action_guide:
+			if(toggleGuides){
+				toggleGuides=false;
+				guideLines.setVisibility(View.GONE);
+			}
+			else{
+				toggleGuides=true;
+				guideLines.setVisibility(View.VISIBLE);
+			}
 		default:
 			return false;
 
