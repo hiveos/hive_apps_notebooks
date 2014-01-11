@@ -56,6 +56,7 @@
             android:layout_toRightOf="@+id/bUndo"
             android:src="@drawable/ic_space" />
 
+<<<<<<< HEAD
         <ImageButton
             android:id="@+id/bEnter"
             style="@android:style/Widget.DeviceDefault.ActionButton"
@@ -63,6 +64,34 @@
             android:layout_height="48dp"
             android:layout_toRightOf="@+id/bSpace"
             android:src="@drawable/ic_enter" />
+=======
+            <Button
+                android:id="@+id/bEnter"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_enter" />
+            
+            <Button
+                android:id="@+id/bLeft"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_navigation_previous" />
+            
+            <TextView 
+                android:id="@+id/stranicaNaKojojSeNalazimo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                />
+            
+            <Button
+                android:id="@+id/bRight"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/ic_navigation_next" />
+            
+        </LinearLayout>
+>>>>>>> a99639655556a268e26ff0be679d77a0d3184ce2
 
         <ImageButton
             android:id="@+id/bLeft"

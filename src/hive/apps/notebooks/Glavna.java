@@ -43,6 +43,9 @@ public class Glavna extends Activity implements OnClickListener {
 	Vector<byte[]> niz = new Vector();
 	public int stranica = 1;
 	TextView stranicaGdjeSmo;
+	static Bitmap tekstura;
+	Bitmap tmpTekstura;
+	Boolean toggleGuides=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,13 @@ public class Glavna extends Activity implements OnClickListener {
 		rightPageButton = (ImageButton) findViewById(R.id.bRight);
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		if (stil.equals("Grid")) {
-			ll.setBackgroundResource(R.drawable.texture_grid);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture_grid);
+			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Lines")) {
-			ll.setBackgroundResource(R.drawable.texture);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture);
+			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Plain")) {
@@ -191,6 +196,15 @@ public class Glavna extends Activity implements OnClickListener {
 			else
 				CrtanjeView.writing = true;
 			return true;
+		case R.id.action_guide:
+			if(toggleGuides){
+				toggleGuides=false;
+				guideLines.setVisibility(View.GONE);
+			}
+			else{
+				toggleGuides=true;
+				guideLines.setVisibility(View.VISIBLE);
+			}
 		default:
 			return false;
 
