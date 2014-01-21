@@ -26,6 +26,7 @@
         android:id="@+id/action_guide"
         android:orderInCategory="5"
         android:showAsAction="always"
+        android:icon="@drawable/ic_guides"
         android:title="Toggle GuideLines">
     </item>
   
