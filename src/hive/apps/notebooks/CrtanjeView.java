@@ -70,25 +70,15 @@ public class CrtanjeView extends View {
 	static float y2 = 0;
 	static int odvoji = 25; //koliko ces odvojit kad kliknes Space
 	private Glavna g= new Glavna();
-
-	// Varijabla za custom klasu QuickAction
-	QuickAction qa;
 	
 	//Provjera kod long clicka da otvara popup menu
 	final Handler _handler = new Handler();
 	Runnable _longPressed = new Runnable() {
 		public void run() {
-			qa.pokazi();
 			Log.i("hepek", "Pritisnuto je dugo");
 		}
 	};
-	public static int sirinaLinije;
-	
-	public void otvoriMenu()
-	{
-		qa.pokazi();
-	}
-	
+	public static int sirinaLinije;	
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -191,7 +181,6 @@ public class CrtanjeView extends View {
 		//rectovi = new Vector<Rect>();
 		pozicije = new Vector<Pair<Integer,Integer>>();
 		// Inicijalizacija qa varijable. Proslje�uje joj se trenutni View
-		qa = new QuickAction(this);
 		kursor = BitmapFactory.decodeResource(this.getResources(),
                 R.drawable.kursor);
 

@@ -48,7 +48,6 @@ public class Glavna extends Activity implements OnClickListener,
 
 	CrtanjeView cv;
 	RelativeLayout ll;
-	QuickAction qa;
 	ImageView guideLines;
 	Button insertButton;
 	ImageButton enterButton, spaceButton, undoButton;
