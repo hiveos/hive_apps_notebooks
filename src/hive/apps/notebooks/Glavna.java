@@ -267,12 +267,6 @@ public class Glavna extends Activity implements OnClickListener,
 		case R.id.action_clear:
 			cv.ocistiFunkcija();
 			return true;
-		case R.id.action_mode:
-			if (CrtanjeView.writing)
-				CrtanjeView.writing = false;
-			else
-				CrtanjeView.writing = true;
-			return true;
 		case R.id.action_guide:
 			if (toggleGuides) {
 				toggleGuides = false;

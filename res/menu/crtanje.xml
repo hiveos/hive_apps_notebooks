@@ -16,13 +16,6 @@
         android:title="@string/actionbar_item_clear">
     </item>
     <item
-        android:id="@+id/action_mode"
-        android:icon="@drawable/ic_switch"
-        android:orderInCategory="5"
-        android:showAsAction="always"
-        android:title="Switch Mode">
-    </item>
-    <item
         android:id="@+id/action_guide"
         android:orderInCategory="5"
         android:showAsAction="always"
