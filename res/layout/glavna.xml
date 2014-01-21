@@ -27,7 +27,8 @@
         android:layout_height="200dp"
         android:layout_above="@+id/LinearLayout1"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
 
