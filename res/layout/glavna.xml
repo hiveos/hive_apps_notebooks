@@ -81,6 +81,14 @@
                 android:layout_height="48dp"
                 android:layout_toRightOf="@+id/bSpace"
                 android:src="@drawable/ic_enter" />
+            
+            <ImageButton
+                android:id="@+id/clear"
+                style="@android:style/Widget.DeviceDefault.ActionButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_toRightOf="@+id/bEnter"
+                android:src="@drawable/ic_content_discard" />
 
             <ImageButton
                 android:id="@+id/bLeft"

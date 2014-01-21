@@ -50,7 +50,7 @@ public class Glavna extends Activity implements OnClickListener,
 	RelativeLayout ll;
 	ImageView guideLines;
 	Button insertButton;
-	ImageButton enterButton, spaceButton, undoButton;
+	ImageButton enterButton, spaceButton, undoButton, clearButton;
 	ImageButton leftPageButton, rightPageButton;
 	public static String stil;
 	public static String imeSveske;
@@ -101,6 +101,7 @@ public class Glavna extends Activity implements OnClickListener,
 		enterButton = (ImageButton) findViewById(R.id.bEnter);
 		spaceButton = (ImageButton) findViewById(R.id.bSpace);
 		undoButton = (ImageButton) findViewById(R.id.bUndo);
+		clearButton = (ImageButton) findViewById(R.id.clear);
 		insertButton = (Button) findViewById(R.id.insert);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
@@ -114,6 +115,14 @@ public class Glavna extends Activity implements OnClickListener,
 			@Override
 			public void onClick(View v) {
 				cv.dodajFunkcija();
+			}
+		});
+		
+		clearButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				cv.ocistiFunkcija();
 			}
 		});
 
@@ -263,9 +272,6 @@ public class Glavna extends Activity implements OnClickListener,
 				brushSettingsItem
 						.setIcon(R.drawable.ic_brush_settings_selected);
 			}
-			return true;
-		case R.id.action_clear:
-			cv.ocistiFunkcija();
 			return true;
 		case R.id.action_guide:
 			if (toggleGuides) {

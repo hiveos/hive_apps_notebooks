@@ -9,13 +9,6 @@
         android:title="Brush Settings">
     </item>
     <item
-        android:id="@+id/action_clear"
-        android:icon="@drawable/ic_content_discard"
-        android:orderInCategory="2"
-        android:showAsAction="always"
-        android:title="@string/actionbar_item_clear">
-    </item>
-    <item
         android:id="@+id/action_guide"
         android:orderInCategory="5"
         android:showAsAction="always"
