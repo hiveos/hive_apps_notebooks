@@ -1,15 +1,10 @@
 package hive.apps.notebooks;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,13 +13,9 @@ import java.util.Vector;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -34,7 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,13 +36,16 @@ public class Glavna extends Activity implements OnClickListener {
 	RelativeLayout ll;
 	QuickAction qa;
 	ImageView guideLines;
-	Button enterButton, spaceButton, undoButton;
-	Button leftPageButton, rightPageButton;
+	ImageButton enterButton, spaceButton, undoButton;
+	ImageButton leftPageButton, rightPageButton;
 	public static String stil;
 	public static String imeSveske;
 	Vector<byte[]> niz = new Vector();
 	public int stranica = 1;
 	TextView stranicaGdjeSmo;
+	static Bitmap tekstura;
+	Bitmap tmpTekstura;
+	Boolean toggleGuides=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +53,17 @@ public class Glavna extends Activity implements OnClickListener {
 		// fullscreen();
 		setContentView(R.layout.glavna);
 		guideLines = (ImageView) findViewById(R.id.guide);
-		leftPageButton = (Button) findViewById(R.id.bLeft);
-		rightPageButton = (Button) findViewById(R.id.bRight);
+		leftPageButton = (ImageButton) findViewById(R.id.bLeft);
+		rightPageButton = (ImageButton) findViewById(R.id.bRight);
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		if (stil.equals("Grid")) {
-			ll.setBackgroundResource(R.drawable.texture_grid);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture_grid);
+			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Lines")) {
-			ll.setBackgroundResource(R.drawable.texture);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture);
+			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Plain")) {
@@ -76,9 +72,9 @@ public class Glavna extends Activity implements OnClickListener {
 		}
 		stranicaGdjeSmo=(TextView)findViewById(R.id.stranicaNaKojojSeNalazimo);
 		cv = (CrtanjeView) findViewById(R.id.view1);
-		enterButton = (Button) findViewById(R.id.bEnter);
-		spaceButton = (Button) findViewById(R.id.bSpace);
-		undoButton = (Button) findViewById(R.id.bUndo);
+		enterButton = (ImageButton) findViewById(R.id.bEnter);
+		spaceButton = (ImageButton) findViewById(R.id.bSpace);
+		undoButton = (ImageButton) findViewById(R.id.bUndo);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
@@ -200,6 +196,15 @@ public class Glavna extends Activity implements OnClickListener {
 			else
 				CrtanjeView.writing = true;
 			return true;
+		case R.id.action_guide:
+			if(toggleGuides){
+				toggleGuides=false;
+				guideLines.setVisibility(View.GONE);
+			}
+			else{
+				toggleGuides=true;
+				guideLines.setVisibility(View.VISIBLE);
+			}
 		default:
 			return false;
 

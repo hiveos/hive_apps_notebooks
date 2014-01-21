@@ -49,9 +49,9 @@ public class CrtanjeView extends View {
 	public Button bEnter; 
 	public Button bSpace;
 	public Button bUndo;
-	public static int visinaLinije = 50; // ukupna visina linije sa gornjom marginom
+	public static int visinaLinije = 44; // ukupna visina linije sa gornjom marginom
     public static int marginaLinijeGore = 5; // koliko iznad linije treba ostaviti prostora za prosli red
-    public static int visinaPraznogIznadLinije = 30; // visina praznine iznad PRVE linije
+    public static int visinaPraznogIznadLinije = 35; // visina praznine iznad PRVE linije
     public static int marginaLinijeLijevo = 10; // kolko je odvojena svaka linija lijevo od ekrana
     public static int marginaLinijeDesno = 10; // kolko je odvojena svaka linija desno od ekrana
     public static int sirinaRazmaka = 5; // koliko piksela odvojiti svaku rijec od prosle rijeci
@@ -141,6 +141,7 @@ public class CrtanjeView extends View {
         {
                 //predji u novi red ako bi prekoracili
                 trenutnaLinija++;
+                
                 trenutnaSirinaLinije=bmp.getWidth()+50;
                 tmp=50;
                 vecStavljao=false;
@@ -229,6 +230,8 @@ public class CrtanjeView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 	//Iscrtavanje putanja
+		
+		canvas.drawBitmap(Glavna.tekstura, 0, 0, null);
 	
 			for (mojaPutanja p : paths) {
 				canvas.drawPath(p, p.bojaPutanje);
