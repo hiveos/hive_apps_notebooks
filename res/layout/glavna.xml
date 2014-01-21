@@ -18,8 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="96dp"
-        android:layout_marginTop="74dp"
-        android:layout_weight="5" />
+        android:layout_marginTop="74dp" />
 
     <ImageView
         android:id="@+id/guide"
@@ -31,6 +30,16 @@
         android:layout_marginBottom="100dp"
         android:scaleType="fitXY"
         android:src="@drawable/writing_guides" />
+
+    <Button
+        android:id="@+id/insert"
+        android:layout_width="48dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/insert"
+        android:onClick="addWord" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -47,7 +56,7 @@
             android:layout_height="48dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_content_undo" />
+            android:src="@drawable/ic_content_backspace" />
 
         <ImageButton
             android:id="@+id/bSpace"
@@ -78,11 +87,11 @@
             android:id="@+id/stranicaNaKojojSeNalazimo"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:gravity="center"
             android:layout_toLeftOf="@+id/bRight"
+            android:gravity="center"
+            android:text="1"
             android:textColor="#ddffffff"
-            android:textSize="20sp"
-            android:text="1" />
+            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/bRight"

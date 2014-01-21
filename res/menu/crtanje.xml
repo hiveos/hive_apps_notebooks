@@ -16,13 +16,6 @@
         android:title="@string/actionbar_item_clear">
     </item>
     <item
-        android:id="@+id/action_insert"
-        android:icon="@drawable/ic_insert"
-        android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="@string/actionbar_item_insert">
-    </item>
-    <item
         android:id="@+id/action_mode"
         android:icon="@drawable/ic_switch"
         android:orderInCategory="5"

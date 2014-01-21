@@ -36,6 +36,7 @@ public class Glavna extends Activity implements OnClickListener {
 	RelativeLayout ll;
 	QuickAction qa;
 	ImageView guideLines;
+	Button insertButton;
 	ImageButton enterButton, spaceButton, undoButton;
 	ImageButton leftPageButton, rightPageButton;
 	public static String stil;
@@ -75,12 +76,21 @@ public class Glavna extends Activity implements OnClickListener {
 		enterButton = (ImageButton) findViewById(R.id.bEnter);
 		spaceButton = (ImageButton) findViewById(R.id.bSpace);
 		undoButton = (ImageButton) findViewById(R.id.bUndo);
+		insertButton =(Button) findViewById(R.id.insert);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
 		leftPageButton.setOnClickListener(this);
 		rightPageButton.setOnClickListener(this);
 		ucitajLokacije();
+		
+		insertButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				cv.dodajFunkcija();				
+			}
+		});
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -186,9 +196,6 @@ public class Glavna extends Activity implements OnClickListener {
 			return true;
 		case R.id.action_clear:
 			cv.ocistiFunkcija();
-			return true;
-		case R.id.action_insert:
-			cv.dodajFunkcija();
 			return true;
 		case R.id.action_mode:
 			if (CrtanjeView.writing)
