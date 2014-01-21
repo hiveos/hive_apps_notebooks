@@ -24,6 +24,10 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+        <string name="brush_settings">Brush Settings</string>
+    
 
     <string-array name="notebook_styles">
         <item>Lines</item>

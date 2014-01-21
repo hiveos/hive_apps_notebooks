@@ -16,10 +16,14 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +32,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class Glavna extends Activity implements OnClickListener {
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
+import com.larswerkman.holocolorpicker.OpacityBar;
+import com.larswerkman.holocolorpicker.SVBar;
+
+public class Glavna extends Activity implements OnClickListener,
+		OnColorChangedListener {
+
+	private Menu menu;
 
 	CrtanjeView cv;
 	RelativeLayout ll;
@@ -46,7 +60,15 @@ public class Glavna extends Activity implements OnClickListener {
 	TextView stranicaGdjeSmo;
 	static Bitmap tekstura;
 	Bitmap tmpTekstura;
-	Boolean toggleGuides=true;
+	Boolean toggleGuides = true;
+	public int color;
+
+	private ColorPicker picker;
+	private SVBar svBar;
+	private OpacityBar opacityBar;
+
+	private DrawerLayout mDrawerLayout;
+	private ActionBarDrawerToggle mDrawerToggle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,42 +80,82 @@ public class Glavna extends Activity implements OnClickListener {
 		rightPageButton = (ImageButton) findViewById(R.id.bRight);
 		ll = (RelativeLayout) findViewById(R.id.vGlavni);
 		if (stil.equals("Grid")) {
-			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture_grid);
-			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(),
+					R.drawable.texture_grid);
+			tekstura = tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100,
+					false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Lines")) {
-			tmpTekstura = BitmapFactory.decodeResource(getResources(), R.drawable.texture);
-			tekstura=tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100, false);
+			tmpTekstura = BitmapFactory.decodeResource(getResources(),
+					R.drawable.texture);
+			tekstura = tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100,
+					false);
 			guideLines.setVisibility(View.VISIBLE);
 		}
 		if (stil.equals("Plain")) {
 			ll.setBackgroundColor(Color.parseColor("#FFFFFF"));
 			guideLines.setVisibility(View.GONE);
 		}
-		stranicaGdjeSmo=(TextView)findViewById(R.id.stranicaNaKojojSeNalazimo);
+		stranicaGdjeSmo = (TextView) findViewById(R.id.stranicaNaKojojSeNalazimo);
 		cv = (CrtanjeView) findViewById(R.id.view1);
 		enterButton = (ImageButton) findViewById(R.id.bEnter);
 		spaceButton = (ImageButton) findViewById(R.id.bSpace);
 		undoButton = (ImageButton) findViewById(R.id.bUndo);
-		insertButton =(Button) findViewById(R.id.insert);
+		insertButton = (Button) findViewById(R.id.insert);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
 		leftPageButton.setOnClickListener(this);
 		rightPageButton.setOnClickListener(this);
 		ucitajLokacije();
-		
+
 		insertButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				cv.dodajFunkcija();				
+				cv.dodajFunkcija();
 			}
 		});
 
+		final SeekBar sizeBar = (SeekBar) findViewById(R.id.sbDebljina);
+		sizeBar.setProgress(20);
+		
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_navigation_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
+
+			public void onDrawerClosed(View view) {
+				CrtanjeView.boja.setStrokeWidth(sizeBar.getProgress());
+				getActionBar().setTitle(imeSveske);
+				updateSetings();
+				menu.findItem(R.id.action_brush).setIcon(
+						R.drawable.ic_brush_settings);
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(R.string.brush_settings);
+				menu.findItem(R.id.action_brush).setIcon(
+						R.drawable.ic_brush_settings_selected);
+			}
+		};
+
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+		picker = (ColorPicker) findViewById(R.id.picker);
+		svBar = (SVBar) findViewById(R.id.svbar);
+		opacityBar = (OpacityBar) findViewById(R.id.opacitybar);
+
+		picker.addSVBar(svBar);
+		picker.addOpacityBar(opacityBar);
+		picker.setOnColorChangedListener(this);
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		updateSetings();
 	}
 
 	@Override
@@ -180,6 +242,7 @@ public class Glavna extends Activity implements OnClickListener {
 	// ActionBar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		this.menu = menu;
 		setTitle(imeSveske);
 		getMenuInflater().inflate(R.menu.crtanje, menu);
 		return true;
@@ -188,11 +251,19 @@ public class Glavna extends Activity implements OnClickListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		// Gledanje na �ta je korisnik kliknuo u ActionBaru
+		MenuItem brushSettingsItem = menu.findItem(R.id.action_brush);
 
 		switch (item.getItemId()) {
 		case R.id.action_brush:
-			cv.otvoriMenu();
+			if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+				closeDrawer();
+				updateSetings();
+				brushSettingsItem.setIcon(R.drawable.ic_brush_settings);
+			} else {
+				openDrawer();
+				brushSettingsItem
+						.setIcon(R.drawable.ic_brush_settings_selected);
+			}
 			return true;
 		case R.id.action_clear:
 			cv.ocistiFunkcija();
@@ -204,12 +275,11 @@ public class Glavna extends Activity implements OnClickListener {
 				CrtanjeView.writing = true;
 			return true;
 		case R.id.action_guide:
-			if(toggleGuides){
-				toggleGuides=false;
+			if (toggleGuides) {
+				toggleGuides = false;
 				guideLines.setVisibility(View.GONE);
-			}
-			else{
-				toggleGuides=true;
+			} else {
+				toggleGuides = true;
 				guideLines.setVisibility(View.VISIBLE);
 			}
 		default:
@@ -246,9 +316,9 @@ public class Glavna extends Activity implements OnClickListener {
 			niz.add(byteArray);
 		}
 
-		File pagedir  = new File(Environment.getExternalStorageDirectory()
+		File pagedir = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/Notebooks/" + imeSveske + "/page" + stranica);
-		
+
 		File lokacije = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/Notebooks/" + imeSveske + "/page" + stranica
 				+ "/locations.txt");
@@ -256,7 +326,7 @@ public class Glavna extends Activity implements OnClickListener {
 		if (!pagedir.exists()) {
 			pagedir.mkdirs();
 		}
-		
+
 		if (!lokacije.exists()) {
 			try {
 				lokacije.createNewFile();
@@ -289,7 +359,7 @@ public class Glavna extends Activity implements OnClickListener {
 										+ "/HIVE/Notebooks/" + imeSveske
 										+ "/page" + stranica + "/img" + i
 										+ ".png"));
-				Log.d("i :", i+"");
+				Log.d("i :", i + "");
 				bos.write(niz.get(i));
 				bos.flush();
 				bos.close();
@@ -324,13 +394,15 @@ public class Glavna extends Activity implements OnClickListener {
 			cv.Undo();
 			break;
 		case R.id.bLeft:
-			if (stranica == 1) break;
+			if (stranica == 1)
+				break;
 			spremiRijeci();
 			cv.sviZaCrtat.clear();
 			CrtanjeView.pozicije.clear();
 			niz.clear();
-			if (stranica > 1) stranica--;
-			stranicaGdjeSmo.setText(""+stranica);
+			if (stranica > 1)
+				stranica--;
+			stranicaGdjeSmo.setText("" + stranica);
 			cv.Refresh();
 			ucitajLokacije();
 			break;
@@ -340,15 +412,39 @@ public class Glavna extends Activity implements OnClickListener {
 			CrtanjeView.pozicije.clear();
 			niz.clear();
 			stranica++;
-			stranicaGdjeSmo.setText(""+stranica);
+			stranicaGdjeSmo.setText("" + stranica);
 			cv.Refresh();
 			ucitajLokacije();
-			if(CrtanjeView.pozicije.isEmpty()){
-				CrtanjeView.tari();	
+			if (CrtanjeView.pozicije.isEmpty()) {
+				CrtanjeView.tari();
 			}
 			break;
 
 		}
+
+	}
+
+	public void closeDrawer() {
+		mDrawerLayout.closeDrawer(Gravity.START);
+	}
+
+	public void openDrawer() {
+		mDrawerLayout.openDrawer(Gravity.START);
+	}
+
+	public void updateSetings() {
+		SeekBar sizeBar = (SeekBar) findViewById(R.id.sbDebljina);
+		color = picker.getColor();
+		picker.setOldCenterColor(color);
+		CrtanjeView.boja.setColor(color);
+		CrtanjeView.putanja = new mojaPutanja(new Paint(CrtanjeView.boja));
+		CrtanjeView.paths.add(CrtanjeView.putanja);
+		CrtanjeView.boja.setStrokeWidth(sizeBar.getProgress());
+	}
+
+	@Override
+	public void onColorChanged(int color) {
+		// TODO Auto-generated method stub
 
 	}
 }
