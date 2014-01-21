@@ -68,11 +68,6 @@ public class Shelf extends Activity implements OnClickListener,
 
 	View selectednotebook;
 
-	String imeSveskeZaBrisanje = "";
-
-	File notebooktodelete = new File(Environment.getExternalStorageDirectory()
-			+ "/HIVE/Notebooks/" + imeSveskeZaBrisanje);
-
 	public void dodajPolicu() {
 		emptyspace = (LinearLayout) findViewById(R.id.space);
 		polica = new LinearLayout(this);
@@ -210,17 +205,17 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	private void obrisiSvesku(int id) {
-		 for (int i = 0; i < ukupniSveskaCounter; i++) {
-		 if (sveske.get(i).getId() == identifikacija) {
-		 imeSveskeZaBrisanje = fileNamesWithExtentions.get(id);
-		
-		 Toast toast = Toast.makeText(this, "Deleting "
-		 + imeSveskeZaBrisanje, Toast.LENGTH_LONG);
-		 toast.show();
-		
-		 break;
-		 }
-		 }
+		File notebooktodelete = null;
+
+		for (int i = 0; i < ukupniSveskaCounter; i++) {
+			if (sveske.get(i).getId() == identifikacija) {
+				notebooktodelete = new File(
+						Environment.getExternalStorageDirectory()
+								+ "/HIVE/Notebooks/"
+								+ fileNamesWithExtentions.get(id));
+				break;
+			}
+		}
 
 		deleteDir(notebooktodelete);
 
