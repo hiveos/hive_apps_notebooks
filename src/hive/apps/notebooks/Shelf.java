@@ -264,7 +264,8 @@ public class Shelf extends Activity implements OnClickListener,
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.title_notebooks);
-
+		actionBar.setIcon(null);
+		actionBar.setDisplayUseLogoEnabled(false);
 		// checkSharedPrefs();
 
 	}

@@ -28,6 +28,7 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		addPreferencesFromResource(R.xml.settings);
+		getActionBar().setIcon(R.drawable.ic_gear);
 
 	}
 

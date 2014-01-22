@@ -18,6 +18,7 @@
         <activity
             android:name="hive.apps.notebooks.Shelf"
             android:label="@string/app_name"
+            android:theme="@style/Theme.Notebooks.Shelf"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
