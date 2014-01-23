@@ -15,6 +15,7 @@
     <string name="title_add_notebook">Add new notebook</string>
     <string name="hint_notebook_name_english">Japanese</string>
     <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
+    <string name="error_notebook_name_too_long">Notebook name can\'t be longer than 40 characters</string>
     <string name="error_deleting_notebook">Error deleting notebook.</string>
     <string name="error_failed_to_export_backup">Failed to export backup package</string>
     <string name="error_failed_to_restore_from_backup">Failed to restore from backup package</string>
@@ -26,8 +27,7 @@
     <string name="no">No</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-        <string name="brush_settings">Brush Settings</string>
-    
+    <string name="brush_settings">Brush Settings</string>
 
     <string-array name="notebook_styles">
         <item>Lines</item>

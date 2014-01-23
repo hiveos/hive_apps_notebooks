@@ -172,6 +172,11 @@ public class AddNotebook extends Activity {
 						R.string.error_empty_notebook_name, Toast.LENGTH_LONG);
 				toast.show();
 			}
+			if (actualNotebookName.length() > 40) {
+				Toast toast = Toast.makeText(this,
+						R.string.error_notebook_name_too_long, Toast.LENGTH_LONG);
+				toast.show();
+			}
 
 			else {
 				super.onBackPressed();
