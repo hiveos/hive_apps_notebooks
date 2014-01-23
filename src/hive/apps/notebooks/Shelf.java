@@ -386,7 +386,7 @@ public class Shelf extends Activity implements OnClickListener,
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 			case R.id.action_editnotebooks: {
-				showToast("Edit functionality is yet to be implemented. Stay tuned :P");
+				showToast("Edit functionality is yet to be implemented. Stay tuned :P"); // No need to localize this as it is temporary
 
 				mode.finish();
 			}

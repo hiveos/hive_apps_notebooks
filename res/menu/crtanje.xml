@@ -6,14 +6,14 @@
         android:icon="@drawable/ic_brush_settings"
         android:orderInCategory="3"
         android:showAsAction="always"
-        android:title="Brush Settings">
+        android:title="@string/actionbar_item_brush_settings">
     </item>
     <item
         android:id="@+id/action_guide"
         android:orderInCategory="5"
         android:showAsAction="always"
         android:icon="@drawable/ic_guides"
-        android:title="Toggle GuideLines">
+        android:title="@string/actionbar_item_guides">
     </item>
   
 </menu>
