@@ -438,29 +438,29 @@ public class Shelf extends Activity implements OnClickListener,
 
 	public void setNotebookCover(String color, long colorint) {
 		if (color.equals("White") || colorint == 1)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_white);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_white);
 		if (color.equals("Grey") || colorint == 2)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_gray);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_gray);
 		if (color.equals("Blue") || colorint == 13)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_blue);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_blue);
 		if (color.equals("Dark Blue") || colorint == 4)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_blue);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_blue);
 		if (color.equals("Purple") || colorint == 5)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_purple);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_purple);
 		if (color.equals("Dark Purple") || colorint == 6)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_purple);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_purple);
 		if (color.equals("Green") || colorint == 7)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_green);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_green);
 		if (color.equals("Dark Green") || colorint == 8)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_green);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_green);
 		if (color.equals("Orange") || colorint == 9)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_orange);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_orange);
 		if (color.equals("Dark Orange") || colorint == 10)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_orange);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_orange);
 		if (color.equals("Red") || colorint == 11)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_red);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_red);
 		if (color.equals("Dark Red") || colorint == 12)
-			sveskaCover.setBackgroundResource(R.drawable.notebook_dark_red);
+			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_red);
 	}
 
 	public int intShelfStyle() {
