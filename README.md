@@ -17,8 +17,10 @@ DefaultHeaderTransformer.java may give errors on line 375. If you encounter the 
 ```
 
 
-Smooth Progress Bar
+Smooth Progress Bar 
 -------------------
+(A dependency of Pull to refresh. You need to add it to Action Bar Pull to Refresh and not to Notebooks!)
+
 https://github.com/castorflex/SmoothProgressBar
 
 If you are using eclipse you may have to move the source files from java folder to src folder.
