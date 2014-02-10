@@ -123,7 +123,7 @@ public class Glavna extends Activity implements OnClickListener,
 		});
 
 		final SeekBar sizeBar = (SeekBar) findViewById(R.id.sbDebljina);
-		sizeBar.setProgress(20);
+		sizeBar.setProgress(10);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -155,6 +155,8 @@ public class Glavna extends Activity implements OnClickListener,
 		picker.addSVBar(svBar);
 		picker.addOpacityBar(opacityBar);
 		picker.setOnColorChangedListener(this);
+		picker.setColor(getResources().getColor(R.color.dark_green));
+
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
