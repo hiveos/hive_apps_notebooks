@@ -31,26 +31,6 @@
     <string name="drawer_close">Kayan Memü Kapatıldı</string>
     <string name="brush_settings">Fırça Ayarları</string>
 
-    <string-array name="notebook_styles">
-        <item>Cizgili</item>
-        <item>Kareli</item>
-        <item>Boş</item>
-    </string-array>
-    <string-array name="notebook_cover_color">
-        <item>Beyaz</item>
-        <item>Gri</item>
-        <item>Mavi</item>
-        <item>Koyu Mavi</item>
-        <item>Mor</item>
-        <item>Koyu Mor</item>
-        <item>Yeşil</item>
-        <item>Koyu Yeşil</item>
-        <item>Turuncu</item>
-        <item>Koyu Turuncu</item>
-        <item>Kırmızı</item>
-        <item>Koyu Kırmızı</item>
-    </string-array>
-
     <string name="pref_title_ui">KULLANCI ARAYÜZÜ</string>
     <string name="pref_shelf_style_title">Raf Stili</string>
     <string name="pref_shelf_style_desc">Rafların nasıl gözükeceğini belirler</string>
