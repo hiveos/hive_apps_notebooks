@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Defterler</string>
+    <string name="title_notebooks">DEFTERLER</string>
+    <string name="title_activity_settings">AYARLAR</string>
+    <string name="actionbar_item_clear">Temizle</string>
+    <string name="actionbar_item_brush">Fırça</string>
+    <string name="actionbar_item_insert">Ekle</string>
+    <string name="actionbar_item_addnotebook">Defter Oluştur</string>
+    <string name="actionbar_item_savenotebook">Oluştur</string>
+    <string name="actionbar_item_settings">Ayarlar</string>
+    <string name="actionbar_item_brush_settings">Fırça Ayarları</string>
+    <string name="actionbar_item_guides">Yazım kılavuzlarını gizle veya göster</string>
+    <string name="contextualmenu_item_edit">Düzenle</string>
+    <string name="contextualmenu_item_delete">Sil</string>
+    <string name="title_add_notebook">Yeni defter ekle</string>
+    <string name="hint_notebook_name_english">Defter İsmi</string>
+    <string name="error_empty_notebook_name">Defter ismi boş olamaz. Lütfen bir isim yazın.</string>
+    <string name="error_notebook_name_too_long">Defter ismi 40 karakterden uzun olamaz</string>
+    <string name="error_deleting_notebook">Defter silinemedi</string>
+    <string name="error_failed_to_export_backup">Yedek dosyası oluşturulamadı</string>
+    <string name="error_failed_to_restore_from_backup">Yadek dosyasında geri yükleme yapılamadı</string>
+    <string name="info_notebook_name">İSİM: </string>
+    <string name="info_notebook_color">RENK: </string>
+    <string name="info_notebook_style">STİL: </string>
+    <string name="cancel">İptal</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="drawer_open">Kayan Menü Açıldı</string>
+    <string name="drawer_close">Kayan Memü Kapatıldı</string>
+    <string name="brush_settings">Fırça Ayarları</string>
+
+    <string-array name="notebook_styles">
+        <item>Cizgili</item>
+        <item>Kareli</item>
+        <item>Boş</item>
+    </string-array>
+    <string-array name="notebook_cover_color">
+        <item>Beyaz</item>
+        <item>Gri</item>
+        <item>Mavi</item>
+        <item>Koyu Mavi</item>
+        <item>Mor</item>
+        <item>Koyu Mor</item>
+        <item>Yeşil</item>
+        <item>Koyu Yeşil</item>
+        <item>Turuncu</item>
+        <item>Koyu Turuncu</item>
+        <item>Kırmızı</item>
+        <item>Koyu Kırmızı</item>
+    </string-array>
+
+    <string name="pref_title_ui">KULLANCI ARAYÜZÜ</string>
+    <string name="pref_shelf_style_title">Raf Stili</string>
+    <string name="pref_shelf_style_desc">Rafların nasıl gözükeceğini belirler</string>
+
+    <string-array name="pref_shelf_style_entries">
+        <item>Raf Yok</item>
+        <item>Basit Raf</item>
+        <item>Tahta Raf</item>
+    </string-array>
+
+    <string name="pref_title_app_data">UYGULAMA VERİLERİ</string>
+    <string name="pref_delete_notebook_content_title">Bütün Defterleri Temizle</string>
+    <string name="pref_delete_notebook_content_desc">Bu seçenek defterlerin bütün içeriğini silecektir</string>
+    <string name="dialog_delete_notebook_content_desc">Bir defa defterlerin içeriğini silerseniz bir daha geri getiremezsiniz. Emin misiniz?</string>
+    <string name="pref_delete_notebooks_title">Bütün Defterleri Sil</string>
+    <string name="pref_delete_notebooks_desc">Bu seçenek bütün defterlerinizi tek tıklama ile silecektir</string>
+    <string name="dialog_delete_notebooks_desc">Defterler bir defa silindi mi tekrar geri getirilemez. Emin misiniz?</string>
+    <string name="pref_backup_notebooks_title">Defterleri Yedekle</string>
+    <string name="pref_backup_notebooks_desc">Defterli bir dosyaya yedekle</string>
+    <string name="dialog_backup_notebooks_desc">Bu seçenek önceki yedeklerinizin yok olmasına sebep olacaktır</string>
+    <string name="pref_restore_notebooks_title">Defterleri Geri Yükle</string>
+    <string name="pref_restore_notebooks_desc">Defterleri daha önce oluşturulmuş bir yedek dosyasından geri yükle</string>
+    <string name="dialog_restore_notebooks_desc">Bu seçenek mevcut defterlerinizi yedek dosyasındakiler ile değiştirecektir</string>
+    <string name="pref_delete_backups_title">Yedekleri Sil</string>
+    <string name="pref_delete_backups_desc">Oluşturulmuş tüm yedek dosyalarını sil</string>
+    <string name="dialog_delete_backups_desc">Bu tüm yedeklerinizin silinmesine sebep olacaktırç Emin misiniz?</string>
+    <string name="writing_mode">Yazım Modu</string>
+    <string name="drawing_mode">Çizim Modu</string>
+
+</resources>
