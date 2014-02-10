@@ -86,5 +86,8 @@
     <string name="dialog_delete_backups_desc">This will delete your backups. Are you sure?</string>
     <string name="writing_mode">Writing Mode</string>
     <string name="drawing_mode">Drawing Mode</string>
+    <string name="ptr_pull_text">Pull to refresh...</string>
+    <string name="ptr_refreshing_text">Synchronizing notebooks...</string>
+    <string name="ptr_release_text">Release to refresh!</string>
     
 </resources>

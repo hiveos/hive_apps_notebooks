@@ -15,7 +15,7 @@
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
-     limitations under the License.
+     limitations under the License.
 -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
@@ -46,6 +46,12 @@
 
     <style name="Theme.Notebooks.Shelf" parent="@style/Theme.Notebooks">
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Notebooks.Shelf</item>
+        <item name="ptrProgressBarColor">#CCFFFFFF</item>
+        <item name="ptrHeaderTitleTextAppearance">@style/RobotoTextViewStyleLight</item>
+        <item name="ptrProgressBarStyle">inside</item>
+        <item name="ptrPullText">@string/ptr_pull_text</item>
+        <item name="ptrRefreshingText">@string/ptr_refreshing_text</item>
+        <item name="ptrReleaseText">@string/ptr_release_text</item>
     </style>
 
     <style name="ActionBar.Solid.Notebooks" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -128,6 +134,10 @@
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+    
+    <style name="RobotoTextViewStyleLight" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="AddNotebookTextViewStyle" parent="android:Widget.TextView">

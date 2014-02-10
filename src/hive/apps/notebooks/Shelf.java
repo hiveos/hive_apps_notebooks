@@ -1,7 +1,18 @@
 package hive.apps.notebooks;
 
+import hive.apps.notebooks.helpers.HiveHelper;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -10,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -29,9 +41,12 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class Shelf extends Activity implements OnClickListener,
-		OnLongClickListener {
+		OnLongClickListener, OnRefreshListener {
 
 	private LinearLayout ShelfHolder;
 	private LayoutParams params;
@@ -61,6 +76,11 @@ public class Shelf extends Activity implements OnClickListener,
 
 	ArrayList<String> fileNamesWithExtentions = new ArrayList<String>();
 
+	String[] mNotebooks;
+	ArrayList<String> mNotebookNames = new ArrayList<String>();
+	ArrayList<String> mNotebookStyles = new ArrayList<String>();
+	ArrayList<String> mNotebookColors = new ArrayList<String>();
+
 	public static final String SHELF_STYLE = "shelfstyle";
 
 	private String defValue = "";
@@ -68,6 +88,106 @@ public class Shelf extends Activity implements OnClickListener,
 	protected Object mActionMode;
 
 	View selectednotebook;
+
+	private PullToRefreshLayout mPullToRefreshLayout;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.shelf);
+
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setTitle(R.string.title_notebooks);
+		actionBar.setIcon(null);
+		actionBar.setDisplayUseLogoEnabled(false);
+
+		mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+
+		ActionBarPullToRefresh.from(this).allChildrenArePullable()
+				.listener(this).setup(mPullToRefreshLayout);
+
+		new FetchTask().execute();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onRefreshStarted(View view) {
+		new FetchTask().execute();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.shelf, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.action_addnotebook:
+			// dodajSvesku();
+			// Intent AddNotebook = new Intent(this, AddNotebook.class);
+			// startActivity(AddNotebook);
+			return true;
+		case R.id.action_settings:
+			Intent Settings = new Intent(this, SettingsActivity.class);
+			startActivity(Settings);
+			return true;
+		default:
+			return false;
+
+		}
+
+	}
+
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.editnotebook, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+
+		case R.id.action_deletenotebook:
+
+			return true;
+
+		case R.id.action_editnotebooks:
+			return true;
+
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void inicijaliziraj() {
+		ShelfHolder = (LinearLayout) findViewById(R.id.ShelfHolder);
+		policaCounter = 0;
+		sveskaCounter = 0;
+		policaNaKojojSeNalazimo = 0;
+		ukupniSveskaCounter = 0;
+		sveske.clear();
+		police.clear();
+		ShelfHolder.removeAllViews();
+
+		notebooksRoot = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/");
+		if (!notebooksRoot.exists()) {
+			notebooksRoot.mkdirs();
+		}
+
+		brojSveskiZaLoadati = mNotebooks.length;
+	}
 
 	public void dodajPolicu() {
 		emptyspace = (LinearLayout) findViewById(R.id.space);
@@ -97,7 +217,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 				polica.setPadding(0, 0, 0, 45);
 			} else {
-			polica.setPadding(0, 0, 0, 70);
+				polica.setPadding(0, 0, 0, 70);
 			}
 
 		}
@@ -124,7 +244,7 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	@SuppressLint("ResourceAsColor")
-	public void dodajSvesku() {
+	public void dodajSvesku(int position) {
 
 		if (sveskaCounter < 4) {
 			sveskaCover = new ImageView(this);
@@ -168,35 +288,31 @@ public class Shelf extends Activity implements OnClickListener,
 			setNotebookCover("nocolor", AddNotebook.selectedcolor);
 
 			if (isNeededToLoad) {
-				File fajlic = new File(
-						Environment.getExternalStorageDirectory()
-								+ "/HIVE/Notebooks/" + foldernoIme
-								+ "/notebook.xml");
-				citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
-				sveskaTitle.setText(citanjeXMLaObjekt.getIme());
-				if (citanjeXMLaObjekt.getBoja().equals("White"))
+				sveskaTitle.setText(mNotebookNames.get(position));
+
+				if (mNotebookColors.get(position).equals("White"))
 					setNotebookCover("White", 1);
-				if (citanjeXMLaObjekt.getBoja().equals("Grey"))
-					setNotebookCover("Grey", 2);
-				if (citanjeXMLaObjekt.getBoja().equals("Blue"))
+				if (mNotebookColors.get(position).equals("Gray"))
+					setNotebookCover("Gray", 2);
+				if (mNotebookColors.get(position).equals("Blue"))
 					setNotebookCover("Blue", 3);
-				if (citanjeXMLaObjekt.getBoja().equals("Dark Blue"))
+				if (mNotebookColors.get(position).equals("Dark Blue"))
 					setNotebookCover("Dark Blue", 4);
-				if (citanjeXMLaObjekt.getBoja().equals("Purple"))
+				if (mNotebookColors.get(position).equals("Purple"))
 					setNotebookCover("Purple", 5);
-				if (citanjeXMLaObjekt.getBoja().equals("Dark Purple"))
+				if (mNotebookColors.get(position).equals("Dark Purple"))
 					setNotebookCover("Dark Purple", 6);
-				if (citanjeXMLaObjekt.getBoja().equals("Green"))
+				if (mNotebookColors.get(position).equals("Green"))
 					setNotebookCover("Green", 7);
-				if (citanjeXMLaObjekt.getBoja().equals("Dark Green"))
+				if (mNotebookColors.get(position).equals("Dark Green"))
 					setNotebookCover("Dark Green", 8);
-				if (citanjeXMLaObjekt.getBoja().equals("Orange"))
+				if (mNotebookColors.get(position).equals("Orange"))
 					setNotebookCover("Orange", 9);
-				if (citanjeXMLaObjekt.getBoja().equals("Dark Orange"))
+				if (mNotebookColors.get(position).equals("Dark Orange"))
 					setNotebookCover("Dark Orange", 10);
-				if (citanjeXMLaObjekt.getBoja().equals("Red"))
+				if (mNotebookColors.get(position).equals("Red"))
 					setNotebookCover("Red", 11);
-				if (citanjeXMLaObjekt.getBoja().equals("Dark Red"))
+				if (mNotebookColors.get(position).equals("Dark Red"))
 					setNotebookCover("Dark Red", 12);
 
 				isNeededToLoad = false;
@@ -213,21 +329,14 @@ public class Shelf extends Activity implements OnClickListener,
 
 			policaNaKojojSeNalazimo++;
 			sveskaCounter = 0;
-			dodajSvesku();
+			dodajSvesku(position);
 		}
 	}
 
 	private void loadajSveske() {
-		brojSveskica = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/").listFiles();
-
-		for (File infile : brojSveskica) {
-			if (infile.isDirectory()) {
-				foldernoIme = infile.getName();
-				isNeededToLoad = true;
-				fileNamesWithExtentions.add(infile.getName().toString());
-				dodajSvesku();
-			}
+		for (int i = 0; i < mNotebooks.length; i++) {
+			isNeededToLoad = true;
+			dodajSvesku(i);
 		}
 	}
 
@@ -262,91 +371,6 @@ public class Shelf extends Activity implements OnClickListener,
 		return dir.delete();
 	}
 
-	private void inicijaliziraj() {
-		ShelfHolder = (LinearLayout) findViewById(R.id.ShelfHolder);
-		policaCounter = 0;
-		sveskaCounter = 0;
-		policaNaKojojSeNalazimo = 0;
-		ukupniSveskaCounter = 0;
-		sveske.clear();
-		police.clear();
-		ShelfHolder.removeAllViews();
-
-		notebooksRoot = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/");
-		if (!notebooksRoot.exists()) {
-			notebooksRoot.mkdirs();
-		}
-
-		brojSveskiZaLoadati = new File(
-				Environment.getExternalStorageDirectory() + "/HIVE/Notebooks/")
-				.listFiles().length;
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.shelf);
-
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(false);
-		actionBar.setTitle(R.string.title_notebooks);
-		actionBar.setIcon(null);
-		actionBar.setDisplayUseLogoEnabled(false);
-		// checkSharedPrefs();
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.shelf, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-		case R.id.action_addnotebook:
-			dodajSvesku();
-			Intent AddNotebook = new Intent(this, AddNotebook.class);
-			startActivity(AddNotebook);
-			return true;
-		case R.id.action_settings:
-			Intent Settings = new Intent(this, SettingsActivity.class);
-			startActivity(Settings);
-			return true;
-		default:
-			return false;
-
-		}
-
-	}
-
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.editnotebook, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-
-		case R.id.action_deletenotebook:
-
-			return true;
-
-		case R.id.action_editnotebooks:
-			return true;
-
-		default:
-			return super.onContextItemSelected(item);
-		}
-	}
-
 	public void showToast(String message) {
 
 		Toast toast = Toast.makeText(getApplicationContext(), message,
@@ -360,29 +384,16 @@ public class Shelf extends Activity implements OnClickListener,
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 
-		File fajlic = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/"
-				+ fileNamesWithExtentions.get(arg0.getId()) + "/notebook.xml");
-		citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
-		stilOdSveske = citanjeXMLaObjekt.getStil();
+		// File fajlic = new File(Environment.getExternalStorageDirectory()
+		// + "/HIVE/Notebooks/"
+		// + fileNamesWithExtentions.get(arg0.getId()) + "/notebook.xml");
+		// citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
+		stilOdSveske = mNotebookStyles.get(arg0.getId());
 		Glavna.stil = stilOdSveske;
-		Glavna.imeSveske = citanjeXMLaObjekt.getIme();
+		Glavna.imeSveske = mNotebookNames.get(arg0.getId());
 		Intent gotoNotebookInt = new Intent(this, Glavna.class);
 		startActivity(gotoNotebookInt);
 
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		inicijaliziraj();
-
-		for (int i = 0; i < 5; i++)
-			dodajPolicu();
-
-		if (brojSveskiZaLoadati != 0)
-			loadajSveske();
 	}
 
 	@Override
@@ -464,29 +475,29 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	public void setNotebookCover(String color, long colorint) {
-			if (color.equals("White") || colorint == 1)
+		if (color.equals("White") || colorint == 1)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_white);
-			if (color.equals("Grey") || colorint == 2)
+		if (color.equals("Grey") || colorint == 2)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_gray);
-			if (color.equals("Blue") || colorint == 13)
+		if (color.equals("Blue") || colorint == 13)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_blue);
-			if (color.equals("Dark Blue") || colorint == 4)
+		if (color.equals("Dark Blue") || colorint == 4)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_blue);
-			if (color.equals("Purple") || colorint == 5)
+		if (color.equals("Purple") || colorint == 5)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_purple);
-			if (color.equals("Dark Purple") || colorint == 6)
+		if (color.equals("Dark Purple") || colorint == 6)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_purple);
-			if (color.equals("Green") || colorint == 7)
+		if (color.equals("Green") || colorint == 7)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_green);
-			if (color.equals("Dark Green") || colorint == 8)
+		if (color.equals("Dark Green") || colorint == 8)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_green);
-			if (color.equals("Orange") || colorint == 9)
+		if (color.equals("Orange") || colorint == 9)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_orange);
-			if (color.equals("Dark Orange") || colorint == 10)
+		if (color.equals("Dark Orange") || colorint == 10)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_orange);
-			if (color.equals("Red") || colorint == 11)
+		if (color.equals("Red") || colorint == 11)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_red);
-			if (color.equals("Dark Red") || colorint == 12)
+		if (color.equals("Dark Red") || colorint == 12)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_red);
 	}
 
@@ -507,4 +518,82 @@ public class Shelf extends Activity implements OnClickListener,
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
+
+	private class FetchTask extends AsyncTask<String, Integer, String> {
+
+		String response;
+
+		@Override
+		protected String doInBackground(String... params) {
+			HiveHelper mHiveHelper = new HiveHelper();
+			String FetchUrl = "http://hive.bluedream.info/api/"
+					+ mHiveHelper.getUniqueId() + "/notebooks";
+
+			try {
+				HttpClient client = new DefaultHttpClient();
+				HttpGet get = new HttpGet(FetchUrl);
+				HttpResponse responseGet;
+				responseGet = client.execute(get);
+				HttpEntity resEntityGet = responseGet.getEntity();
+
+				if (resEntityGet != null) {
+					response = EntityUtils.toString(resEntityGet);
+				} else {
+
+				}
+
+				extractData();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		private void extractData() {
+			clearArrays();
+			
+			mNotebooks = response.split(";");
+
+			for (int i = 0; i < mNotebooks.length; i++) {
+				mNotebookNames.add(mNotebooks[i].substring(
+						mNotebooks[i].indexOf("name=") + 5,
+						mNotebooks[i].indexOf(",style")));
+				mNotebookStyles.add(mNotebooks[i].substring(
+						mNotebooks[i].indexOf("style=") + 6,
+						mNotebooks[i].indexOf(",color")));
+				mNotebookColors.add(mNotebooks[i].substring(
+						mNotebooks[i].indexOf("color=") + 6,
+						mNotebooks[i].indexOf(",cover")));
+			}
+		}
+
+		private void clearArrays() {
+			mNotebookNames.clear();
+			mNotebookStyles.clear();
+			mNotebookColors.clear();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			addNotebooks();
+			mPullToRefreshLayout.setRefreshComplete();
+		}
+
+		private void addNotebooks() {
+			inicijaliziraj();
+
+			for (int i = 0; i < 5; i++)
+				dodajPolicu();
+
+			if (brojSveskiZaLoadati != 0)
+				loadajSveske();
+
+		}
+
+	}
+
 }

@@ -59,5 +59,8 @@
     <string name="dialog_delete_backups_desc">Bu tüm yedeklerinizin silinmesine sebep olacaktırç Emin misiniz?</string>
     <string name="writing_mode">Yazım Modu</string>
     <string name="drawing_mode">Çizim Modu</string>
+    <string name="ptr_pull_text">Yenilemek için çek...</string>
+    <string name="ptr_refreshing_text">Defterler senkronize ediliyor...</string>
+    <string name="ptr_release_text">Yenilemek için bırak!</string>
 
 </resources>
