@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="gotoNotebook"
-    android:orientation="vertical"
-    android:background="#d5d5d5" >
+    android:orientation="vertical"         android:background="#d5d5d5" >
 
     <!-- android:background="@drawable/texture_wood" -->
 

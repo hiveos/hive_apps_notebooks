@@ -6,7 +6,8 @@
     <string name="title_activity_settings">SETTINGS</string>
     <string name="actionbar_item_clear">Clear</string>
     <string name="actionbar_item_brush">Brush</string>
-    <string name="actionbar_item_insert">Insert</string>
+
+<string name="actionbar_item_insert">Insert</string>
     <string name="actionbar_item_addnotebook">Add Notebook</string>
     <string name="actionbar_item_savenotebook">Save</string>
     <string name="actionbar_item_settings">Settings</string>

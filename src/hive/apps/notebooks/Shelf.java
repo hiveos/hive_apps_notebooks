@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -21,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -85,19 +86,38 @@ public class Shelf extends Activity implements OnClickListener,
 			params.rightMargin = 50;
 		}
 		if (getShelfStyle().equals("simple")) {
+			// Common values can go here
 			params.topMargin = 55;
 			params.leftMargin = 50;
 			params.rightMargin = 50;
-			polica.setPadding(0, 0, 0, 70);
 			polica.setBackgroundResource(R.drawable.shelf_simple);
+
+			// Specific values or adjustments go inside this if statement
+			if (isTablet(this)) {
+
+				polica.setPadding(0, 0, 0, 45);
+			} else {
+			polica.setPadding(0, 0, 0, 70);
+			}
+
 		}
 		if (getShelfStyle().equals("wooden")) {
+			// Other common values can go here
 			params.topMargin = 0;
 			params.leftMargin = 0;
 			params.rightMargin = 0;
 			polica.setPadding(50, 20, 50, 0);
 			polica.setBackgroundResource(R.drawable.shelf_wooden);
 			emptyspace.setBackgroundResource(R.drawable.shelf_wooden_empty);
+
+			// Specific values or adjustments go inside this if statement
+			if (isTablet(this)) {
+				params = new LayoutParams(LayoutParams.MATCH_PARENT, 215);
+				polica.setLayoutParams(params);
+			} else {
+
+			}
+
 		}
 
 		ShelfHolder.addView(polica);
@@ -116,7 +136,14 @@ public class Shelf extends Activity implements OnClickListener,
 
 			sveskaParams = new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.WRAP_CONTENT);
-			sveskaTitleParams = new LayoutParams(192, LayoutParams.WRAP_CONTENT);
+
+			if (isTablet(this)) {
+				sveskaTitleParams = new LayoutParams(128,
+						LayoutParams.WRAP_CONTENT);
+			} else {
+				sveskaTitleParams = new LayoutParams(192,
+						LayoutParams.WRAP_CONTENT);
+			}
 
 			sveskaParams.leftMargin = 25;
 			sveskaParams.bottomMargin = 0;
@@ -386,7 +413,7 @@ public class Shelf extends Activity implements OnClickListener,
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 			case R.id.action_editnotebooks: {
-				showToast("Edit functionality is yet to be implemented. Stay tuned :P"); // No need to localize this as it is temporary
+				showToast("Edit functionality is yet to be implemented. Stay tuned :P");
 
 				mode.finish();
 			}
@@ -437,29 +464,29 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	public void setNotebookCover(String color, long colorint) {
-		if (color.equals("White") || colorint == 1)
+			if (color.equals("White") || colorint == 1)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_white);
-		if (color.equals("Grey") || colorint == 2)
+			if (color.equals("Grey") || colorint == 2)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_gray);
-		if (color.equals("Blue") || colorint == 13)
+			if (color.equals("Blue") || colorint == 13)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_blue);
-		if (color.equals("Dark Blue") || colorint == 4)
+			if (color.equals("Dark Blue") || colorint == 4)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_blue);
-		if (color.equals("Purple") || colorint == 5)
+			if (color.equals("Purple") || colorint == 5)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_purple);
-		if (color.equals("Dark Purple") || colorint == 6)
+			if (color.equals("Dark Purple") || colorint == 6)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_purple);
-		if (color.equals("Green") || colorint == 7)
+			if (color.equals("Green") || colorint == 7)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_green);
-		if (color.equals("Dark Green") || colorint == 8)
+			if (color.equals("Dark Green") || colorint == 8)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_green);
-		if (color.equals("Orange") || colorint == 9)
+			if (color.equals("Orange") || colorint == 9)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_orange);
-		if (color.equals("Dark Orange") || colorint == 10)
+			if (color.equals("Dark Orange") || colorint == 10)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_orange);
-		if (color.equals("Red") || colorint == 11)
+			if (color.equals("Red") || colorint == 11)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_red);
-		if (color.equals("Dark Red") || colorint == 12)
+			if (color.equals("Dark Red") || colorint == 12)
 			sveskaCover.setBackgroundResource(R.drawable.xnotebook_dark_red);
 	}
 
@@ -475,5 +502,9 @@ public class Shelf extends Activity implements OnClickListener,
 			temp = 2;
 		}
 		return temp;
+	}
+
+	public static boolean isTablet(Context context) {
+		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 }
