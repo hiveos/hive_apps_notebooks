@@ -84,5 +84,7 @@
     <string name="pref_delete_backups_title">Delete Backups</string>
     <string name="pref_delete_backups_desc">Delete previously created backup packages</string>
     <string name="dialog_delete_backups_desc">This will delete your backups. Are you sure?</string>
-
+    <string name="writing_mode">Writing Mode</string>
+    <string name="drawing_mode">Drawing Mode</string>
+    
 </resources>

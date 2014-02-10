@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
@@ -64,7 +65,6 @@ public class Glavna extends Activity implements OnClickListener,
 	static Bitmap bitmapZaDrawingCanvas;
 	public static Canvas cZaSpremanje;
 	public static Canvas cZaDrawingSpremanje;
-//	TextView modeTV;
 	public int color;
 
 	private ColorPicker picker;
@@ -78,7 +78,6 @@ public class Glavna extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// fullscreen();
 		setContentView(R.layout.glavna);
 		guideLines = (ImageView) findViewById(R.id.guide);
 		leftPageButton = (ImageButton) findViewById(R.id.bLeft);
@@ -108,7 +107,6 @@ public class Glavna extends Activity implements OnClickListener,
 		spaceButton = (ImageButton) findViewById(R.id.bSpace);
 		undoButton = (ImageButton) findViewById(R.id.bUndo);
 		clearButton = (ImageButton) findViewById(R.id.clear);
-//		modeTV = (TextView) findViewById(R.id.mode);
 		enterButton.setOnClickListener(this);
 		spaceButton.setOnClickListener(this);
 		undoButton.setOnClickListener(this);
@@ -162,6 +160,7 @@ public class Glavna extends Activity implements OnClickListener,
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		updateSetings();
+
 	}
 
 	@Override
@@ -172,10 +171,6 @@ public class Glavna extends Activity implements OnClickListener,
 		Log.d("Broj pozicija", CrtanjeView.pozicije.size() + "");
 		if (CrtanjeView.pozicije.size() == 0)
 			CrtanjeView.tari();
-//		if (drawingMode)
-//			modeTV.setText("Drawing mode");
-//		else
-//			modeTV.setText("Writing mode");
 	}
 
 	String uzmiEkstenziju(String element) {
@@ -195,8 +190,8 @@ public class Glavna extends Activity implements OnClickListener,
 		File fileSaCrtezima = new File(
 				Environment.getExternalStorageDirectory() + "/HIVE/Notebooks/"
 						+ imeSveske + "/drawing_page" + stranica + ".png");
-		bitmapZaDrawingCanvas = BitmapFactory.decodeFile(
-				fileSaCrtezima.getAbsolutePath());
+		bitmapZaDrawingCanvas = BitmapFactory.decodeFile(fileSaCrtezima
+				.getAbsolutePath());
 
 		try {
 			Scanner rd = new Scanner(fileSaRijecima);
@@ -269,6 +264,15 @@ public class Glavna extends Activity implements OnClickListener,
 		this.menu = menu;
 		setTitle(imeSveske);
 		getMenuInflater().inflate(R.menu.crtanje, menu);
+
+		if (drawingMode) {
+			menu.findItem(R.id.action_switch_mode).setIcon(
+					R.drawable.ic_action_letter);
+		} else {
+			menu.findItem(R.id.action_switch_mode).setIcon(
+					R.drawable.ic_action_draw);
+		}
+
 		return true;
 	}
 
@@ -295,7 +299,11 @@ public class Glavna extends Activity implements OnClickListener,
 				CrtanjeView.putanja = new mojaPutanja(new Paint(
 						CrtanjeView.boja));
 				CrtanjeView.paths.add(CrtanjeView.putanja);
-//				modeTV.setText("Writing mode");
+				menu.findItem(R.id.action_switch_mode).setIcon(
+						R.drawable.ic_action_draw);
+				Toast.makeText(getApplication(), R.string.writing_mode,
+						Toast.LENGTH_SHORT).show();
+
 				Log.d("Drawing mode: ", drawingMode.toString());
 				return true;
 			}
@@ -304,7 +312,11 @@ public class Glavna extends Activity implements OnClickListener,
 				CrtanjeView.putanja = new mojaPutanja(new Paint(
 						CrtanjeView.boja));
 				CrtanjeView.drawingPaths.add(CrtanjeView.putanja);
-//				modeTV.setText("Drawing mode");
+				menu.findItem(R.id.action_switch_mode).setIcon(
+						R.drawable.ic_action_letter);
+				Toast.makeText(getApplication(), R.string.drawing_mode,
+						Toast.LENGTH_SHORT).show();
+
 				Log.d("Drawing mode: ", drawingMode.toString());
 				return true;
 			}
