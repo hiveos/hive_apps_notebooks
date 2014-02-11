@@ -393,6 +393,8 @@ public class Glavna extends Activity implements OnClickListener,
 		for (mojaPutanja p : CrtanjeView.paths) {
 			p.reset();
 		}
+		for (mojaPutanja dp: CrtanjeView.drawingPaths)
+			dp.reset();
 
 		super.onStop();
 	}
