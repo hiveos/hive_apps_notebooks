@@ -1,5 +1,6 @@
 package hive.apps.notebooks;
 
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -210,8 +211,15 @@ public class Glavna extends Activity implements OnClickListener,
 				+ "/HIVE/Notebooks/" + imeSveske + "/drawing_page" + stranica
 				+ ".png");
 		Log.d("Ucitaj drawing: ", drawingFile.getAbsolutePath());
-		LoadaniDrawing = BitmapFactory.decodeFile(drawingFile
-				.getAbsolutePath());
+		if (drawingFile.exists())
+			LoadaniDrawing = BitmapFactory.decodeFile(drawingFile
+					.getAbsolutePath());
+		else {
+			LoadaniDrawing = Glavna.LoadaniDrawing.createBitmap(10, 10,
+					Bitmap.Config.ARGB_8888);
+			LoadaniDrawing.recycle();
+		}
+
 	}
 
 	public void ucitajLokacije() {
