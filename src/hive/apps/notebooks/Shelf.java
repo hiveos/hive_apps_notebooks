@@ -21,10 +21,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -56,7 +60,6 @@ public class Shelf extends Activity implements OnClickListener,
 	private RelativeLayout sveska;
 	private ImageView sveskaCover;
 	private TextView sveskaTitle;
-	private LinearLayout emptyspace;
 	private int policaCounter;
 	private int policaNaKojojSeNalazimo;
 	private int sveskaCounter;
@@ -113,6 +116,15 @@ public class Shelf extends Activity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		if (!isNetworkAvailable()) {
+			Intent mNoNetworkIntent = new Intent();
+			mNoNetworkIntent.setAction("hive.action.General");
+			mNoNetworkIntent.putExtra("do", "ERROR_NO_CONNECTION");
+			sendBroadcast(mNoNetworkIntent);
+			finish();
+		}
+
 	}
 
 	@Override
@@ -190,7 +202,6 @@ public class Shelf extends Activity implements OnClickListener,
 	}
 
 	public void dodajPolicu() {
-		emptyspace = (LinearLayout) findViewById(R.id.space);
 		polica = new LinearLayout(this);
 		polica.setOrientation(LinearLayout.HORIZONTAL);
 		police.add(polica);
@@ -228,7 +239,6 @@ public class Shelf extends Activity implements OnClickListener,
 			params.rightMargin = 0;
 			polica.setPadding(50, 20, 50, 0);
 			polica.setBackgroundResource(R.drawable.shelf_wooden);
-			emptyspace.setBackgroundResource(R.drawable.shelf_wooden_empty);
 
 			// Specific values or adjustments go inside this if statement
 			if (isTablet(this)) {
@@ -382,18 +392,11 @@ public class Shelf extends Activity implements OnClickListener,
 
 	@Override
 	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-
-		// File fajlic = new File(Environment.getExternalStorageDirectory()
-		// + "/HIVE/Notebooks/"
-		// + fileNamesWithExtentions.get(arg0.getId()) + "/notebook.xml");
-		// citanjeXMLaObjekt = new CitanjeXMLa(fajlic);
 		stilOdSveske = mNotebookStyles.get(arg0.getId());
 		Glavna.stil = stilOdSveske;
 		Glavna.imeSveske = mNotebookNames.get(arg0.getId());
 		Intent gotoNotebookInt = new Intent(this, Glavna.class);
 		startActivity(gotoNotebookInt);
-
 	}
 
 	@Override
@@ -519,9 +522,17 @@ public class Shelf extends Activity implements OnClickListener,
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
 	private class FetchTask extends AsyncTask<String, Integer, String> {
 
 		String response;
+		boolean isEmpty = true;
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -529,45 +540,68 @@ public class Shelf extends Activity implements OnClickListener,
 			String FetchUrl = "http://hive.bluedream.info/api/"
 					+ mHiveHelper.getUniqueId() + "/notebooks";
 
-			try {
-				HttpClient client = new DefaultHttpClient();
-				HttpGet get = new HttpGet(FetchUrl);
-				HttpResponse responseGet;
-				responseGet = client.execute(get);
-				HttpEntity resEntityGet = responseGet.getEntity();
+			if (isNetworkAvailable()) {
+				try {
+					HttpClient client = new DefaultHttpClient();
+					HttpGet get = new HttpGet(FetchUrl);
+					HttpResponse responseGet;
+					responseGet = client.execute(get);
+					HttpEntity resEntityGet = responseGet.getEntity();
 
-				if (resEntityGet != null) {
-					response = EntityUtils.toString(resEntityGet);
-				} else {
+					if (resEntityGet != null) {
+						response = EntityUtils.toString(resEntityGet);
+					} else {
 
+					}
+
+					extractData();
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-
-				extractData();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				Intent mNoNetworkIntent = new Intent();
+				mNoNetworkIntent.setAction("hive.action.General");
+				mNoNetworkIntent.putExtra("do", "ERROR_NO_CONNECTION");
+				sendBroadcast(mNoNetworkIntent);
+				finish();
 			}
 
 			return null;
 		}
 
 		private void extractData() {
-			clearArrays();
-			
-			mNotebooks = response.split(";");
+			clearUp();
 
-			for (int i = 0; i < mNotebooks.length; i++) {
-				mNotebookNames.add(mNotebooks[i].substring(
-						mNotebooks[i].indexOf("name=") + 5,
-						mNotebooks[i].indexOf(",style")));
-				mNotebookStyles.add(mNotebooks[i].substring(
-						mNotebooks[i].indexOf("style=") + 6,
-						mNotebooks[i].indexOf(",color")));
-				mNotebookColors.add(mNotebooks[i].substring(
-						mNotebooks[i].indexOf("color=") + 6,
-						mNotebooks[i].indexOf(",cover")));
+			if (!response.equals("")) {
+				mNotebooks = response.split(";");
+
+				for (int i = 0; i < mNotebooks.length; i++) {
+					mNotebookNames.add(mNotebooks[i].substring(
+							mNotebooks[i].indexOf("name=") + 5,
+							mNotebooks[i].indexOf(",style")));
+					mNotebookStyles.add(mNotebooks[i].substring(
+							mNotebooks[i].indexOf("style=") + 6,
+							mNotebooks[i].indexOf(",color")));
+					mNotebookColors.add(mNotebooks[i].substring(
+							mNotebooks[i].indexOf("color=") + 6,
+							mNotebooks[i].indexOf(",cover")));
+					isEmpty = false;
+				}
 			}
+		}
+
+		private void clearUp() {
+			Shelf.this.runOnUiThread(new Runnable() {
+				public void run() {
+					ShelfHolder = (LinearLayout) findViewById(R.id.ShelfHolder);
+					ShelfHolder.removeAllViews();
+					LinearLayout NoNotebook = (LinearLayout) findViewById(R.id.no_notebook);
+					NoNotebook.setVisibility(View.GONE);
+				}
+			});
+			clearArrays();
 		}
 
 		private void clearArrays() {
@@ -579,7 +613,13 @@ public class Shelf extends Activity implements OnClickListener,
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			addNotebooks();
+			if (isNetworkAvailable()) {
+				if (!isEmpty) {
+					addNotebooks();
+				} else {
+					displayNoNotebooks();
+				}
+			}
 			mPullToRefreshLayout.setRefreshComplete();
 		}
 
@@ -591,7 +631,15 @@ public class Shelf extends Activity implements OnClickListener,
 
 			if (brojSveskiZaLoadati != 0)
 				loadajSveske();
+		}
 
+		private void displayNoNotebooks() {
+			Shelf.this.runOnUiThread(new Runnable() {
+				public void run() {
+					LinearLayout NoNotebook = (LinearLayout) findViewById(R.id.no_notebook);
+					NoNotebook.setVisibility(View.VISIBLE);
+				}
+			});
 		}
 
 	}
