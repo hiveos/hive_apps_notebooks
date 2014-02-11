@@ -80,6 +80,7 @@ public class Shelf extends Activity implements OnClickListener,
 	ArrayList<String> fileNamesWithExtentions = new ArrayList<String>();
 
 	String[] mNotebooks;
+	ArrayList<String> mNotebookIds = new ArrayList<String>();
 	ArrayList<String> mNotebookNames = new ArrayList<String>();
 	ArrayList<String> mNotebookStyles = new ArrayList<String>();
 	ArrayList<String> mNotebookColors = new ArrayList<String>();
@@ -578,6 +579,9 @@ public class Shelf extends Activity implements OnClickListener,
 				mNotebooks = response.split(";");
 
 				for (int i = 0; i < mNotebooks.length; i++) {
+					mNotebookIds.add(mNotebooks[i].substring(
+							mNotebooks[i].indexOf("id=") + 3,
+							mNotebooks[i].indexOf(",name")));
 					mNotebookNames.add(mNotebooks[i].substring(
 							mNotebooks[i].indexOf("name=") + 5,
 							mNotebooks[i].indexOf(",style")));
