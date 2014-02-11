@@ -11,10 +11,18 @@ Action Bar Pull To Refresh
 --------------------------
 https://github.com/chrisbanes/ActionBar-PullToRefresh
 
-DefaultHeaderTransformer.java may give errors on line 375. If you encounter the errors change the line to 
+Add
+```
+<uses-sdk
+        android:minSdkVersion="X"
+        android:targetSdkVersion="19" />
+```
+to the AndroidManifest.xml file (If doesn't already exist). Other than that, DefaultHeaderTransformer.java may give errors on line 375. If you encounter the errors change the line to 
 ```
 .strokeWidth(strokeWidth)
 ```
+
+
 
 
 Smooth Progress Bar 
