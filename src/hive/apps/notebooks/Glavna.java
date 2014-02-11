@@ -62,9 +62,7 @@ public class Glavna extends Activity implements OnClickListener,
 	static Boolean toggleGuides = true;
 	static Boolean drawingMode = false;
 	static Bitmap bitmapZaCanvas;
-	static Bitmap bitmapZaDrawingCanvas;
 	public static Canvas cZaSpremanje;
-	public static Canvas cZaDrawingSpremanje;
 	public int color;
 
 	private ColorPicker picker;
@@ -73,6 +71,7 @@ public class Glavna extends Activity implements OnClickListener,
 
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
+	public static Bitmap LoadaniDrawing;
 
 	@SuppressWarnings("static-access")
 	@Override
@@ -157,7 +156,6 @@ public class Glavna extends Activity implements OnClickListener,
 		picker.setOnColorChangedListener(this);
 		picker.setColor(getResources().getColor(R.color.dark_green));
 
-
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -181,6 +179,41 @@ public class Glavna extends Activity implements OnClickListener,
 		return ekstenzija;
 	}
 
+	public void spremiDrawing() {
+		File drawingFile = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/" + imeSveske + "/drawing_page" + stranica
+				+ ".png");
+		Log.d("drawingFile", drawingFile.getAbsolutePath());
+		try {
+			drawingFile.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(drawingFile);
+			CrtanjeView.drawingBitmap.compress(Bitmap.CompressFormat.PNG, 100,
+					fos);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		CrtanjeView.dCanvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+	}
+
+	public void ucitajDrawing() {
+		File drawingFile = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/" + imeSveske + "/drawing_page" + stranica
+				+ ".png");
+		Log.d("Ucitaj drawing: ", drawingFile.getAbsolutePath());
+		LoadaniDrawing = BitmapFactory.decodeFile(drawingFile
+				.getAbsolutePath());
+	}
+
 	public void ucitajLokacije() {
 		File fileSaRijecima = new File(
 				Environment.getExternalStorageDirectory() + "/HIVE/Notebooks/"
@@ -188,12 +221,6 @@ public class Glavna extends Activity implements OnClickListener,
 		CrtanjeView.pozicije.clear();
 		CrtanjeView.sviZaCrtat.clear();
 		CrtanjeView.jeLiRijec.clear();
-
-		File fileSaCrtezima = new File(
-				Environment.getExternalStorageDirectory() + "/HIVE/Notebooks/"
-						+ imeSveske + "/drawing_page" + stranica + ".png");
-		bitmapZaDrawingCanvas = BitmapFactory.decodeFile(fileSaCrtezima
-				.getAbsolutePath());
 
 		try {
 			Scanner rd = new Scanner(fileSaRijecima);
@@ -235,6 +262,7 @@ public class Glavna extends Activity implements OnClickListener,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ucitajDrawing();
 	}
 
 	public byte[] readBytes(InputStream inputStream) throws IOException {
@@ -305,7 +333,6 @@ public class Glavna extends Activity implements OnClickListener,
 						R.drawable.ic_action_draw);
 				Toast.makeText(getApplication(), R.string.writing_mode,
 						Toast.LENGTH_SHORT).show();
-
 				Log.d("Drawing mode: ", drawingMode.toString());
 				return true;
 			}
@@ -353,13 +380,10 @@ public class Glavna extends Activity implements OnClickListener,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		spremiDrawing();
 
 		for (mojaPutanja p : CrtanjeView.paths) {
 			p.reset();
-		}
-
-		for (mojaPutanja dp : CrtanjeView.drawingPaths) {
-			dp.reset();
 		}
 
 		super.onStop();
@@ -367,14 +391,10 @@ public class Glavna extends Activity implements OnClickListener,
 
 	public void spremiIzgledStranice() throws IOException {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		ByteArrayOutputStream drawingBytes = new ByteArrayOutputStream();
 		if (bitmapZaCanvas != null)
 			bitmapZaCanvas.compress(Bitmap.CompressFormat.PNG, 40, bytes);
 		else
 			Log.d("Null je", "Null je");
-		if (bitmapZaDrawingCanvas != null)
-			bitmapZaDrawingCanvas.compress(Bitmap.CompressFormat.PNG, 100,
-					drawingBytes);
 
 		File f = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/Notebooks/" + imeSveske + "/page" + stranica + ".png");
@@ -386,13 +406,6 @@ public class Glavna extends Activity implements OnClickListener,
 		// remember close de FileOutput
 		fo.close();
 
-		File fod = new File(Environment.getExternalStorageDirectory()
-				+ "/HIVE/Notebooks/" + imeSveske + "/drawing_page" + stranica
-				+ ".png");
-		fod.createNewFile();
-		FileOutputStream fodod = new FileOutputStream(fod);
-		fodod.write(drawingBytes.toByteArray());
-		fodod.close();
 	}
 
 	public void spremiRijeci() {
@@ -486,19 +499,17 @@ public class Glavna extends Activity implements OnClickListener,
 			if (stranica == 1)
 				break;
 			spremiRijeci();
+			spremiDrawing();
 			try {
 				spremiIzgledStranice();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for (mojaPutanja dp : CrtanjeView.drawingPaths) {
+			for (mojaPutanja dp : CrtanjeView.drawingPaths)
 				dp.reset();
-			}
 			cZaSpremanje.drawColor(Color.WHITE);
 			cZaSpremanje.drawBitmap(tekstura, 0, 0, null);
-			CrtanjeView.drawingCanvas.drawColor(Color.WHITE,
-					PorterDuff.Mode.CLEAR);
 			cv.sviZaCrtat.clear();
 			CrtanjeView.pozicije.clear();
 			niz.clear();
@@ -510,19 +521,17 @@ public class Glavna extends Activity implements OnClickListener,
 			break;
 		case R.id.bRight:
 			spremiRijeci();
+			spremiDrawing();
 			try {
 				spremiIzgledStranice();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for (mojaPutanja dp : CrtanjeView.drawingPaths) {
+			for (mojaPutanja dp : CrtanjeView.drawingPaths)
 				dp.reset();
-			}
 			cZaSpremanje.drawColor(Color.WHITE);
 			cZaSpremanje.drawBitmap(tekstura, 0, 0, null);
-			CrtanjeView.drawingCanvas.drawColor(Color.WHITE,
-					PorterDuff.Mode.CLEAR);
 			cv.sviZaCrtat.clear();
 			CrtanjeView.pozicije.clear();
 			niz.clear();

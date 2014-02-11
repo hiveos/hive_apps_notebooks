@@ -8,6 +8,7 @@ import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -74,7 +75,8 @@ public class CrtanjeView extends View {
 										// potrebe za ovim, al eto, za svaki
 										// slucaj
 	private Canvas mCanvas;
-	public static Canvas drawingCanvas;
+	static Canvas dCanvas;
+	public static Bitmap drawingBitmap;
 	public static Boolean writing = true;
 	private Color plavaBojaOlovke, crvenaBojaOlovke;
 	static int ekranSirina;
@@ -87,6 +89,7 @@ public class CrtanjeView extends View {
 	private Glavna g = new Glavna();
 	private Runnable runnable;
 	final Handler _handler = new Handler();
+	public static Path eraser;
 
 	public static int sirinaLinije;	
 	
@@ -103,16 +106,12 @@ public class CrtanjeView extends View {
 		MyBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		Glavna.bitmapZaCanvas = Bitmap.createBitmap(w, h,
 				Bitmap.Config.ARGB_8888);
-		Glavna.bitmapZaDrawingCanvas = Bitmap.createBitmap(w, h,
-				Bitmap.Config.ARGB_8888);
+		drawingBitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
 		Glavna.cZaSpremanje = new Canvas(Glavna.bitmapZaCanvas);
 		Glavna.cZaSpremanje.drawColor(Color.WHITE);
 		Glavna.cZaSpremanje.drawBitmap(Glavna.tekstura, 0, 0, null);
-		Glavna.cZaDrawingSpremanje = new Canvas(Glavna.bitmapZaDrawingCanvas);
-		Glavna.cZaDrawingSpremanje.drawColor(Color.TRANSPARENT,
-				PorterDuff.Mode.CLEAR);
 		mCanvas = new Canvas(MyBitmap);
-		drawingCanvas = new Canvas(Glavna.bitmapZaDrawingCanvas);
+		dCanvas = new Canvas(drawingBitmap);
 	}
 
 	// Scale se radi na nacin sto znamo kolika visina nam treba NA koju cemo
@@ -318,19 +317,21 @@ public class CrtanjeView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		// Iscrtavanje putanja
-
 		canvas.drawBitmap(Glavna.tekstura, 0, 0, null);
-		if(Glavna.bitmapZaDrawingCanvas!=null)
-			canvas.drawBitmap(Glavna.bitmapZaDrawingCanvas, 0, 0, null);
-
+		
+		if (!Glavna.LoadaniDrawing.isRecycled()) {
+			canvas.drawBitmap(Glavna.LoadaniDrawing, 0, 0, null);
+			dCanvas.drawBitmap(Glavna.LoadaniDrawing, 0, 0, null);
+			Glavna.cZaSpremanje.drawBitmap(Glavna.LoadaniDrawing, 0, 0, null);
+		}
+		
 		Log.d("Writing Paths size: ", paths.size() + "");
 		Log.d("Drawing Paths size: ", drawingPaths.size() + "");
 
 		for (mojaPutanja dp : drawingPaths) {
 			canvas.drawPath(dp, dp.bojaPutanje);
-			drawingCanvas.drawPath(dp, dp.bojaPutanje);
-			Glavna.cZaDrawingSpremanje.drawPath(dp, dp.bojaPutanje);
 			Glavna.cZaSpremanje.drawPath(dp, dp.bojaPutanje);
+			dCanvas.drawPath(dp, dp.bojaPutanje);
 		}
 
 		for (mojaPutanja p : paths) {
@@ -354,10 +355,6 @@ public class CrtanjeView extends View {
 			Glavna.cZaSpremanje.drawBitmap(sviZaCrtat.elementAt(i),
 					pozicije.elementAt(i).first, pozicije.elementAt(i).second,
 					boja);
-			for (mojaPutanja dp : drawingPaths) {
-				Glavna.cZaSpremanje.drawPath(dp, dp.bojaPutanje);
-				Glavna.cZaDrawingSpremanje.drawPath(dp, dp.bojaPutanje);
-			}
 		}
 		int visinaKursora = 0;
 		if (!pozicije.isEmpty()) {
