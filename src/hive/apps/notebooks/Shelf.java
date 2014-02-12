@@ -2,8 +2,15 @@ package hive.apps.notebooks;
 
 import hive.apps.notebooks.helpers.HiveHelper;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +32,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,6 +88,9 @@ public class Shelf extends Activity implements OnClickListener,
 	private Boolean isNeededToLoad = false;
 	public CitanjeXMLa citanjeXMLaObjekt;
 	public String stilOdSveske;
+	String upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/25";
+	private int serverResponseCode = 0;
+	private String putDoFajlaZaUploadati = "";
 
 	ArrayList<String> fileNamesWithExtentions = new ArrayList<String>();
 
@@ -117,6 +128,13 @@ public class Shelf extends Activity implements OnClickListener,
 				.listener(this).setup(mPullToRefreshLayout);
 
 		new FetchTask().execute();
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		// new uploadNotebooks().execute();
+		super.onStop();
 	}
 
 	@Override
@@ -603,8 +621,8 @@ public class Shelf extends Activity implements OnClickListener,
 					mNotebookStyles.add(mNotebooks[i].substring(
 							mNotebooks[i].indexOf("style=") + 6,
 							mNotebooks[i].indexOf(",color")));
-					mNotebookColors.add(mNotebooks[i].substring(
-							mNotebooks[i].indexOf("color=") + 6));
+					mNotebookColors.add(mNotebooks[i].substring(mNotebooks[i]
+							.indexOf("color=") + 6));
 
 					isEmpty = false;
 				}
@@ -640,6 +658,7 @@ public class Shelf extends Activity implements OnClickListener,
 					displayNoNotebooks();
 				}
 			}
+			uN();
 			mPullToRefreshLayout.setRefreshComplete();
 		}
 
@@ -709,6 +728,172 @@ public class Shelf extends Activity implements OnClickListener,
 
 			}
 
+		}
+
+	}
+
+	public void uN() {
+		File notebooksRoot = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/");
+		File zNotebooksRoot = new File(
+				Environment.getExternalStorageDirectory()
+						+ "/HIVE/Zipped_Notebooks/");
+		if (!notebooksRoot.exists())
+			notebooksRoot.mkdirs();
+		if (!zNotebooksRoot.exists())
+			zNotebooksRoot.mkdirs();
+
+		File[] notebookFolders = notebooksRoot.listFiles();
+
+		for (File f : notebookFolders) {
+			Zipper zipper = new Zipper();
+			File zipFile = new File(Environment.getExternalStorageDirectory()
+					+ "/HIVE/Zipped_Notebooks/" + f.getName() + ".zip");
+			Log.d("ZIPFILE:", zipFile.getAbsolutePath() + "");
+			try {
+				zipFile.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				zipper.zipDirectory(f, zipFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		new uploadFileA().execute();
+	}
+	
+	public void uF(){
+		File zippedNotebooksRoot = new File(
+				Environment.getExternalStorageDirectory()
+						+ "/HIVE/Zipped_Notebooks/");
+		File[] zippedNotebooks = zippedNotebooksRoot.listFiles();
+
+		ArrayList<String> mNotebooksToUpload = new ArrayList<String>();
+		uploadFileA authTask = new uploadFileA();
+		
+		for (File zf : zippedNotebooks) {
+			upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/";
+
+			int i = 0;
+			for (String name : mNotebookNames) {
+				upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/";
+				if (zf.getName().substring(0, zf.getName().length() - 4)
+						.equals(name)) {
+					upLoadServerUri += mNotebookIds.get(i);
+					uploadFile(zf.getAbsolutePath());
+				}
+				i++;
+			}
+
+		}
+	}
+
+	public int uploadFile(String sourceFileUri) {
+		String fileName = sourceFileUri;
+
+		HttpURLConnection conn = null;
+		DataOutputStream dos = null;
+		String lineEnd = "\r\n";
+		String twoHyphens = "--";
+		String boundary = "*****";
+		int bytesRead, bytesAvailable, bufferSize;
+		byte[] buffer;
+		int maxBufferSize = 1 * 1024 * 1024;
+		File sourceFile = new File(sourceFileUri);
+
+		if (!sourceFile.isFile()) {
+			return 0;
+		} else {
+			try {
+				FileInputStream fileInputStream = new FileInputStream(
+						sourceFile);
+				URL url = new URL(upLoadServerUri);
+				// Open a HTTP connection to the URL
+				conn = (HttpURLConnection) url.openConnection();
+				conn.setDoInput(true); // Allow Inputs
+				conn.setDoOutput(true); // Allow Outputs
+				conn.setUseCaches(false); // Don't use a Cached Copy
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Connection", "Keep-Alive");
+				conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+				conn.setRequestProperty("Content-Type",
+						"multipart/form-data;boundary=" + boundary);
+				conn.setRequestProperty("file", fileName);
+
+				dos = new DataOutputStream(conn.getOutputStream());
+				dos.writeBytes(twoHyphens + boundary + lineEnd);
+				dos.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\""
+						+ fileName + "\"" + lineEnd);
+
+				dos.writeBytes(lineEnd);
+
+				bytesAvailable = fileInputStream.available();
+
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				buffer = new byte[bufferSize];
+				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+				while (bytesRead > 0) {
+
+					dos.write(buffer, 0, bufferSize);
+					bytesAvailable = fileInputStream.available();
+					bufferSize = Math.min(bytesAvailable, maxBufferSize);
+					bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+				}
+
+				dos.writeBytes(lineEnd);
+				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+				serverResponseCode = conn.getResponseCode();
+				String serverResponseMessage = conn.getResponseMessage();
+
+				Log.i("uploadFile", "HTTP Response is : "
+						+ serverResponseMessage + ": " + serverResponseCode);
+
+				if (serverResponseCode == 200) {
+
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Log.d("File uploading status:", "Completed");
+						}
+					});
+				}
+				fileInputStream.close();
+				dos.flush();
+				dos.close();
+
+			} catch (MalformedURLException ex) {
+				ex.printStackTrace();
+				Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
+			} catch (Exception e) {
+				Log.e("Upload file to server Exception",
+						"Exception : " + e.getMessage(), e);
+			}
+			return serverResponseCode;
+		}
+	}
+
+	public class uploadFileA extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			Log.d("status", "usli smo");
+			uF();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			Log.d("status", "uspjeli smo");
+			super.onPostExecute(result);
 		}
 
 	}
