@@ -5,15 +5,23 @@ import hive.apps.notebooks.helpers.HiveHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -23,7 +31,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,9 +52,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class Shelf extends Activity implements OnClickListener,
 		OnLongClickListener, OnRefreshListener {
@@ -84,6 +88,7 @@ public class Shelf extends Activity implements OnClickListener,
 	ArrayList<String> mNotebookNames = new ArrayList<String>();
 	ArrayList<String> mNotebookStyles = new ArrayList<String>();
 	ArrayList<String> mNotebookColors = new ArrayList<String>();
+	ArrayList<Integer> iNotebookIds = new ArrayList<Integer>();
 
 	public static final String SHELF_STYLE = "shelfstyle";
 
@@ -144,9 +149,8 @@ public class Shelf extends Activity implements OnClickListener,
 
 		switch (item.getItemId()) {
 		case R.id.action_addnotebook:
-			// dodajSvesku();
-			// Intent AddNotebook = new Intent(this, AddNotebook.class);
-			// startActivity(AddNotebook);
+			Intent AddNotebook = new Intent(this, AddNotebook.class);
+			startActivity(AddNotebook);
 			return true;
 		case R.id.action_settings:
 			Intent Settings = new Intent(this, SettingsActivity.class);
@@ -428,7 +432,11 @@ public class Shelf extends Activity implements OnClickListener,
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 			case R.id.action_editnotebooks: {
-				showToast("Edit functionality is yet to be implemented. Stay tuned :P");
+				Intent i = new Intent(getApplication(), EditNotebook.class);
+				i.putExtra("id", mNotebookIds.get(selectednotebook.getId()));
+				i.putExtra("notebookname",
+						mNotebookNames.get(selectednotebook.getId()));
+				startActivity(i);
 
 				mode.finish();
 			}
@@ -436,15 +444,16 @@ public class Shelf extends Activity implements OnClickListener,
 
 			case R.id.action_deletenotebook: {
 				try {
+					Log.d("HHH", iNotebookIds.get(selectednotebook.getId())
+							+ " | " + selectednotebook.getId());
+					new DeleteTask().execute(selectednotebook.getId());
 					obrisiSvesku(selectednotebook.getId());
-					Intent intent = getIntent();
-					finish();
-					startActivity(intent);
 					mode.finish();
 				} catch (Exception e) {
 					Toast.makeText(Shelf.this,
 							R.string.error_deleting_notebook,
 							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
 					mode.finish();
 
 				}
@@ -535,16 +544,19 @@ public class Shelf extends Activity implements OnClickListener,
 		String response;
 		boolean isEmpty = true;
 
+		ArrayList<String> sNotebookIds = new ArrayList<String>();
+
 		@Override
 		protected String doInBackground(String... params) {
 			HiveHelper mHiveHelper = new HiveHelper();
-			String FetchUrl = "http://hive.bluedream.info/api/"
-					+ mHiveHelper.getUniqueId() + "/notebooks";
+			String url = getResources().getString(R.string.api_base)
+					+ mHiveHelper.getUniqueId()
+					+ getResources().getString(R.string.api_list_notebook);
 
 			if (isNetworkAvailable()) {
 				try {
 					HttpClient client = new DefaultHttpClient();
-					HttpGet get = new HttpGet(FetchUrl);
+					HttpGet get = new HttpGet(url);
 					HttpResponse responseGet;
 					responseGet = client.execute(get);
 					HttpEntity resEntityGet = responseGet.getEntity();
@@ -579,6 +591,9 @@ public class Shelf extends Activity implements OnClickListener,
 				mNotebooks = response.split(";");
 
 				for (int i = 0; i < mNotebooks.length; i++) {
+					iNotebookIds.add(Integer.parseInt(mNotebooks[i].substring(
+							mNotebooks[i].indexOf("id=") + 3,
+							mNotebooks[i].indexOf(",name"))));
 					mNotebookIds.add(mNotebooks[i].substring(
 							mNotebooks[i].indexOf("id=") + 3,
 							mNotebooks[i].indexOf(",name")));
@@ -589,8 +604,8 @@ public class Shelf extends Activity implements OnClickListener,
 							mNotebooks[i].indexOf("style=") + 6,
 							mNotebooks[i].indexOf(",color")));
 					mNotebookColors.add(mNotebooks[i].substring(
-							mNotebooks[i].indexOf("color=") + 6,
-							mNotebooks[i].indexOf(",cover")));
+							mNotebooks[i].indexOf("color=") + 6));
+
 					isEmpty = false;
 				}
 			}
@@ -612,6 +627,7 @@ public class Shelf extends Activity implements OnClickListener,
 			mNotebookNames.clear();
 			mNotebookStyles.clear();
 			mNotebookColors.clear();
+			iNotebookIds.clear();
 		}
 
 		@Override
@@ -644,6 +660,55 @@ public class Shelf extends Activity implements OnClickListener,
 					NoNotebook.setVisibility(View.VISIBLE);
 				}
 			});
+		}
+
+	}
+
+	private class DeleteTask extends AsyncTask<Integer, Integer, Integer> {
+
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			HiveHelper mHiveHelper = new HiveHelper();
+			String url = getResources().getString(R.string.api_base)
+					+ mHiveHelper.getUniqueId()
+					+ getResources().getString(R.string.api_delete_notebook);
+
+			if (isNetworkAvailable()) {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(url);
+
+				try {
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+							1);
+					int id = params[0];
+					nameValuePairs.add(new BasicNameValuePair("item",
+							mNotebookIds.get(id)));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					HttpResponse response = httpclient.execute(httppost);
+					new FetchTask().execute();
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Intent mNoNetworkIntent = new Intent();
+				mNoNetworkIntent.setAction("hive.action.General");
+				mNoNetworkIntent.putExtra("do", "ERROR_NO_CONNECTION");
+				sendBroadcast(mNoNetworkIntent);
+				finish();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			if (isNetworkAvailable()) {
+
+			}
+
 		}
 
 	}

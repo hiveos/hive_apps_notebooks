@@ -1,12 +1,29 @@
 package hive.apps.notebooks;
 
+import hive.apps.notebooks.helpers.HiveHelper;
+
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -17,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +48,8 @@ public class AddNotebook extends Activity {
 	TextView notebookNameDisplay;
 	public static String actualNotebookName;
 	public static long selectedcolor;
+
+	Shelf mShelf;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -45,9 +65,9 @@ public class AddNotebook extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setLogo(R.drawable.ic_navigation_cancel);
-		//actionBar.setDisplayShowTitleEnabled(false);
+		// actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setHomeAsUpIndicator(R.drawable.action_arrow);
-		
+
 		ArrayAdapter<CharSequence> typeadapter = ArrayAdapter
 				.createFromResource(this, R.array.notebook_styles,
 						android.R.layout.simple_spinner_item);
@@ -147,6 +167,8 @@ public class AddNotebook extends Activity {
 
 				});
 
+		mShelf = new Shelf();
+
 	}
 
 	@Override
@@ -172,7 +194,8 @@ public class AddNotebook extends Activity {
 			}
 			if (actualNotebookName.length() > 40) {
 				Toast toast = Toast.makeText(this,
-						R.string.error_notebook_name_too_long, Toast.LENGTH_LONG);
+						R.string.error_notebook_name_too_long,
+						Toast.LENGTH_LONG);
 				toast.show();
 			}
 
@@ -190,39 +213,88 @@ public class AddNotebook extends Activity {
 					notebooksRoot.mkdirs();
 				}
 
-				File xmlFile = new File(
-						Environment.getExternalStorageDirectory()
-								+ "/HIVE/Notebooks/" + tmpann + "/notebook.xml");
+				String newnotebookname = actualNotebookName;
+				String newnotebookstyle = nbbgstyle.getSelectedItem()
+						.toString();
+				String newnotebookcolor = notebookcovercolor.getSelectedItem()
+						.toString();
 
-				if (!xmlFile.exists()) {
-					try {
-						xmlFile.createNewFile();
-						xmlFile.setWritable(true);
-
-						try {
-							FileWriter out = new FileWriter(xmlFile);
-							out.write("<notebook>\n <name>"
-									+ actualNotebookName + "</name>\n"
-									+ "<covercolor>"
-									+ notebookcovercolor.getSelectedItem()
-									+ "</covercolor>\n" + "<style>"
-									+ nbbgstyle.getSelectedItem()
-									+ "</style>\n" + "</notebook>");
-							out.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				new AddTask().execute(newnotebookname, newnotebookstyle,
+						newnotebookcolor);
 			}
 
 			return true;
 		default:
 			return false;
+
+		}
+
+	}
+
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
+	private class AddTask extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			HiveHelper mHiveHelper = new HiveHelper();
+			String url = getResources().getString(R.string.api_base)
+					+ mHiveHelper.getUniqueId()
+					+ getResources().getString(R.string.api_add_notebook);
+
+			if (isNetworkAvailable()) {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(url);
+
+				try {
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
+							3);
+
+					String name = params[0];
+					String style = params[1];
+					String color = params[2];
+
+					nameValuePairs.add(new BasicNameValuePair("name", name
+							.toString()));
+					nameValuePairs.add(new BasicNameValuePair("style", style
+							.toString()));
+					nameValuePairs.add(new BasicNameValuePair("color", color
+							.toString()));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					HttpResponse response = httpclient.execute(httppost);
+
+					//call refresh
+					
+					finish();
+
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Intent mNoNetworkIntent = new Intent();
+				mNoNetworkIntent.setAction("hive.action.General");
+				mNoNetworkIntent.putExtra("do", "ERROR_NO_CONNECTION");
+				sendBroadcast(mNoNetworkIntent);
+				finish();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (isNetworkAvailable()) {
+
+			}
 
 		}
 
