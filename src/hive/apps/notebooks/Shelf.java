@@ -134,6 +134,7 @@ public class Shelf extends Activity implements OnClickListener,
 		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
 		new FetchTask().execute();
+		mPullToRefreshLayout.setRefreshing(true);
 	}
 
 	@Override
