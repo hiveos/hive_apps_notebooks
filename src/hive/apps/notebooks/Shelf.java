@@ -130,6 +130,8 @@ public class Shelf extends Activity implements OnClickListener,
 
 		ActionBarPullToRefresh.from(this).allChildrenArePullable()
 				.listener(this).setup(mPullToRefreshLayout);
+		
+		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
 		new FetchTask().execute();
 	}
@@ -431,8 +433,13 @@ public class Shelf extends Activity implements OnClickListener,
 		Glavna.imeSveske = mNotebookNames.get(arg0.getId());
 		File fajlOMG = new File(Environment.getExternalStorageDirectory()
 				+ "/HIVE/Notebooks/" + mNotebookNames.get(arg0.getId()));
-		if (!fajlOMG.exists())
+		if (!fajlOMG.exists()) {
 			new downloadTask().execute(arg0.getId() + "");
+		} else {
+			Intent gotoNotebookInt = new Intent(getApplicationContext(),
+					Glavna.class);
+			startActivity(gotoNotebookInt);
+		}
 	}
 
 	@Override
@@ -935,7 +942,10 @@ public class Shelf extends Activity implements OnClickListener,
 					+ getResources().getString(R.string.api_pull_notebook);
 			File downloadedNotebook = null;
 			id_first = Integer.parseInt(arg0[0]);
-			Log.d("OPA", id_first + "");
+
+			File tempDir = new File(Environment.getExternalStorageDirectory()
+					+ "/HIVE/Temp");
+
 			try {
 				HttpRequest request = HttpRequest.post(url).send(
 						"item=" + mNotebookIds.get(id_first));
@@ -945,8 +955,8 @@ public class Shelf extends Activity implements OnClickListener,
 							Environment.getExternalStorageDirectory()
 									+ "/HIVE/Temp/"
 									+ mNotebookNames.get(id_first) + ".zip");
-					if(!downloadedNotebook.exists())
-						downloadedNotebook.mkdirs();
+					if (!tempDir.exists())
+						tempDir.mkdirs();
 					request.receive(downloadedNotebook);
 				}
 			} catch (Exception e) {
