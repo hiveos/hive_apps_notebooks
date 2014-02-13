@@ -88,9 +88,11 @@ public class Shelf extends Activity implements OnClickListener,
 	private Boolean isNeededToLoad = false;
 	public CitanjeXMLa citanjeXMLaObjekt;
 	public String stilOdSveske;
-	String upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/25";
+	String upLoadServerUri = "";
 	private int serverResponseCode = 0;
 	private String putDoFajlaZaUploadati = "";
+	int id_first;
+	int id_notebook;
 
 	ArrayList<String> fileNamesWithExtentions = new ArrayList<String>();
 
@@ -135,6 +137,13 @@ public class Shelf extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		// new uploadNotebooks().execute();
 		super.onStop();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		new uploadFileA().execute();
+		super.onPause();
 	}
 
 	@Override
@@ -418,8 +427,10 @@ public class Shelf extends Activity implements OnClickListener,
 		stilOdSveske = mNotebookStyles.get(arg0.getId());
 		Glavna.stil = stilOdSveske;
 		Glavna.imeSveske = mNotebookNames.get(arg0.getId());
-		Intent gotoNotebookInt = new Intent(this, Glavna.class);
-		startActivity(gotoNotebookInt);
+		File fajlOMG = new File(Environment.getExternalStorageDirectory()
+				+ "/HIVE/Notebooks/" + mNotebookNames.get(arg0.getId()));
+		if (!fajlOMG.exists())
+			new downloadTask().execute(arg0.getId() + "");
 	}
 
 	@Override
@@ -763,11 +774,10 @@ public class Shelf extends Activity implements OnClickListener,
 				e.printStackTrace();
 			}
 		}
-		
-		new uploadFileA().execute();
+
 	}
-	
-	public void uF(){
+
+	public void uF() {
 		File zippedNotebooksRoot = new File(
 				Environment.getExternalStorageDirectory()
 						+ "/HIVE/Zipped_Notebooks/");
@@ -775,16 +785,21 @@ public class Shelf extends Activity implements OnClickListener,
 
 		ArrayList<String> mNotebooksToUpload = new ArrayList<String>();
 		uploadFileA authTask = new uploadFileA();
-		
-		for (File zf : zippedNotebooks) {
-			upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/";
+		HiveHelper mHiveHelper = new HiveHelper();
 
+		for (File zf : zippedNotebooks) {
+			upLoadServerUri = getResources().getString(R.string.api_base)
+					+ mHiveHelper.getUniqueId()
+					+ getResources().getString(R.string.api_push_notebook);
 			int i = 0;
 			for (String name : mNotebookNames) {
-				upLoadServerUri = "http://hive.bluedream.info/api/2e5ee04b606ae9bc3783/push/notebook/";
+				upLoadServerUri = getResources().getString(R.string.api_base)
+						+ mHiveHelper.getUniqueId()
+						+ getResources().getString(R.string.api_push_notebook);
 				if (zf.getName().substring(0, zf.getName().length() - 4)
 						.equals(name)) {
-					upLoadServerUri += mNotebookIds.get(i);
+					upLoadServerUri += "/" + mNotebookIds.get(i);
+					Log.d("upLoadServerUri", upLoadServerUri);
 					uploadFile(zf.getAbsolutePath());
 				}
 				i++;
@@ -894,6 +909,70 @@ public class Shelf extends Activity implements OnClickListener,
 			// TODO Auto-generated method stub
 			Log.d("status", "uspjeli smo");
 			super.onPostExecute(result);
+		}
+
+	}
+
+	public class downloadTask extends AsyncTask<String, Void, File> {
+
+		@Override
+		protected File doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			Log.d("status", "usli smo");
+			Log.d("ID::", arg0[0]);
+			HiveHelper mHiveHelper = new HiveHelper();
+			String url = getResources().getString(R.string.api_base)
+					+ mHiveHelper.getUniqueId()
+					+ getResources().getString(R.string.api_pull_notebook);
+			File downloadedNotebook = null;
+			id_first = Integer.parseInt(arg0[0]);
+			Log.d("OPA", id_first + "");
+			try {
+				HttpRequest request = HttpRequest.post(url).send(
+						"item=" + mNotebookIds.get(id_first));
+				Log.d("aaaa", url + " " + arg0[0]);
+				if (request.ok()) {
+					downloadedNotebook = new File(
+							Environment.getExternalStorageDirectory()
+									+ "/HIVE/Temp/"
+									+ mNotebookNames.get(id_first) + ".zip");
+					if(!downloadedNotebook.exists())
+						downloadedNotebook.mkdirs();
+					request.receive(downloadedNotebook);
+				}
+			} catch (Exception e) {
+
+			}
+
+			return downloadedNotebook;
+		}
+
+		@Override
+		protected void onPostExecute(File file) {
+			// TODO Auto-generated method stub
+			Log.d("status", "uspjeli smo");
+			super.onPostExecute(file);
+			File extractTo = new File(Environment.getExternalStorageDirectory()
+					+ "/HIVE/Notebooks/" + mNotebookNames.get(id_first));
+			if (!extractTo.exists()) {
+				extractTo.mkdirs();
+			}
+			try {
+				Zipper.unzip(file, extractTo);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Shelf.this.runOnUiThread(new Runnable() {
+				public void run() {
+					Intent gotoNotebookInt = new Intent(
+							getApplicationContext(), Glavna.class);
+					startActivity(gotoNotebookInt);
+				}
+			});
+
 		}
 
 	}

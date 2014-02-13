@@ -6,5 +6,7 @@
     <string name="api_delete_notebook">/delete/notebook</string>
     <string name="api_add_notebook">/add/notebook</string>
     <string name="api_edit_notebook">/edit/notebook</string>
+    <string name="api_pull_notebook">/pull/notebook</string>
+    <string name="api_push_notebook">/push/notebook</string>
 
 </resources>
