@@ -75,97 +75,12 @@ public class AddNotebook extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		nbbgstyle.setAdapter(typeadapter);
 
-		nbbgstyle
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						// TODO Auto-generated method stub
-
-						if (nbbgstyle.getSelectedItemId() == 0) {
-
-						}
-						if (nbbgstyle.getSelectedItemId() == 1) {
-
-						}
-						if (nbbgstyle.getSelectedItemId() == 2) {
-
-						}
-						if (nbbgstyle.getSelectedItemId() == 3) {
-
-						}
-
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-
 		ArrayAdapter<CharSequence> coloradapter = ArrayAdapter
 				.createFromResource(this, R.array.notebook_cover_color,
 						android.R.layout.simple_spinner_item);
 		coloradapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		notebookcovercolor.setAdapter(coloradapter);
-
-		notebookcovercolor
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						Log.e("TAG",
-								(String) notebookcovercolor.getSelectedItem());
-
-						if (notebookcovercolor.getSelectedItemId() == 1) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 2) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 3) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 4) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 5) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 6) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 7) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 8) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 9) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 10) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 11) {
-
-						}
-						if (notebookcovercolor.getSelectedItemId() == 12) {
-
-						}
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
 
 		mShelf = new Shelf();
 
@@ -269,8 +184,8 @@ public class AddNotebook extends Activity {
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					HttpResponse response = httpclient.execute(httppost);
 
-					//call refresh
-					
+					// call refresh
+
 					finish();
 
 				} catch (ClientProtocolException e) {
@@ -292,10 +207,11 @@ public class AddNotebook extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			if (isNetworkAvailable()) {
-
-			}
-
+			Intent i = new Intent(getApplicationContext(), Shelf.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(i);
+			finish();
 		}
 
 	}

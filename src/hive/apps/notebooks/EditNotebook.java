@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewDebug.FlagToString;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -35,7 +36,9 @@ public class EditNotebook extends Activity {
 	EditText mNotebookName;
 	Spinner mNotebookStyle;
 	Spinner mNotebookColor;
-	String id;
+	String id, name, style, color;
+
+	Shelf mShelf;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class EditNotebook extends Activity {
 
 		Intent i = getIntent();
 		id = i.getStringExtra("id");
+		name = i.getStringExtra("name");
+		style = i.getStringExtra("style");
+		color = i.getStringExtra("color");
 
 		mNotebookName = (EditText) findViewById(R.id.edit_notebook_name);
 		mNotebookStyle = (Spinner) findViewById(R.id.edit_notebook_style);
@@ -70,8 +76,11 @@ public class EditNotebook extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mNotebookColor.setAdapter(coloradapter);
 
-		mNotebookName.setText(i.getStringExtra("notebookname"));
+		mNotebookName.setText(name);
+		mNotebookStyle.setSelection(getStyleInt(style));
+		mNotebookColor.setSelection(getColorInt(color));
 
+		mShelf = new Shelf();
 	}
 
 	@Override
@@ -122,6 +131,61 @@ public class EditNotebook extends Activity {
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
+	public int getStyleInt(String style) {
+		int x = 0;
+		if (style.equals("Lines")) {
+			x = 0;
+		}
+		if (style.equals("Grid")) {
+			x = 1;
+		}
+		if (style.equals("Plain")) {
+			x = 2;
+		}
+		return x;
+	}
+
+	public int getColorInt(String color) {
+		int x = 0;
+		if (color.equals("White")) {
+			x = 0;
+		}
+		if (color.equals("Gray")) {
+			x = 1;
+		}
+		if (color.equals("Blue")) {
+			x = 2;
+		}
+		if (color.equals("Dark Blue")) {
+			x = 3;
+		}
+		if (color.equals("Purple")) {
+			x = 4;
+		}
+		if (color.equals("Dark Purple")) {
+			x = 5;
+		}
+		if (color.equals("Green")) {
+			x = 6;
+		}
+		if (color.equals("Dark Green")) {
+			x = 7;
+		}
+		if (color.equals("Orange")) {
+			x = 8;
+		}
+		if (color.equals("Dark Orange")) {
+			x = 9;
+		}
+		if (color.equals("Red")) {
+			x = 10;
+		}
+		if (color.equals("Dark Red")) {
+			x = 11;
+		}
+		return x;
 	}
 
 	private class EditTask extends AsyncTask<String, String, String> {
@@ -180,12 +244,12 @@ public class EditNotebook extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			if (isNetworkAvailable()) {
-
-			}
-
+			Intent i = new Intent(getApplicationContext(), Shelf.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(i);
+			finish();
 		}
-
 	}
 
 }

@@ -56,7 +56,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hive.apps.notebooks.Shelf" />
         </activity>
-        <activity android:name=".EditNotebook" >
+        <activity
+            android:name=".EditNotebook"
+            android:parentActivityName="hive.apps.notebooks.Shelf" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="hive.apps.notebooks.Shelf" />

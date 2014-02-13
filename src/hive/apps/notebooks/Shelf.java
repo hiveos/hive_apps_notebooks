@@ -118,6 +118,8 @@ public class Shelf extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shelf);
 
+		getWindow().setWindowAnimations(0);
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setTitle(R.string.title_notebooks);
@@ -463,8 +465,11 @@ public class Shelf extends Activity implements OnClickListener,
 			case R.id.action_editnotebooks: {
 				Intent i = new Intent(getApplication(), EditNotebook.class);
 				i.putExtra("id", mNotebookIds.get(selectednotebook.getId()));
-				i.putExtra("notebookname",
-						mNotebookNames.get(selectednotebook.getId()));
+				i.putExtra("name", mNotebookNames.get(selectednotebook.getId()));
+				i.putExtra("style",
+						mNotebookStyles.get(selectednotebook.getId()));
+				i.putExtra("color",
+						mNotebookColors.get(selectednotebook.getId()));
 				startActivity(i);
 
 				mode.finish();
@@ -557,6 +562,10 @@ public class Shelf extends Activity implements OnClickListener,
 		return temp;
 	}
 
+	public void refreshShelf() {
+		new FetchTask().execute();
+	}
+
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
@@ -568,7 +577,7 @@ public class Shelf extends Activity implements OnClickListener,
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
-	private class FetchTask extends AsyncTask<String, Integer, String> {
+	public class FetchTask extends AsyncTask<String, Integer, String> {
 
 		String response;
 		boolean isEmpty = true;
@@ -736,7 +745,7 @@ public class Shelf extends Activity implements OnClickListener,
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
 			if (isNetworkAvailable()) {
-
+				new FetchTask().execute();
 			}
 
 		}
