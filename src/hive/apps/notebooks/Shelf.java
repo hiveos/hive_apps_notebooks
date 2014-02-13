@@ -130,7 +130,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 		ActionBarPullToRefresh.from(this).allChildrenArePullable()
 				.listener(this).setup(mPullToRefreshLayout);
-		
+
 		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
 		new FetchTask().execute();
@@ -145,7 +145,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+		uN();
 		new uploadFileA().execute();
 		super.onPause();
 	}
@@ -633,6 +633,8 @@ public class Shelf extends Activity implements OnClickListener,
 			clearUp();
 
 			if (!response.equals("")) {
+				Log.d("TAG", response);
+
 				mNotebooks = response.split(";");
 
 				for (int i = 0; i < mNotebooks.length; i++) {
@@ -685,7 +687,6 @@ public class Shelf extends Activity implements OnClickListener,
 					displayNoNotebooks();
 				}
 			}
-			uN();
 			mPullToRefreshLayout.setRefreshComplete();
 		}
 
