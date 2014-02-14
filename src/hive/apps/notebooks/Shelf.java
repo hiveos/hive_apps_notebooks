@@ -662,8 +662,6 @@ public class Shelf extends Activity implements OnClickListener,
 		private void clearUp() {
 			Shelf.this.runOnUiThread(new Runnable() {
 				public void run() {
-					ShelfHolder = (LinearLayout) findViewById(R.id.ShelfHolder);
-					ShelfHolder.removeAllViews();
 					LinearLayout NoNotebook = (LinearLayout) findViewById(R.id.no_notebook);
 					NoNotebook.setVisibility(View.GONE);
 				}
