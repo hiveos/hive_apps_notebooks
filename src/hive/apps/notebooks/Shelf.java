@@ -489,7 +489,7 @@ public class Shelf extends Activity implements OnClickListener,
 					Log.d("HHH", iNotebookIds.get(selectednotebook.getId())
 							+ " | " + selectednotebook.getId());
 					new DeleteTask().execute(selectednotebook.getId());
-					obrisiSvesku(selectednotebook.getId());
+//					obrisiSvesku(selectednotebook.getId());
 					mode.finish();
 				} catch (Exception e) {
 					Toast.makeText(Shelf.this,
