@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="api_base">http://hive.bluedream.info/api/</string>
+    <string name="api_base">http://hive.bluedream.info/cp/api/</string>
     <string name="api_list_notebook">/list/notebook</string>
     <string name="api_delete_notebook">/delete/notebook</string>
     <string name="api_add_notebook">/add/notebook</string>
