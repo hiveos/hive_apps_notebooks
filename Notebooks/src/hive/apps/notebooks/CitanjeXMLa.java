@@ -103,7 +103,6 @@ public class CitanjeXMLa {
 			Document doc = db.parse(is);
 			NodeList nodes = doc.getElementsByTagName("notebook");
 
-			// Iteriraj kroz sve èvorove
 			for (int i = 0; i < nodes.getLength(); i++) {
 				Element element = (Element) nodes.item(i);
 

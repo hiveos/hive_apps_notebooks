@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Notebooks</string>
+    <string name="title_notebooks">NOTEBOOKS</string>
+    <string name="title_activity_settings">SETTINGS</string>
+    <string name="actionbar_item_clear">Clear</string>
+    <string name="actionbar_item_brush">Brush</string>
+
+<string name="actionbar_item_insert">Insert</string>
+    <string name="actionbar_item_addnotebook">Add Notebook</string>
+    <string name="actionbar_item_savenotebook">Save</string>
+    <string name="actionbar_item_settings">Settings</string>
+    <string name="actionbar_item_brush_settings">Brush Settings</string>
+    <string name="actionbar_item_guides">Toggle Writing Guides</string>
+    <string name="contextualmenu_item_edit">Edit</string>
+    <string name="contextualmenu_item_delete">Delete</string>
+    <string name="title_add_notebook">Add new notebook</string>
+    <string name="hint_notebook_name_english">Notebook Name</string>
+    <string name="error_empty_notebook_name">Notebook name cannot be left empty. Please choose a name for your notebook.</string>
+    <string name="error_notebook_name_too_long">Notebook name can\'t be longer than 40 characters</string>
+    <string name="error_deleting_notebook">Error deleting notebook.</string>
+    <string name="error_failed_to_export_backup">Failed to export backup package</string>
+    <string name="error_failed_to_restore_from_backup">Failed to restore from backup package</string>
+    <string name="info_notebook_name">NAME: </string>
+    <string name="info_notebook_color">COLOR: </string>
+    <string name="info_notebook_style">STYLE: </string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+    <string name="brush_settings">Brush Settings</string>
+
+    <string-array name="notebook_styles">
+        <item>Lines</item>
+        <item>Grid</item>
+        <item>Plain</item>
+    </string-array>
+    <string-array name="notebook_cover_color">
+        <item>White</item>
+        <item>Gray</item>
+        <item>Blue</item>
+        <item>Dark Blue</item>
+        <item>Purple</item>
+        <item>Dark Purple</item>
+        <item>Green</item>
+        <item>Dark Green</item>
+        <item>Orange</item>
+        <item>Dark Orange</item>
+        <item>Red</item>
+        <item>Dark Red</item>
+    </string-array>
+
+    <string name="pref_title_ui">USER INTERFACE</string>
+    <string name="pref_shelf_style_title">Shelf Style</string>
+    <string name="pref_shelf_style_desc">Determines the way the shelves will look</string>
+
+    <string-array name="pref_shelf_style_entries">
+        <item>No Shelves</item>
+        <item>Simple Shelves</item>
+        <item>Wooden Shelves</item>
+    </string-array>
+    <string-array name="pref_shelf_style_values">
+        <item>no</item>
+        <item>simple</item>
+        <item>wooden</item>
+    </string-array>
+
+    <string name="pref_shelf_style_default">no</string>
+    <string name="pref_title_app_data">APPLICATION DATA</string>
+    <string name="pref_delete_notebook_content_title">Clean All Notebooks</string>
+    <string name="pref_delete_notebook_content_desc">This will clear everything written in notebooks</string>
+    <string name="dialog_delete_notebook_content_desc">Once the notebooks are cleaned you can\'t restore your work. Are you sure?</string>
+    <string name="pref_delete_notebooks_title">Delete All Notebooks</string>
+    <string name="pref_delete_notebooks_desc">This option deletes all your notebooks at once</string>
+    <string name="dialog_delete_notebooks_desc">This will delete all notebooks you have created until this point in time which means that you will loose all your work in these notebooks. If you know what you are doing and are sure select yes.</string>
+    <string name="pref_backup_notebooks_title">Backup Notebooks</string>
+    <string name="pref_backup_notebooks_desc">Backup Notebooks into a package</string>
+    <string name="dialog_backup_notebooks_desc">NOTE: This will overwrite your previous backup file!</string>
+    <string name="pref_restore_notebooks_title">Restore Notebooks</string>
+    <string name="pref_restore_notebooks_desc">Restore notebooks from a previously created backup package</string>
+    <string name="dialog_restore_notebooks_desc">NOTE: This will replace any conflicting notebooks with the ones from the package!</string>
+    <string name="pref_delete_backups_title">Delete Backups</string>
+    <string name="pref_delete_backups_desc">Delete previously created backup packages</string>
+    <string name="dialog_delete_backups_desc">This will delete your backups. Are you sure?</string>
+    <string name="writing_mode">Writing Mode</string>
+    <string name="drawing_mode">Drawing Mode</string>
+    <string name="ptr_pull_text">Pull to refresh...</string>
+    <string name="ptr_refreshing_text">Synchronizing notebooks...</string>
+    <string name="ptr_release_text">Release to refresh!</string>
+    
+</resources>
