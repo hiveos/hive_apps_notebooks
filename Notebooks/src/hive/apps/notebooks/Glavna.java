@@ -558,7 +558,13 @@ public class Glavna extends Activity implements OnClickListener,
 
 	}
 
-	public void closeDrawer() {
+    @Override
+    public boolean onNavigateUp() {
+        super.onBackPressed();
+        return false;
+    }
+
+    public void closeDrawer() {
 		mDrawerLayout.closeDrawer(Gravity.START);
 	}
 
