@@ -51,14 +51,14 @@ public class CrtanjeView extends View {
 	public Button bEnter;
 	public Button bSpace;
 	public Button bUndo;
-	public static int visinaLinije = 44; // ukupna visina linije sa gornjom
+	public static int visinaLinije = 75; // ukupna visina linije sa gornjom
 											// marginom
-	public static int marginaLinijeGore = 5; // koliko iznad linije treba
+	public static int marginaLinijeGore = 15; // koliko iznad linije treba
 												// ostaviti prostora za prosli
 												// red
-	public static int visinaPraznogIznadLinije = 35; // visina praznine iznad
+	public static int visinaPraznogIznadLinije = 53; // visina praznine iznad
 														// PRVE linije
-	public static int marginaLinijeLijevo = 10; // kolko je odvojena svaka
+	public static int marginaLinijeLijevo = 15; // kolko je odvojena svaka
 												// linija lijevo od ekrana
 	public static int marginaLinijeDesno = 10; // kolko je odvojena svaka linija
 												// desno od ekrana
@@ -147,7 +147,7 @@ public class CrtanjeView extends View {
 			r.top = (int) y1;// Glavna.guideLines.getTop()-((Glavna.guideLines.getBottom()-Glavna.guideLines.getTop())/2);
 			r.bottom = Glavna.guideLines.getBottom()
 					- ((Glavna.guideLines.getBottom() - Glavna.guideLines
-							.getTop()) / 2) + 100;
+							.getTop()) / 2) + 200;
 			// r.top = loc[1];
 			// r.left = loc[0];
 			// r.bottom = loc[1] + Glavna.guideLines.getHeight();
@@ -186,7 +186,7 @@ public class CrtanjeView extends View {
 			ocistiFunkcija();
 		} else {
 			double scale = (double) crop.getHeight()
-					/ (double) (64 - marginaLinijeGore); // Koliko
+					/ (double) (120 - marginaLinijeGore); // Koliko
 															// scale-ovati
 															// sirinu za
 															// datu visinu.
@@ -197,8 +197,7 @@ public class CrtanjeView extends View {
 															// marginaLinijeGore
 			// Bitmap bmp=Bitmap.createBitmap(MyBitmap);
 			Bitmap bmp = Bitmap.createScaledBitmap(crop,
-					(int) ((double) crop.getWidth() / scale),
-					64 - marginaLinijeGore, true); // Scaleovati na potrebne
+					(int) ((double) crop.getWidth() / scale), 120 - marginaLinijeGore, true); // Scaleovati na potrebne
 													// dimenzije, a sirina se
 													// dijeljenjem sa scale
 													// dobije tacna sirina za

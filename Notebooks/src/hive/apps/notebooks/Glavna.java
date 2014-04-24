@@ -93,7 +93,7 @@ public class Glavna extends Activity implements OnClickListener,
 		if (stil.equals("Lines")) {
 			tmpTekstura = BitmapFactory.decodeResource(getResources(),
 					R.drawable.texture);
-			tekstura = tmpTekstura.createScaledBitmap(tmpTekstura, 800, 1100,
+			tekstura = tmpTekstura.createScaledBitmap(tmpTekstura, 1200, 1700,
 					false);
 			guideLines.setVisibility(View.VISIBLE);
 		}

@@ -262,8 +262,7 @@ public class Shelf extends Activity implements OnClickListener,
 
 			// Specific values or adjustments go inside this if statement
 			if (isTablet(this)) {
-
-				polica.setPadding(0, 0, 0, 45);
+				polica.setPadding(0, 0, 0, 67);
 			} else {
 				polica.setPadding(0, 0, 0, 70);
 			}
@@ -305,7 +304,7 @@ public class Shelf extends Activity implements OnClickListener,
 					LayoutParams.WRAP_CONTENT);
 
 			if (isTablet(this)) {
-				sveskaTitleParams = new LayoutParams(128,
+				sveskaTitleParams = new LayoutParams(192,
 						LayoutParams.WRAP_CONTENT);
 			} else {
 				sveskaTitleParams = new LayoutParams(192,
